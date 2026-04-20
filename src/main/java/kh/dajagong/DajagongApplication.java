@@ -1,13 +1,13 @@
-package kh.dagongja;
+package kh.dajagong;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DagongjaApplication {
+public class DajagongApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DagongjaApplication.class, args);
+		SpringApplication.run(DajagongApplication.class, args);
 	}
 
 }
