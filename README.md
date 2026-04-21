@@ -7,7 +7,7 @@
 **PAT (Personal Access Token) 발급**:
    - GitHub 프로필 → `Settings` → `Developer settings` → `Personal access tokens` → `Tokens (classic)`
    - `Generate new token (classic)` → Note에 이름, Expiration 90일, Scopes에서 **`repo`** 체크
-   - `Generate token` → **토큰 복사해서 메모장 저장** ⚠️ 한 번 닫으면 다시 못 봄
+   - `Generate token` → **토큰 복사해서 메모장 저장** ⚠️ 한 번 닫으면 다시 못 봄 
 
 
 ### STS 설정 (최초 1회)
