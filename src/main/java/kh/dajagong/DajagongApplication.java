@@ -8,6 +8,6 @@ public class DajagongApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(DajagongApplication.class, args); 
-	}
+	} 
 
 }
