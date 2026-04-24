@@ -1,12 +1,16 @@
-<nav class="navbar navbar-expand navbar-dark bg-dark" aria-label="Second navbar example" th:fragment="navbar">
-	<div class="container-fluid">
-		<a class="navbar-brand" href="/home">SpringBoot project</a>
-		<div class="collapse navbar-collapse" id="navbarsExample02">
-			<ul class="navbar-nav me-auto">
-				<li class="nav-item"><a class="nav-link active" aria-current="page" href="/home">Home</a></li>
-				<li class="nav-item"><a class="nav-link active" href="/board/list">Board</a></li>
-				<li class="nav-item"><a class="nav-link active" href="/attm/list">Photo</a></li>
-			</ul>
-		</div>
+<nav class="container" th:fragment="navbar">
+	<div class="d-flex justify-content-center"> 
+		<img class="" style="width:10%;" src="https://worldofprintables.com/wp-content/uploads/2024/01/Artboard-11.svg"/> <!-- 여기에 다자공.로고를 넣을 계획입니다~ 이건 임시 이미지에요 -->
 	</div>
+	<header class="d-flex justify-content-center py-3"> 
+		<ul class="nav nav-pills"> 
+			<li class="nav-item"><a href="#" class="nav-link active">Home</a></li> 
+			<li class="nav-item"><a href="#" class="nav-link">책 후기</a></li> 
+			<li class="nav-item"><a href="#" class="nav-link">문제 질문하기</a></li> 
+		</ul> 
+	</header> 
 </nav>
+<!-- 현재 페이지면 해당 nav-item의 a태그의 클래스에 active를 넣는게 필요합니다~ -->
+<script>
+
+</script>
