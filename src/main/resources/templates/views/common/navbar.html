@@ -1,16 +1,30 @@
-<nav class="container" th:fragment="navbar">
+<div th:fragment="navbar">
 	<div class="d-flex justify-content-center"> 
-		<img class="" style="width:10%;" src="https://worldofprintables.com/wp-content/uploads/2024/01/Artboard-11.svg"/> <!-- 여기에 다자공.로고를 넣을 계획입니다~ 이건 임시 이미지에요 -->
+		<img class="w-25" style="margin-bottom: -3%; margin-top: -3%;" th:src=@{img/dajagong-logo.svg}/>
 	</div>
-	<header class="d-flex justify-content-center py-3"> 
-		<ul class="nav nav-pills"> 
-			<li class="nav-item"><a href="#" class="nav-link active">Home</a></li> 
-			<li class="nav-item"><a href="#" class="nav-link">책 후기</a></li> 
-			<li class="nav-item"><a href="#" class="nav-link">문제 질문하기</a></li> 
-		</ul> 
-	</header> 
-</nav>
-<!-- 현재 페이지면 해당 nav-item의 a태그의 클래스에 active를 넣는게 필요합니다~ -->
-<script>
-
-</script>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Tenth navbar example" >
+	    <div class="container-fluid">
+	      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample08" aria-controls="navbarsExample08" aria-expanded="false" aria-label="Toggle navigation">
+	        <span class="navbar-toggler-icon"></span>
+	      </button>
+	
+	      <div class="collapse navbar-collapse justify-content-md-center">
+	        <ul class="navbar-nav">
+	          <li class="nav-item">
+	            <a class="nav-link" aria-current="page" href="#">Home</a>
+	          </li>
+	          <li class="nav-item">
+	            <a class="nav-link" href="#">Book Reviews</a>
+	          </li>
+	          <li class="nav-item">
+	            <a class="nav-link" href="#">Q&A</a>
+	          </li>
+	        </ul>
+	      </div>
+	    </div>
+	</nav>
+	<!-- 현재 페이지면 해당 nav-item의 a태그의 클래스에 active를 넣는게 필요합니다~ -->
+	<script>
+	
+	</script>
+</div>
