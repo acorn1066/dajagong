@@ -61,3 +61,6 @@ desktop.ini
 ### Sensitive ###
 # application-secret.properties
 # .env
+
+
+application-local.properties
