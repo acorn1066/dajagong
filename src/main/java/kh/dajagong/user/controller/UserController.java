@@ -15,4 +15,9 @@ public class UserController {
 	public String login() {
 		return "views/user/login.html";
 	}
+	
+	@GetMapping("enroll")
+	public String enroll() {
+		return "views/user/enroll.html";
+	}
 }
