@@ -8,17 +8,16 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/book-review")
 public class BookReviewController {
 	
 	
-	@GetMapping("main")
+	@GetMapping("/book-review/main")
 	public String main() {
-		return "main";
+		return "/views/book-review/main";
 	}
 	
-	@GetMapping("detail")
+	@GetMapping("/book-review/detail")
 	public String detail() {
-		return "detail";
+		return "/views/book-review/detail";
 	}
 }
