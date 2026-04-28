@@ -68,7 +68,14 @@
 	  </div>
 	  <div class="container">
 		  <div class="row mt-2">
-			  <div class="col-3">
+			  <div class="col-2">
+		        <select class="form-select" id="exampleSelect">
+		          <option selected="">10개보기</option>
+		          <option value="20">20개보기</option>
+		          <option value="50">50개보기</option>
+		        </select>
+		      </div>
+			  <div class="col-2">
 		        <select class="form-select" id="exampleSelect">
 		          <option selected="">Open this select menu</option>
 		          <option value="1">One</option>
@@ -76,7 +83,7 @@
 		          <option value="3">Three</option>
 		        </select>
 		      </div>
-		      <div class="col-9">
+		      <div class="col-8">
 		      	<div class="input-group">
 				    <input type="search" class="form-control rounded" placeholder="검색하기" aria-label="Search" aria-describedby="search-addon" />
 				    <button type="button" class="btn btn-outline-primary">검색하기</button>
@@ -84,12 +91,78 @@
 		      </div>
 		  </div>
 		  <div class="row my-3">
-		  	<div class="bd-example m-0 border-0"> 
-        		<svg aria-label="A generic square placeholder image with a white border around it, making it resemble a photograph taken with an old instant camera: 200x200" 
-        			class="bd-placeholder-img img-thumbnail" height="200" preserveAspectRatio="xMidYMid slice" role="img" width="200" xmlns="http://www.w3.org/2000/svg">
-        			<rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6" dy=".3em">200x200</text></svg> 
-        	</div>
+		  	<div class="col">
+              <div class="card">
+                <div class="row g-0">
+                  <div class="col-md-2">
+                    <svg aria-label="Placeholder: Image" class="bd-placeholder-img " height="250" preserveAspectRatio="xMidYMid slice" role="img" width="100%" xmlns="http://www.w3.org/2000/svg"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image</text></svg>
+                  </div>
+                  <div class="col-md-10">
+                    <div class="card-body">
+                      <h5 class="card-title">Card title</h5>
+                      <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                      <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 		  </div>
+		  <div class="row my-3">
+		  	<div class="col">
+              <div class="card">
+                <div class="row g-0">
+                  <div class="col-md-2">
+                    <svg aria-label="Placeholder: Image" class="bd-placeholder-img " height="250" preserveAspectRatio="xMidYMid slice" role="img" width="100%" xmlns="http://www.w3.org/2000/svg"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image</text></svg>
+                  </div>
+                  <div class="col-md-10">
+                    <div class="card-body">
+                      <h5 class="card-title">Card title</h5>
+                      <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                      <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+		  </div>
+		  <div class="row my-3">
+		  	<div class="col">
+              <div class="card">
+                <div class="row g-0">
+                  <div class="col-md-2">
+                    <svg aria-label="Placeholder: Image" class="bd-placeholder-img " height="250" preserveAspectRatio="xMidYMid slice" role="img" width="100%" xmlns="http://www.w3.org/2000/svg"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image</text></svg>
+                  </div>
+                  <div class="col-md-10">
+                    <div class="card-body">
+                      <h5 class="card-title">Card title</h5>
+                      <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                      <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+		  </div>
+		  <div class="mx-auto border-0 align-items-center"> 
+	        <nav aria-label="Standard pagination example">
+	          <ul class="pagination justify-content-center">
+	            <li class="page-item">
+	              <a class="page-link" href="#" aria-label="Previous">
+	                <span aria-hidden="true">«</span>
+	              </a>
+	            </li>
+	            <li class="page-item"><a class="page-link" href="#">1</a></li>
+	            <li class="page-item"><a class="page-link" href="#">2</a></li>
+	            <li class="page-item"><a class="page-link" href="#">3</a></li>
+	            <li class="page-item">
+	              <a class="page-link" href="#" aria-label="Next">
+	                <span aria-hidden="true">»</span>
+	              </a>
+	            </li>
+	          </ul>
+	        </nav>
+	      </div>  	
 	  </div>
 	  
 	<footer th:replace="~{views/common/footer :: footer}"></footer>
