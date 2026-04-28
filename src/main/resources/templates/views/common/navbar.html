@@ -19,7 +19,6 @@
 	</div>
 	<!-- 현재 페이지면 해당 nav-item의 a태그의 클래스에 active를 넣는게 필요합니다~ -->
 	<script>
-		window.onload=()=>{
 			if(window.location.pathname.includes("book-review")){
 				document.getElementById('book-review').className += ' active';
 			}else if(window.location.pathname.includes("Q&A")){
@@ -27,6 +26,5 @@
 			}else{
 				document.getElementById('home').className += ' active';
 			}
-		}
 	</script>
 </div>
