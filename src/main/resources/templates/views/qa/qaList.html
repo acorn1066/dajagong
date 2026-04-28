@@ -1,8 +1,89 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{views/common/head :: head}"></head>
 <body>
-	<div th:replace="~{views/common/navbar :: navbar}"></div>
-	<footer th:replace="~{views/common/footer :: footer}"></footer>
+    <div th:replace="~{views/common/navbar :: navbar}"></div>
+
+    <div class="container mt-5" style="max-width: 1000px;">
+        
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <a href="/" class="text-decoration-none text-dark"><<이전으로</a>
+            <h2 class="text-center flex-grow-1" style="margin-right: 80px;">질의응답</h2>
+        </div>
+
+        <div class="border p-4 mb-4">
+            <div class="row g-3">
+                <div class="col-md-3">
+                   <select class="form-select">
+                        <option selected disabled>자격증명 </option>
+                        <option>정보처리기사</option>
+                        <option>컴퓨터활용능력</option>                       
+                        <option>전기기사</option>                       
+                    </select>
+                </div>
+                
+                <div class="col-md-9">
+                    <div class="d-flex mb-2">
+                        <select class="form-select me-2" style="width: 120px;">
+                            <option>제목 </option>
+                            <option>내용</option>
+                            <option>작성자</option>
+                        </select>
+                        <input type="text" class="form-control me-2" placeholder="검색어를 입력하세요.">
+                        <button class="btn btn-outline-secondary px-4">검색</button>
+                    </div>
+                    <div class="text-end mt-4">
+                        <a href="/qa/Qwriter" class="btn btn-outline-dark px-4">질문하기</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <table class="table table-hover text-center border-top border-bottom">
+            <thead class="table-light">
+                <tr>
+                    <th style="width: 50%;">제목</th>
+                    <th style="width: 15%;">작성일</th>
+                    <th style="width: 15%;">작성자</th>
+                    <th style="width: 10%;">조회수</th>
+                </tr>
+            </thead>
+            <tbody>
+               
+                <tr onclick="location.href='/qa/Wwriter'" style="cursor: pointer;">
+                    <td class="text-start ps-4">정보처리기사 실기 질문 있습니다.</td>
+                    <td>2026-04-28</td>
+                    <td>홍길동</td>
+                    <td>12</td>
+                </tr>
+                <tr onclick="location.href='/qa/Wwriter'" style="cursor: pointer;">
+                    <td class="text-start ps-4">정보처리기사 실기 질문 있습니다.</td>
+                    <td>2026-04-28</td>
+                    <td>홍길동</td>
+                    <td>12</td>
+                </tr>
+                <tr onclick="location.href='/qa/Wwriter'" style="cursor: pointer;">
+                    <td class="text-start ps-4">정보처리기사 실기 질문 있습니다.</td>
+                    <td>2026-04-28</td>
+                    <td>홍길동</td>
+                    <td>12</td>
+                </tr>
+            </tbody>
+        </table>		
+		
+		<nav aria-label="Page navigation example">
+		  <ul class="pagination justify-content-center">
+		    <li class="page-item"><a class="page-link" href="#"><<</a></li>
+		    <li class="page-item"><a class="page-link" href="#">1</a></li>
+		    <li class="page-item"><a class="page-link" href="#">2</a></li>
+		    <li class="page-item"><a class="page-link" href="#">3</a></li>
+		    <li class="page-item"><a class="page-link" href="#">>></a></li>
+		  </ul>
+		</nav>
+			         	  
+
+    </div>
+
+    <footer th:replace="~{views/common/footer :: footer}"></footer>
 </body>
 </html>
