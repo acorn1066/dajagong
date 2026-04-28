@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="~{views/common/head :: head}"></head>
+<body>
+	<div th:replace="~{views/common/navbar :: navbar}"></div>
+	
+	  <h2 class="text-center mb-4">질문 제목</h2>
+	  
+	<div class="container mt-5" style="max-width: 800px; border: 1px solid #999; padding: 20px;">
+
+    <!-- 뒤로가기 -->
+    <div class="mb-2">
+        <a href="#" class="text-decoration-none">&lt;&lt;이전으로</a>
+    </div>
+
+    <!-- 제목 -->
+    <h3 class="text-center mb-4">질문 제목</h3>
+ 
+    <table class="table table-bordered text-center">
+        <tr>
+            <td style="width: 30%;">자격증</td>
+            <td colspan="2"></td>
+        </tr>
+        <tr>
+            <td>작성자</td>
+            <td>작성일</td>
+            <td>조회수</td>
+        </tr>
+    </table>
+
+    <!-- 질문 내용 -->
+    <div class="border p-5 text-center mb-4" style="min-height: 150px;">
+        질문내용
+    </div>
+
+    <!-- 답변 작성 영역 -->
+    <table class="table table-bordered">
+        <tr>
+            <td style="width: 50%;">작성자 :</td>
+            <td>작성일 :</td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <textarea class="form-control" rows="5" placeholder="답변내용 작성 하세요."></textarea>
+            </td>
+        </tr>
+    </table>
+
+</div>
+
+	  
+<footer th:replace="~{views/common/footer :: footer}"></footer>
+</body>
+</html>
