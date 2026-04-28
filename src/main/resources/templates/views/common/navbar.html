@@ -1,6 +1,6 @@
 <div th:fragment="navbar">
 	<div class="d-flex justify-content-center"> 
-		<img class="w-25" style="margin-bottom: -3%; margin-top: -3%;" src="/img/dajagong-logo.svg"/>
+		<img class="w-25" style="margin-bottom: -3%; margin-top: -3%;" src="/img/dajagong-logo.svg" role="button" onclick="location.href='/'"/>
 	</div>
 	<div class="navbar-expand navbar-dark bg-dark"> 
 		<header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 collapse navbar-collapse"> 
@@ -12,6 +12,8 @@
 				<li class="nav-item noto-sans-kr-500"><a href="#" class="nav-link px-2" id="Q&A">Q&A</a></li> 
 			</ul> 
 			<div class="col-md-3 text-end">
+			
+				<!-- 관리자 페이지로 가는 버튼 <button type="button" class="btn btn-light me-2 noto-sans-kr-900" onclick="location.href='/login'"><i class="bi bi-key"></i></button>  -->
 				<button type="button" class="btn btn-light me-2 noto-sans-kr-900" onclick="location.href='/login'">Login</button> 
 				<button type="button" class="btn btn-info text-white me-2 noto-sans-kr-900" onclick="location.href='/enroll'">Sign-up</button> 
 			</div> 
