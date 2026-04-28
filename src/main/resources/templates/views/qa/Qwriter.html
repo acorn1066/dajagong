@@ -1,8 +1,36 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{views/common/head :: head}"></head>
 <body>
-	<div th:replace="~{views/common/navbar :: navbar}"></div>
-	<footer th:replace="~{views/common/footer :: footer}"></footer>
+    <div th:replace="~{views/common/navbar :: navbar}"></div>
+    
+    <div class="container mt-5 mb-5" style="max-width: 800px; border: 1px solid #999; padding: 30px; background-color: #fff;">
+        <div class="mb-3">
+            <a href="/qa/list" class="text-decoration-none text-secondary noto-sans-kr-200"><<이전으로</a>
+        </div>
+
+        <h3 class="text-center mb-5 do-hyeon-regular">질문하기</h3>
+
+        <div class="input-group mb-3">
+            <select class="form-select noto-sans-kr-500" style="max-width: 150px;">
+                <option selected disabled>자격증 </option>
+                <option>정보처리기사</option>
+                <option>컴퓨터활용능력</option>
+                <option>전기기사</option>
+            </select>
+            <span class="input-group-text noto-sans-kr-500">제목 :</span>
+            <input type="text" class="form-control noto-sans-kr-500" placeholder="질문 제목을 입력하세요.">
+        </div>
+
+        <div class="mb-4">
+            <textarea class="form-control noto-sans-kr-500" rows="15" style="resize: none;" placeholder="질문 내용을 작성하시오."></textarea>
+        </div>
+
+        <div class="text-end">
+            <button type="button" onclick="location.href='/qa/list'" class="btn btn-dark px-5 py-2 noto-sans-kr-900">등록하기</button>
+        </div>
+    </div>
+
+    <footer th:replace="~{views/common/footer :: footer}"></footer>
 </body>
 </html>
