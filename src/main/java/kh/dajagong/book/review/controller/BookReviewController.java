@@ -17,5 +17,8 @@ public class BookReviewController {
 		return "main";
 	}
 	
-	
+	@GetMapping("detail")
+	public String detail() {
+		return "detail";
+	}
 }
