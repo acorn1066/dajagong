@@ -9,12 +9,12 @@
 			<ul class="nav navbar-nav col-12 col-md-auto mb-2 justify-content-center mb-md-0"> 
 				<li class="nav-item noto-sans-kr-500"><a href="/" class="nav-link px-2" id="home">Home</a></li> 
 				<li class="nav-item noto-sans-kr-500"><a href="/book-review/main" class="nav-link px-2" id="book-review">Book Reviews</a></li> 
-				<li class="nav-item noto-sans-kr-500"><a href="/qa/list" class="nav-link px-2" id="Q&A">Q&A</a>
+				<li class="nav-item noto-sans-kr-500"><a href="/qa/list" class="nav-link px-2" id="qa">Q&A</a>
 				</li>
 			</ul> 
 			<div class="col-md-3 text-end">
 			
-				<!-- 관리자 페이지로 가는 버튼 <button type="button" class="btn btn-light me-2 noto-sans-kr-900" onclick="location.href='/login'"><i class="bi bi-key"></i></button>  -->
+				<button type="button" class="btn btn-light me-2 noto-sans-kr-900" onclick="location.href='/admin/main'"><i class="bi bi-key"></i></button>
 				<button type="button" class="btn btn-light me-2 noto-sans-kr-900" onclick="location.href='/login'">Login</button> 
 				<button type="button" class="btn btn-info text-white me-2 noto-sans-kr-900" onclick="location.href='/enroll'">Sign-up</button> 
 			</div> 
@@ -24,8 +24,8 @@
 	<script>
 			if(window.location.pathname.includes("book-review")){
 				document.getElementById('book-review').className += ' active';
-			}else if(window.location.pathname.includes("Q&A")){
-				document.getElementById('Q&A').className += ' active';
+			}else if(window.location.pathname.includes("qa")){
+				document.getElementById('qa').className += ' active';
 			}else{
 				document.getElementById('home').className += ' active';
 			}
