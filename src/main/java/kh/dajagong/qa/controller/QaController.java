@@ -9,8 +9,8 @@ import lombok.RequiredArgsConstructor;
 public class QaController {
 
     @GetMapping("/qa/list")
-    public String qaList() {
-        return "/views/qa/qaList"; 
+    public String qalist() {
+        return "/views/qa/qalist"; 
     }
 
     @GetMapping("/qa/Qwriter")
