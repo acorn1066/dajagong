@@ -20,4 +20,5 @@ public class UserController {
 	public String enroll() {
 		return "views/user/enroll.html";
 	}
+	 
 }
