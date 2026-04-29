@@ -3,6 +3,146 @@
 <head th:replace="~{views/common/head :: head}"></head>
 <body>
 	<div th:replace="~{views/common/navbar :: navbar}"></div>
+	<div class="album pt-5 bg-f3faff">
+		<div class="container pb-3">
+			<div class="row mb-2">
+			    <div class="col">
+			        <h2 class="do-hyeon-regular">요즘 인기있는 책들</h2>
+			    </div>
+			    <div class="col">
+			        <div class="d-flex align-items-end justify-content-end h-100">
+			            <a href="/book-review/main" class="text-decoration-none text-dark noto-sans-kr-500">&gt;&gt;더 보러 가기</a>
+			        </div>
+			    </div>
+			</div>
+	      <div class="row row-cols-5">
+	        <div class="col">
+	          <div class="card shadow-sm" role="button" onclick="location.href='/book-review/detail'">
+	            <svg class="bd-placeholder-img img-thumbnail" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+	            <div class="card-body">
+	              <p class="card-text noto-sans-kr-500">여기 책 이름이 들어가용</p>
+	              <div class="mt-auto text-end">
+	                <small class="text-muted">9 리뷰</small>
+	              </div>
+	            </div>
+	          </div>
+	        </div>
+	        <div class="col">
+	          <div class="card shadow-sm" role="button" onclick="location.href='/book-review/detail'">
+	            <svg class="bd-placeholder-img img-thumbnail" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+	            <div class="card-body">
+	              <p class="card-text noto-sans-kr-500">여기 책 이름이 들어가용</p>
+	              <div class="mt-auto text-end">
+	                <small class="text-muted">9 리뷰</small>
+	              </div>
+	            </div>
+	          </div>
+	        </div>
+	
+	        <div class="col">
+	          <div class="card shadow-sm" role="button" onclick="location.href='/book-review/detail'">
+	            <svg class="bd-placeholder-img img-thumbnail" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+	            <div class="card-body">
+	              <p class="card-text noto-sans-kr-500">여기 책 이름이 들어가용</p>
+	              <div class="mt-auto text-end">
+	                <small class="text-muted">9 리뷰</small>
+	              </div>
+	            </div>
+	          </div>
+	        </div>
+	        <div class="col">
+	          <div class="card shadow-sm" role="button" onclick="location.href='/book-review/detail'">
+	            <svg class="bd-placeholder-img img-thumbnail" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+	            <div class="card-body">
+	              <p class="card-text noto-sans-kr-500">여기 책 이름이 들어가용</p>
+	              <div class="mt-auto text-end">
+	                <small class="text-muted">9 리뷰</small>
+	              </div>
+	            </div>
+	          </div>
+	        </div>
+			<div class="col">
+	          <div class="card shadow-sm" role="button" onclick="location.href='/book-review/detail'">
+	            <svg class="bd-placeholder-img img-thumbnail" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+	            <div class="card-body">
+	              <p class="card-text noto-sans-kr-500">여기 책 이름이 들어가용</p>
+	              <div class="mt-auto text-end">
+	                <small class="text-muted">9 리뷰</small>
+	              </div>
+	            </div>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	  
+	  <div class="container mt-5">
+	  	<div class="row mb-2">
+		    <div class="col">
+		        <h2 class="do-hyeon-regular">질의응답</h2>
+		    </div>
+		    <div class="col">
+		        <div class="d-flex align-items-end justify-content-end h-100">
+		            <a href="/qa/list" class="text-decoration-none text-dark noto-sans-kr-500">&gt;&gt;더 보러 가기</a>
+		        </div>
+		    </div>
+		</div>
+	  	
+	  	<table class="table table-hover text-center border-top border-bottom">
+            <thead class="table-light">
+                <tr>
+                    <th style="width: 50%;">제목</th>
+                    <th style="width: 15%;">작성일</th>
+                    <th style="width: 15%;">작성자</th>
+                    <th style="width: 10%;">조회수</th>
+                </tr>
+            </thead>
+            <tbody>
+               
+                <tr onclick="location.href='/qa/Wwriter'" style="cursor: pointer;">
+                    <td class="text-start ps-4">정보처리기사 실기 질문 있습니다.</td>
+                    <td>2026-04-28</td>
+                    <td>홍길동</td>
+                    <td>12</td>
+                </tr>
+                <tr onclick="location.href='/qa/Wwriter'" style="cursor: pointer;">
+                    <td class="text-start ps-4">정보처리기사 실기 질문 있습니다.</td>
+                    <td>2026-04-28</td>
+                    <td>홍길동</td>
+                    <td>12</td>
+                </tr>
+                <tr onclick="location.href='/qa/Wwriter'" style="cursor: pointer;">
+                    <td class="text-start ps-4">정보처리기사 실기 질문 있습니다.</td>
+                    <td>2026-04-28</td>
+                    <td>홍길동</td>
+                    <td>12</td>
+                </tr>
+                <tr onclick="location.href='/qa/Wwriter'" style="cursor: pointer;">
+                    <td class="text-start ps-4">정보처리기사 실기 질문 있습니다.</td>
+                    <td>2026-04-28</td>
+                    <td>홍길동</td>
+                    <td>12</td>
+                </tr>
+                <tr onclick="location.href='/qa/Wwriter'" style="cursor: pointer;">
+                    <td class="text-start ps-4">정보처리기사 실기 질문 있습니다.</td>
+                    <td>2026-04-28</td>
+                    <td>홍길동</td>
+                    <td>12</td>
+                </tr>
+            </tbody>
+        </table>	
+        
+        <nav aria-label="Page navigation example">
+		  <ul class="pagination justify-content-center">
+		    <li class="page-item"><a class="page-link" href="#"><<</a></li>
+		    <li class="page-item"><a class="page-link" href="#">1</a></li>
+		    <li class="page-item"><a class="page-link" href="#">2</a></li>
+		    <li class="page-item"><a class="page-link" href="#">3</a></li>
+		    <li class="page-item"><a class="page-link" href="#">>></a></li>
+		  </ul>
+		</nav>	
+	  </div>
+	
 	<footer th:replace="~{views/common/footer :: footer}"></footer>
 </body>
 </html>
