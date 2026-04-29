@@ -1,0 +1,124 @@
+<div th:fragment="navbar-admin">
+	<header>
+		<nav class="navbar navbar-expand navbar-dark bg-dark fixed-top noto-sans-kr-900">
+		    <div class="container-fluid">
+		        <div class="collapse navbar-collapse" id="navbarTop">
+		            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+		                <li class="nav-item">
+		                    <a class="nav-link"  id="member"href="/admin/member-management">회원관리</a>
+		                </li>
+		                <li class="nav-item">
+		                    <a class="nav-link"  id="site" href="/admin/site-management-book">사이트 관리</a>
+		                </li>
+		                <li class="nav-item">
+		                    <a class="nav-link"  id="log" href="/admin/log-mem">관리 이력</a>
+		                </li>
+		                <!-- <li class="nav-item">
+		                   <button type="button" class="btn btn-light" onclick="location.href='/'">사이트로</button>
+		                </li> -->
+		            </ul>
+		        </div>
+		        <img style="height: 45px;" src="/img/dajagong-logo-white.svg" role="button" onclick="location.href='/'"/>
+		        
+		    </div>
+		</nav>
+		<th:block th:if="${currentURI.contains('member')}">
+			<nav class="navbar navbar-expand-md navbar-light fixed-top bg-f3faff noto-sans-kr-500" style="top: 56px;">
+			    <div class="container-fluid">
+			        <button class="navbar-toggler me-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSub">
+			            <span class="navbar-toggler-icon"></span>
+			        </button>
+			        <div class="collapse navbar-collapse" id="navbarSub">
+			            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+			                <li class="nav-item">
+			                    <a class="nav-link" id="management" href="/admin/member-management">회원관리</a>
+			                </li>
+			                <li class="nav-item">
+			                    <a class="nav-link" id="activity" href="/admin/member-activity">회원 활동 이력</a>
+			                </li>
+			            </ul>
+			        </div>
+			    </div>
+			</nav>
+		</th:block>
+		<th:block th:if="${currentURI.contains('site')}">
+			<nav class="navbar navbar-expand-md navbar-light fixed-top bg-f3faff noto-sans-kr-500" style="top: 56px;">
+			    <div class="container-fluid">
+			        <button class="navbar-toggler me-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSub">
+			            <span class="navbar-toggler-icon"></span>
+			        </button>
+			        <div class="collapse navbar-collapse" id="navbarSub">
+			            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+			                <li class="nav-item">
+			                    <a class="nav-link" id="book" href="/admin/site-management-book">Book Review</a>
+			                </li>
+			                <li class="nav-item">
+			                    <a class="nav-link" id="QnA" href="/admin/site-management-QnA">Q&A</a>
+			                </li>
+			            </ul>
+			        </div>
+			    </div>
+			</nav>
+		</th:block>
+		<th:block th:if="${currentURI.contains('log')}">
+			<nav class="navbar navbar-expand-md navbar-light fixed-top bg-f3faff noto-sans-kr-500" style="top: 56px;">
+			    <div class="container-fluid">
+			        <button class="navbar-toggler me-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSub">
+			            <span class="navbar-toggler-icon"></span>
+			        </button>
+			        <div class="collapse navbar-collapse" id="navbarSub">
+			            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+			                <li class="nav-item">
+			                    <a class="nav-link" id="log-member" href="/admin/log-mem">회원 관리 이력</a>
+			                </li>
+			                <li class="nav-item">
+			                    <a class="nav-link" id="log-book" href="/admin/log-book">후기 관리 이력</a>
+			                </li>
+			                <li class="nav-item">
+			                    <a class="nav-link" id="log-QnA" href="/admin/log-QnA">질답 관리 이력</a>
+			                </li>
+			            </ul>
+			        </div>
+			    </div>
+			</nav>
+		</th:block>
+	</header>
+	<div style="padding-top: 120px;">
+	</div>
+	<!-- 현재 페이지면 해당 nav-item의 a태그의 클래스에 active를 넣는게 필요합니다~ -->
+	<script>
+			if(window.location.pathname.includes("member")){
+				document.getElementById('member').className += ' active';
+				
+				if(window.location.pathname.includes("management")){
+					document.getElementById('management').className += ' active';
+				}else if(window.location.pathname.includes("activity")){
+					document.getElementById('activity').className += ' active';
+				}
+				
+				
+			}else if(window.location.pathname.includes("site")){
+				document.getElementById('site').className += ' active';
+				
+				if(window.location.pathname.includes("book")){
+					document.getElementById('book').className += ' active';
+				}else if(window.location.pathname.includes("QnA")){
+					document.getElementById('QnA').className += ' active';
+				}
+			}else if(window.location.pathname.includes("log")){
+				document.getElementById('log').className += ' active';
+				
+				if(window.location.pathname.includes("log-mem")){
+					document.getElementById('log-member').className += ' active';
+				}else if(window.location.pathname.includes("log-book")){
+					document.getElementById('log-book').className += ' active';
+				}else if(window.location.pathname.includes("log-QnA")){
+					document.getElementById('log-QnA').className += ' active';
+				}
+			}
+			
+			
+			
+			
+	</script>
+</div>

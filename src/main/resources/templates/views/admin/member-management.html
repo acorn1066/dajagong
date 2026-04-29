@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="~{views/common/head :: head}"></head>
+<body>
+	<div th:replace="~{views/common/navbar-admin :: navbar-admin}"></div>
+	<div class="container-fluid">
+		<div class="row mt-1 g-2">
+		    <div class="col-auto">
+		    </div>
+		    <div class="col-auto">
+		        <select class="form-select" id="searchType">
+		            <option selected="">닉네임</option>
+		            <option value="publisher">아이디</option>
+		        </select>
+		    </div>
+		    <div class="col">
+		        <div class="input-group">
+		            <input type="search" class="form-control" placeholder="검색하기">
+		            <button class="btn btn-outline-primary" type="button">검색하기</button>
+		        </div>
+		    </div>
+		</div>
+		
+		<table class="table table-striped text-center align-middle">
+          <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">아이디</th>
+            <th scope="col">닉네임</th>
+            <th scope="col">이메일</th>
+            <th scope="col">전화번호</th>
+            <th scope="col">가입일</th>
+            <th scope="col">계정 상태</th>
+            <th scope="col">관리</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+            <td>@twitter</td>
+            <td>@twitter</td>
+            <td><span class="badge rounded-pill bg-light text-dark">정상</span></td>
+            <td><button type="button" class="btn btn-outline-info">관리</button></td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>@fat</td>
+            <td>@twitter</td>
+            <td>@twitter</td>
+            <td><span class="badge rounded-pill bg-light text-dark">정상</span></td>
+            <td><button type="button" class="btn btn-outline-info">관리</button></td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>@twitter</td>
+            <td>@twitter</td>
+            <td>@twitter</td>
+            <td><span class="badge rounded-pill bg-light text-dark">정상</span></td>
+            <td><button type="button" class="btn btn-outline-info">관리</button></td>
+          </tr>
+          </tbody>
+        </table>
+        
+        <div class="mx-auto border-0 align-items-center"> 
+	        <nav aria-label="Standard pagination example">
+	          <ul class="pagination justify-content-center">
+	            <li class="page-item">
+	              <a class="page-link" href="#" aria-label="Previous">
+	                <span aria-hidden="true">«</span>
+	              </a>
+	            </li>
+	            <li class="page-item"><a class="page-link" href="#">1</a></li>
+	            <li class="page-item"><a class="page-link" href="#">2</a></li>
+	            <li class="page-item"><a class="page-link" href="#">3</a></li>
+	            <li class="page-item">
+	              <a class="page-link" href="#" aria-label="Next">
+	                <span aria-hidden="true">»</span>
+	              </a>
+	            </li>
+	          </ul>
+	        </nav>
+	      </div>
+	</div>
+</body>
+</html>
