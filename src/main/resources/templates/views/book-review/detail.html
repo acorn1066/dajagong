@@ -107,7 +107,7 @@
 				    </div>
 				</div>
 		        <div class="d-flex gap-1">
-		          <button class="btn btn-danger btn-sm blockBtn" style="width:60px;">글차단</button>
+		          <button class="btn btn-danger btn-sm blockBtn" style="width:100px;">글차단</button>
 		        </div>
 		      </div>
 		      <div class="border p-3 noto-sans-kr">
@@ -248,35 +248,34 @@
 		
 	<div class="modal fade noto-sans-kr" tabindex="-1" role="dialog" id="modalDelete">
 	    <div class="modal-dialog">
-	        <div class="modal-content rounded-3 shadow">
+	        <div class="modal-content rounded-3 shadow overflow-hidden">
 	            <div class="modal-body p-4 text-center">
 	                <i class="bi bi-exclamation-triangle-fill text-danger mb-3" style="font-size:2.5rem;"></i>
 	                <h5 class="mb-1">정말로 삭제하시겠습니까?</h5>
 	                <p class="mb-0 text-body-secondary">삭제 후 후기는 되돌릴 수 없습니다.</p>
 	            </div>
 	            <div class="modal-footer flex-nowrap p-0">
-	                <button type="button" class="btn btn-lg fs-6 col-6 py-3 m-0 rounded-0 border-end btn-danger text-white"><strong>네</strong></button>
-	                <button type="button" class="btn btn-lg fs-6 col-6 py-3 m-0 rounded-0" data-bs-dismiss="modal">아니요</button>
+	                <button type="button" class="btn btn-lg fs-6 col-6 py-3 m-0 rounded-0 rounded-bottom-start btn-danger text-white"><strong>네</strong></button>
+				    <button type="button" class="btn btn-lg fs-6 col-6 py-3 m-0 rounded-0 rounded-bottom-end" data-bs-dismiss="modal">아니요</button> 
 	            </div>
 	        </div>
 	    </div>
 	</div>
-
 	<div class="modal fade noto-sans-kr" tabindex="-1" role="dialog" id="modalBlock">
 	    <div class="modal-dialog">
-	        <div class="modal-content rounded-3 shadow">
+	        <div class="modal-content rounded-3 shadow overflow-hidden">
 	            <div class="modal-body p-4 text-center">
 	                <i class="bi bi-exclamation-triangle-fill text-danger mb-3" style="font-size:2.5rem;"></i>
 	                <h5 class="mb-3">정말로 이 리뷰를 차단하시겠습니까?</h5>
 	                <div class="form-floating">
-					  <textarea class="form-control" placeholder="" id="floatingTextarea"></textarea>
+					  <textarea class="form-control" placeholder="" id="floatingTextarea" style="resize:none;"></textarea>
 					  <label for="floatingTextarea">차단사유</label>
 					</div>
 	            </div>
-	            <div class="modal-footer flex-nowrap p-0">
-	                <button type="button" class="btn btn-lg fs-6 col-6 py-3 m-0 rounded-0 border-end btn-danger text-white"><strong>네</strong></button>
-	                <button type="button" class="btn btn-lg fs-6 col-6 py-3 m-0 rounded-0" data-bs-dismiss="modal">아니요</button>
-	            </div>
+	            <div class="modal-footer flex-nowrap p-0"> 
+				    <button type="button" class="btn btn-lg fs-6 col-6 py-3 m-0 rounded-0 rounded-bottom-start btn-danger text-white"><strong>네</strong></button>
+				    <button type="button" class="btn btn-lg fs-6 col-6 py-3 m-0 rounded-0 rounded-bottom-end" data-bs-dismiss="modal">아니요</button> 
+				</div>
 	        </div>
 	    </div>
 	</div>
