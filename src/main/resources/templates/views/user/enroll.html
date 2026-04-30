@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-<div></div>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,82 +9,88 @@
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-	<style>
-	body {
-/* 		min-height: 100vh; */
-		background: -webkit-gradient(linear, left bottom, right top, from(#92b5db),
-			to(#1d466c));
-		background: -webkit-linear-gradient(bottom left, #00dbfc 0%, #ff 100%);
-		background: -moz-linear-gradient(bottom left, #00dbfc 0%, #fff 100%);
-		background: -o-linear-gradient(bottom left, #00dbfc 0%, #fff 100%);
-		background: linear-gradient(to top, #00dbfc 0%, #fff 100%);
-	}
-	
-	.input-form {
-		max-width: 680px;
-		margin-top: 80px;
-		padding: 32px;
-		background: #fff;
-		-webkit-border-radius: 10px;
-		-moz-border-radius: 10px;
-		border-radius: 10px;
-		-webkit-box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
-		-moz-box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
-		box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15)
-	}
-	</style>
+<style>
+html, body {
+    height: 100%;
+}
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    background: linear-gradient(
+        to top,
+        #a8e6f7 0%,
+        #dff4fd 40%,
+        #ffffff 80%,
+        #ffffff 100%
+    );
+}
+
+.input-form {
+    max-width: 680px;
+    margin: 80px auto 0;
+    padding: 32px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.form-control:focus {
+    border-color: #a8e6f7;
+    box-shadow: 0 0 0 0.2rem rgba(168, 230, 247, 0.25);
+}
+</style>
 </head>
 
 <body>
-	<div class="container justify-content-center">
+	<div class="container">
 		<div class="d-flex justify-content-center">
 			<img class="w-50" style="margin-bottom: -10%; margin-top: -3%; cursor: pointer;" src="/img/dajagong-logo.svg" onclick="location.href='/'">
 		</div>
-		<div class="input-form-backgroud row container-sm">
-			<div class="input-form col-md-12 mx-auto">
-				<h4 class="mb-3">회원가입</h4>
-				<form class="validation-form" action="/"> 
-					<div class="row">
-						<div class="col-md-6 mb-3">
-							<label for="id">아이디</label> <input type="text" class="form-control" id="id" placeholder="" value="" required>
-							<div class="invalid-feedback">아이디를 입력해주세요.</div>
-						</div>
-						<div class="col-md-6 mb-3">
-							<label for="nickname">별명</label> <input type="text" class="form-control" id="nickname" placeholder="" value="" required>
-							<div class="invalid-feedback">별명을 입력해주세요.</div>
-						</div>
+		<div class="input-form mx-auto">
+			<h4 class="mb-3">회원가입</h4>
+			<form class="validation-form" action="/" method="post">
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						<label for="id">아이디</label> <input type="text" class="form-control" id="id" name="id" autocomplete="username" required>
+						<div class="invalid-feedback">아이디를 입력해주세요.</div>
 					</div>
-
-
-					<div class="mb-3">
-						<label for="pwd">비밀번호</label> <input type="password" class="form-control" id="pwd" required>
-						<div class="invalid-feedback">비밀번호를 입력해주세요.</div>
-					</div>
-	
-					<div class="mb-3">
-						<label for="pwdConfirm">비밀번호 확인<span class="text-muted">&nbsp;</span></label> <input type="password" class="form-control" id="pwdConfirm" required>
-						<div class="invalid-feedback">비밀번호 확인을 입력해주세요.</div>
-					</div>
-	
-					<div class="mb-3">
-						<label for="email">이메일</label> <input type="email" class="form-control" id="email" placeholder="you@example.com" required>
-						<div class="invalid-feedback">이메일을 입력해주세요.</div>
-					</div>
-					<div class="mb-3">
-						<label for="number">전화번호</label> <input type="text" class="form-control" id="phone" placeholder="01012341234" required>
-						<div class="invalid-feedback">이메일을 입력해주세요.</div>
+					<div class="col-md-6 mb-3">
+						<label for="nickname">별명</label> <input type="text" class="form-control" id="nickname" name="nickname" required>
+						<div class="invalid-feedback">별명을 입력해주세요.</div>
 					</div>
 				</div>
-					<button class="btn btn-primary btn-lg btn-block w-50" type="submit">가입 완료</button>
-				</form>
-			</div>
+
+
+				<div class="mb-3">
+					<label for="pwd">비밀번호</label> <input type="password" class="form-control" id="pwd" name="pwd" autocomplete="new-password" required>
+					<div class="invalid-feedback">비밀번호를 입력해주세요.</div>
+				</div>
+
+				<div class="mb-3">
+					<label for="pwdConfirm">비밀번호 확인<span class="text-muted">&nbsp;</span></label> <input type="password" class="form-control" id="pwdConfirm" name="pwdConfirm" required>
+					<div class="invalid-feedback">비밀번호 확인을 입력해주세요.</div>
+				</div>
+
+				<div class="mb-3">
+					<label for="email">이메일</label> <input type="email" class="form-control" id="email" name="email" autocomplete="email" placeholder="you@example.com" required>
+					<div class="invalid-feedback">이메일을 입력해주세요.</div>
+				</div>
+				<div class="mb-3">
+					<label for="phone">전화번호</label> <input type="tel" class="form-control" id="phone" name="phone" pattern="[0-9]{10,11}" autocomplete="tel" placeholder="01012341234" required>
+					<div class="invalid-feedback">전화번호를 입력해주세요.</div>
+				</div>
+				<div class="text-center mt-4">
+					<button class="btn btn-primary w-50" type="submit">가입 완료</button>
+				</div>
+			</form>
 		</div>
 	</div>
 	<script>
 		window.addEventListener('load', () => {
 		  const forms = document.getElementsByClassName('validation-form');
 		
-		  Array.prototype.filter.call(forms, (form) => {
+		  Array.from(forms).forEach((form) => {
 		    form.addEventListener('submit', function (event) {
 		      if (form.checkValidity() === false) {
 		        event.preventDefault();
