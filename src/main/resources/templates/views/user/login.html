@@ -1,30 +1,89 @@
 <!DOCTYPE html>
-<html>
-<head th:replace="~{views/common/head :: head}"></head>
-<body class="d-flex align-items-center py-4 bg-body-tertiary">
-	<main class="form-signin w-25 m-auto">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>로그인</title>
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<style>
+	html, body {
+	    height: 100%;
+	}
+	
+	body {
+	    min-height: 100vh;
+	    margin: 0;
+	    background: linear-gradient(
+	        to top,
+	        #a8e6f7 0%,
+	        #dff4fd 40%,
+	        #ffffff 80%,
+	        #ffffff 100%
+	    );
+	}
+	
+	.input-form {
+	    max-width: 680px;
+	    margin: 80px auto 0;
+	    padding: 32px;
+	    background: #ffffff;
+	    border-radius: 10px;
+	    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+	}
+	
+	.form-control:focus {
+	    border-color: #a8e6f7;
+	    box-shadow: 0 0 0 0.2rem rgba(168, 230, 247, 0.25);
+	}
+</style>
+
+
+<body>
+	<div class="container">
 		<div class="d-flex justify-content-center">
-			<img class="w-200" style="margin-bottom: -3%; margin-top: -3%; cursor: pointer;" src="/img/dajagong-logo.svg" onclick="location.href='/'"/>
+			<img class="w-50" style="margin-bottom: -10%; margin-top: -3%; cursor: pointer;" src="/img/dajagong-logo.svg" onclick="location.href='/'">
 		</div>
-		<form>
-			<!-- 			<img class="mb-4" src="/img/dajagong-logo.svg" alt="" width="72" height="57"> -->
-			<br>
-			<br>
-			<br>
-			<h1 class="h3 mb-3 fw-normal">Please sign in</h1>
-			<div class="form-floating">
-				<input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-				<label for="floatingInput">I.D.</label>
-			</div>
-			<div class="form-floating">
-				<input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-				<label for="floatingPassword">Password</label>
-			</div>
-			<br>
-			<button class="btn btn-primary w-100 py-3" type="submit" style="margin: 5px">Sign In</button>
-			<button class="btn btn-primary w-100 py-3" type="button" style="margin: 5px" onclick="location.href='enroll'">Sign Up</button>
-		</form>
-	</main> 
-	<script src="/docs/5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" class="astro-vvvwv3sm"></script>
+		<div class="input-form mx-auto">
+			<h4 class="mb-3">로그인</h4>
+			<form class="validation-form" action="/" method="post">
+				<div class="row">
+					<div class="col-md-12 mb-3">
+						<label for="id">아이디</label> <input type="text" class="form-control" id="id" name="id" autocomplete="username" required>
+						<div class="invalid-feedback">아이디를 입력해주세요.</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12 mb-3">
+						<label for="password">비밀번호</label> <input type="text" class="form-control" id="password" name="password" required>
+						<div class="invalid-feedback">비밀번호를 입력해주세요.</div>
+					</div>
+				</div>
+				
+				<div class="text-center mt-4">
+					<button class="btn btn-primary w-50" type="submit">로그인</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	<script>
+		window.addEventListener('load', () => {
+		  const forms = document.getElementsByClassName('validation-form');
+		
+		  Array.from(forms).forEach((form) => {
+		    form.addEventListener('submit', function (event) {
+		      if (form.checkValidity() === false) {
+		        event.preventDefault();
+		        event.stopPropagation();
+		      }
+		
+		      form.classList.add('was-validated');
+		    }, false);
+		  });
+		}, false);
+	</script>
 </body>
 </html>
