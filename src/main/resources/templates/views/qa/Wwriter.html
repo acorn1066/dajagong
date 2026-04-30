@@ -30,23 +30,26 @@
             질문 내용
         </div>
         
-        <div class="d-grid gap-2">
-           <button class="w-100 btn btn-success btn-lg" type="button">UPDATE</button>
-           <button class="w-100 btn btn-secondary btn-lg" type="button">DELETE</button>
-        </div>  
-        
+        <div class="d-flex gap-2">
+		    <button class="btn btn-success btn-lg flex-fill noto-sans-kr-900" type="button" onclick="location.href='/qa/Qwriter'">수정하기</button>
+		    <button class="btn btn-secondary btn-lg flex-fill noto-sans-kr-900" type="button">삭제하기</button>
+		</div> 
+		<!-- 관리자 계정은 이게 보여요 -->
+        <!-- <div class="d-flex gap-2">
+		    <button class="w-100 btn btn-danger btn-lg" type="button">차단</button>
+		</div>  -->
+		
+		
 		<hr class="hr-2">
-        <div class="mt-5">
+		<div class="mt-5">
             <table class="table table-bordered mb-2">
                 <tr class="table-light">
-                	<a class="btn btn-outline-primary px-4">수정하기</a>
-                	<a class="btn btn-outline-danger px-4">삭제하기</a>
                     <td style="width: 50%;">작성자 : 관리자</td>
                     <td>작성일 : 2026-04-28</td>
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <div class="p-5" style="min-height: 200px; background-color: #fafafa;">
+                        <div class="p-3" style="min-height: 100px; background-color: #fafafa;">
 				            답변 내용
 				        </div>
                     </td>
@@ -54,16 +57,35 @@
             </table>
         </div>
         <div class="mt-5">
+            <table class="table table-bordered mb-2">
+                <tr class="table-light">
+                    <td style="width: 50%;">작성자 : 관리자</td>
+                    <td>작성일 : 2026-04-28</td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div class="p-3" style="min-height: 100px; background-color: #fafafa;">
+				            답변 내용
+				        </div>
+                    </td>
+                </tr>
+                <tr>
+		            <td colspan="2" class="text-end">
+		                <button type="button" class="btn btn-outline-primary px-4 noto-sans-kr-500">수정하기</button>
+		                <button type="button" class="btn btn-outline-danger px-4 noto-sans-kr-500 deleteBtn">삭제하기</button>
+		            </td>
+		        </tr>
+            </table>
+        </div>
+        <div class="mt-5">
 		    <table class="table table-bordered mb-2">
-		    	<a class="btn btn-outline-primary px-4">수정하기</a>
-		    	<a class="btn btn-outline-danger px-4">삭제하기</a>
 		        <tr class="table-light">
 		            <td style="width: 50%;">작성자 : 관리자</td>
 		            <td>작성일 : 2026-04-28</td>
 		        </tr>
 		        <tr>
 		            <td colspan="2">
-		                <div class="p-5" style="min-height: 200px; background-color: #fafafa;">
+		                <div class="p-3" style="min-height: 100px; background-color: #fafafa;">
 		                    답변 내용
 		                </div>
 		            </td>
@@ -75,21 +97,23 @@
 		        </tr>
 		    </table>
 		</div>
-        <hr class="hr-2">
-        <div class="row mb-5">
-		  <div class="col">
-		    <div class="card p-3">
-		      <div class="row g-0">
-		        <div class="col">
-		         <form>
-			        <textarea class="form-control" rows="5" style="resize: none;" placeholder="답변 내용을 입력하세요."></textarea>
-			         <button type="button" class="btn btn-primary w-100 mt-3 btn-lg noto-sans-kr-900 text-white">등록하기</button>
-		         </form>
-		         
-		        </div>
-		      </div>
-		    </div>
-		  </div>
+		<hr class="hr-2">
+		 <div class="mt-5">
+		    <table class="table table-bordered mb-2">
+		        <tr class="table-light">
+		            <td>작성자 : 관리자</td>
+		        </tr>
+		        <tr>
+		            <td>
+		                <textarea class="form-control mb-2" rows="5" style="resize: none;" placeholder="답변 내용을 입력하세요."></textarea>
+		            </td>
+		        </tr>
+		        <tr>
+		            <td class="text-end">
+		                <button type="button" class="btn btn-outline-primary px-4 noto-sans-kr-500">등록하기</button>
+		            </td>
+		        </tr>
+		    </table>
 		</div>
     </div>
     

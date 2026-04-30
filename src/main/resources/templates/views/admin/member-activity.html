@@ -41,6 +41,7 @@
 		                    <th>별점</th>
 		                    <th>후기</th>
 		                    <th>등록일</th>
+		                    <th>상태</th>
 		                    <th>관리</th>
 		                    <th>바로가기</th>
 		                </tr>
@@ -61,7 +62,8 @@
 		                    </td>
 		                    <td><span>뭔가길게있겄지</span></td>
 		                    <td>2026-01-01</td>
-		                    <td><button type="button" class="btn btn-outline-info">관리</button></td>
+		                    <td><span class="badge rounded-pill bg-success text-white">정상</span></td>
+		                    <td><button type="button" class="btn btn-outline-danger blockBtn">차단관리</button></td>
 		                    <td><button type="button" class="btn btn-outline-primary">바로가기</button></td>
 		                </tr>
 		            </tbody>
@@ -81,6 +83,7 @@
 		                    <th>#</th>
 		                    <th>제목</th>
 		                    <th>등록일</th>
+		                    <th>상태</th>
 		                    <th>관리</th>
 		                    <th>바로가기</th>
 		                </tr>
@@ -90,7 +93,8 @@
 		                    <th>1</th>
 		                    <td>테스트</td>
 		                    <td>2026-01-01</td>
-		                    <td><button type="button" class="btn btn-outline-info">관리</button></td>
+		                    <td><span class="badge rounded-pill bg-success text-white">정상</span></td>
+		                    <td><button type="button" class="btn btn-outline-danger blockBtn">차단관리</button></td>
 		                    <td><button type="button" class="btn btn-outline-primary">바로가기</button></td>
 		                </tr>
 		            </tbody>
@@ -111,8 +115,9 @@
 		                    <th>질문제목</th>
 		                    <th>답변내용</th>
 		                    <th>등록일</th>
+		                    <th>상태</th>
 		                    <th>관리</th>
-		                    <th>바로가기</th>
+		                    <th>바로가기</th> 
 		                </tr>
 		            </thead>
 		            <tbody>
@@ -121,7 +126,8 @@
 		                    <td>테스트</td>
 		                    <td><span>뭔가길게있겄지</span></td>
 		                    <td>2026-01-01</td>
-		                    <td><button type="button" class="btn btn-outline-info">관리</button></td>
+		                    <td><span class="badge rounded-pill bg-success text-white">정상</span></td>
+		                    <td><button type="button" class="btn btn-outline-danger blockBtn">차단관리</button></td>
 		                    <td><button type="button" class="btn btn-outline-primary">바로가기</button></td>
 		                </tr>
 		            </tbody>
@@ -136,5 +142,49 @@
 		    </div>
 		</div>
 	</div>
+	
+	<div class="modal fade noto-sans-kr" tabindex="-1" role="dialog" id="modalBlock">
+	    <div class="modal-dialog">
+	        <div class="modal-content rounded-3 shadow overflow-hidden">
+	            <div class="modal-body p-4">
+	                <div class="bg-light rounded p-3 mb-3 d-flex justify-content-between align-items-center">
+					    <div class="d-flex align-items-center gap-2">
+					        <span class="badge rounded-pill text-bg-success">정상</span>
+					        <span class="fw-bold">아이디</span>
+					        <span class="text-body-secondary small">닉네임</span>
+					    </div>
+					</div>
+	                <hr class="hr-1">
+	                <div class="form-floating mb-3">
+	                    <input type="date" class="form-control" id="blockDate">
+	                    <label for="blockDate">차단 일자</label>
+	                </div>
+	                <div class="form-floating mb-3">
+	                    <textarea class="form-control" placeholder="차단 사유" id="manageReason" style="resize:none; height:100px;"></textarea>
+	                    <label for="manageReason">차단 사유</label>
+	                </div>
+	            </div>
+	           <div class="modal-footer flex-nowrap p-0">
+	               <button type="button" class="btn btn-lg fs-6 col-6 py-3 m-0 rounded-0 border-end btn-danger text-white"><strong>차단하기</strong></button>
+	               <button type="button" class="btn btn-lg fs-6 col-6 py-3 m-0 rounded-0" data-bs-dismiss="modal">아니요</button>
+	           </div>
+	           <div class="modal-footer flex-nowrap p-0">
+	               <button type="button" class="btn btn-lg fs-6 col-6 py-3 m-0 rounded-0 border-end btn-success text-white"><strong>차단해제</strong></button>
+	               <button type="button" class="btn btn-lg fs-6 col-6 py-3 m-0 rounded-0" data-bs-dismiss="modal">아니요</button>
+	           </div>
+	        </div>
+	    </div>
+	</div>
+	
+	<script>
+	    window.onload=()=>{
+	    	const blockBtnList = document.getElementsByClassName('blockBtn');
+	    	for(const blockModal of blockBtnList){
+	    		blockModal.addEventListener('click',()=>{
+	    			$('#modalBlock').modal('show');
+	    		});
+	    	}
+		}
+	</script>
 </body>
 </html>

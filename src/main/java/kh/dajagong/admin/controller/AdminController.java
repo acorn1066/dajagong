@@ -39,18 +39,18 @@ public class AdminController {
 	@GetMapping("/admin/log-mem")
 	public String logMember(HttpServletRequest request, Model model) {
 		model.addAttribute("currentURI", request.getRequestURI());
-		return "/views/admin/member-management";
+		return "/views/admin/log";
 	}
 	
 	@GetMapping("/admin/log-book")
 	public String logBook(HttpServletRequest request, Model model) {
 		model.addAttribute("currentURI", request.getRequestURI());
-		return "/views/admin/member-management";
+		return "/views/admin/log";
 	}
 	
 	@GetMapping("/admin/log-QnA")
 	public String logQnA(HttpServletRequest request, Model model) {
 		model.addAttribute("currentURI", request.getRequestURI());
-		return "/views/admin/member-management";
+		return "/views/admin/log";
 	}
 }

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="~{views/common/head :: head}"></head>
+<body>
+	<div th:replace="~{views/common/navbar-admin :: navbar-admin}"></div>
+	<div class="container-fluid">
+		<div class="row mt-1 g-2">
+		    <div class="col-auto">
+		    </div>
+		    <div class="col-auto">
+		        <select class="form-select" id="searchType">
+		            <option selected="">닉네임</option>
+		            <option value="publisher">아이디</option>
+		        </select>
+		    </div>
+		    <div class="col">
+		        <div class="input-group">
+		            <input type="search" class="form-control" placeholder="검색하기">
+		            <button class="btn btn-outline-primary" type="button">검색하기</button>
+		        </div>
+		    </div>
+		</div>
+		<div class="row mt-1 g-2">
+	        <table class="table table-hover text-center align-middle">
+	            <thead>
+	                <tr>
+	                    <th>#</th>
+	                    <th>조치</th>
+	                    <th>아이디</th>
+	                    <th>닉네임</th>
+	                    <th>사유</th>
+	                    <th>처리일</th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	                <tr>
+	                    <th>1</th>
+	                    <td><span class="badge rounded-pill bg-danger text-white">차단</span></td>
+	                    <td>테스트</td>
+	                    <td>테스트</td>
+	                    <td><span>뭔가길게있겄지</span></td>
+	                    <td>2026-01-01</td>
+	                </tr>
+	            </tbody>
+	        </table>
+	        <nav><ul class="pagination justify-content-center">
+	            <li class="page-item"><a class="page-link" href="#">«</a></li>
+	            <li class="page-item"><a class="page-link" href="#">1</a></li>
+	            <li class="page-item"><a class="page-link" href="#">2</a></li>
+	            <li class="page-item"><a class="page-link" href="#">3</a></li>
+	            <li class="page-item"><a class="page-link" href="#">»</a></li>
+	        </ul></nav>
+	    </div>
+	</div>
+	
+	<div class="modal fade noto-sans-kr" tabindex="-1" role="dialog" id="modalBlock">
+	    <div class="modal-dialog">
+	        <div class="modal-content rounded-3 shadow overflow-hidden">
+	            <div class="modal-body p-4">
+	                <div class="bg-light rounded p-3 mb-3 d-flex justify-content-between align-items-center">
+					    <div class="d-flex align-items-center gap-2"> 
+					        <span class="badge rounded-pill text-bg-success">정상</span>
+					        <span class="fw-bold">아이디</span>
+					        <span class="text-body-secondary small">닉네임</span>
+					    </div>
+					</div>
+	                <hr class="hr-1">
+	                <div class="form-floating mb-3">
+	                    <input type="date" class="form-control" id="blockDate">
+	                    <label for="blockDate">차단 일자</label>
+	                </div>
+	                <div class="form-floating mb-3">
+	                    <textarea class="form-control" placeholder="차단 사유" id="manageReason" style="resize:none; height:100px;"></textarea>
+	                    <label for="manageReason">차단 사유</label>
+	                </div>
+	            </div>
+	           <div class="modal-footer flex-nowrap p-0">
+	               <button type="button" class="btn btn-lg fs-6 col-6 py-3 m-0 rounded-0 border-end btn-danger text-white"><strong>차단하기</strong></button>
+	               <button type="button" class="btn btn-lg fs-6 col-6 py-3 m-0 rounded-0" data-bs-dismiss="modal">아니요</button>
+	           </div>
+	           <div class="modal-footer flex-nowrap p-0">
+	               <button type="button" class="btn btn-lg fs-6 col-6 py-3 m-0 rounded-0 border-end btn-success text-white"><strong>차단해제</strong></button>
+	               <button type="button" class="btn btn-lg fs-6 col-6 py-3 m-0 rounded-0" data-bs-dismiss="modal">아니요</button>
+	           </div>
+	        </div>
+	    </div>
+	</div>
+</body>
+</html>
