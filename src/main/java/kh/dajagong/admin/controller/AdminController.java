@@ -21,7 +21,7 @@ public class AdminController {
 	@GetMapping("/admin/member-activity")
 	public String memberActivity(HttpServletRequest request, Model model) {
 		model.addAttribute("currentURI", request.getRequestURI());
-		return "/views/admin/member-management";
+		return "/views/admin/member-activity";
 	}
 	
 	@GetMapping("/admin/site-management-book")

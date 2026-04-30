@@ -29,10 +29,18 @@
         <div class="border p-5 mb-4" style="min-height: 200px; background-color: #fafafa;">
             질문 내용
         </div>
+        
+        <div class="d-grid gap-2">
+           <button class="w-100 btn btn-success btn-lg" type="button">UPDATE</button>
+           <button class="w-100 btn btn-secondary btn-lg" type="button">DELETE</button>
+        </div>  
+        
 		<hr class="hr-2">
         <div class="mt-5">
             <table class="table table-bordered mb-2">
                 <tr class="table-light">
+                	<a class="btn btn-outline-primary px-4">수정하기</a>
+                	<a class="btn btn-outline-danger px-4">삭제하기</a>
                     <td style="width: 50%;">작성자 : 관리자</td>
                     <td>작성일 : 2026-04-28</td>
                 </tr>
@@ -47,6 +55,8 @@
         </div>
         <div class="mt-5">
 		    <table class="table table-bordered mb-2">
+		    	<a class="btn btn-outline-primary px-4">수정하기</a>
+		    	<a class="btn btn-outline-danger px-4">삭제하기</a>
 		        <tr class="table-light">
 		            <td style="width: 50%;">작성자 : 관리자</td>
 		            <td>작성일 : 2026-04-28</td>
@@ -102,7 +112,7 @@
 
 	<div class="modal fade noto-sans-kr" tabindex="-1" role="dialog" id="modalBlock">
 	    <div class="modal-dialog">
-	        <div class="modal-content rounded-3 shadow">
+	        <div class="modal-content rounded-3 shadow overflow-hidden">
 	            <div class="modal-body p-4 text-center">
 	                <i class="bi bi-exclamation-triangle-fill text-danger mb-3" style="font-size:2.5rem;"></i>
 	                <h5 class="mb-3">정말로 이 답변을 차단하시겠습니까?</h5>
@@ -112,9 +122,9 @@
 					</div>
 	            </div>
 	            <div class="modal-footer flex-nowrap p-0">
-	                <button type="button" class="btn btn-lg fs-6 col-6 py-3 m-0 rounded-0 border-end btn-danger text-white"><strong>네</strong></button>
-	                <button type="button" class="btn btn-lg fs-6 col-6 py-3 m-0 rounded-0" data-bs-dismiss="modal">아니요</button>
-	            </div>
+				    <button type="button" class="btn btn-lg fs-6 col-6 py-3 m-0 rounded-0 rounded-bottom-start btn-danger text-white"><strong>네</strong></button>
+				    <button type="button" class="btn btn-lg fs-6 col-6 py-3 m-0 rounded-0 rounded-bottom-end" data-bs-dismiss="modal">아니요</button> 
+				</div>
 	        </div>
 	    </div>
 	</div>
