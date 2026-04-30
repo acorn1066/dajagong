@@ -5,11 +5,13 @@
     <div th:replace="~{views/common/navbar :: navbar}"></div>
     
     <div class="container mt-5 mb-5" style="max-width: 800px; border: 1px solid #999; padding: 30px; background-color: #fff;">
-        <div class="mb-3">
-            <a href="/qa/list" class="text-decoration-none text-secondary noto-sans-kr-200">&lt;&lt;이전으로</a>
-        </div>
+        <nav aria-label="breadcrumb" class=""> 
+			<ol class="breadcrumb p-3 bg-f3faff rounded-3"> 
+				<li class="breadcrumb-item"> <a class="link-body-emphasis text-decoration-none" href="/qa/list"> <svg class="bi" width="16" height="16" aria-hidden="true"><i class="bi bi-house-door-fill"></i></svg> 돌아가기</a> </li> 
+			</ol> 
+		</nav>
 
-        <h3 class="text-center mb-2 do-hyeon-regular">질문하기</h3>
+        <h3 class="text-center mb-2 noto-sans-kr-900 py-5">질문 상세 보기</h3>
 
         <div class="input-group mb-3">
             <select class="form-select noto-sans-kr-500" style="max-width: 150px;">
