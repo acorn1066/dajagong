@@ -4,7 +4,137 @@
 <body>
 	<div th:replace="~{views/common/navbar-admin :: navbar-admin}"></div>
 	<div class="container-fluid">
-	
+		<div class="row mt-1 g-2">
+		    <div class="col-auto">
+		    </div>
+		    <div class="col-auto">
+		        <select class="form-select" id="searchType">
+		            <option selected="">닉네임</option>
+		            <option value="publisher">아이디</option>
+		        </select>
+		    </div>
+		    <div class="col">
+		        <div class="input-group">
+		            <input type="search" class="form-control" placeholder="검색하기">
+		            <button class="btn btn-outline-primary" type="button">검색하기</button>
+		        </div>
+		    </div>
+		</div>
+		<ul class="nav nav-tabs mb-3  mt-2" id="contentTab">
+		    <li class="nav-item">
+		        <a class="nav-link active" data-bs-toggle="tab" href="#review">후기 게시판</a>
+		    </li>
+		    <li class="nav-item">
+		        <a class="nav-link" data-bs-toggle="tab" href="#question">질문</a>
+		    </li>
+		    <li class="nav-item">
+		        <a class="nav-link" data-bs-toggle="tab" href="#answer">답변</a>
+		    </li>
+		</ul>
+		<div class="tab-content">
+		    <div class="tab-pane fade show active" id="review">
+		        <table class="table table-hover text-center align-middle">
+		            <thead>
+		                <tr>
+		                    <th>#</th>
+		                    <th>도서명</th>
+		                    <th>별점</th>
+		                    <th>후기</th>
+		                    <th>등록일</th>
+		                    <th>관리</th>
+		                    <th>바로가기</th>
+		                </tr>
+		            </thead>
+		            <tbody>
+		                <tr>
+		                    <th>1</th>
+		                    <td>테스트</td>
+		                    <td>
+		                    	<div class="d-flex justify-content-center align-items-center gap-1">
+							        <i class="bi bi-star-fill text-warning" style="font-size:0.8rem;"></i>
+							        <i class="bi bi-star-fill text-warning" style="font-size:0.8rem;"></i>
+							        <i class="bi bi-star-fill text-warning" style="font-size:0.8rem;"></i>
+							        <i class="bi bi-star-fill text-warning" style="font-size:0.8rem;"></i>
+							        <i class="bi bi-star-fill text-secondary" style="font-size:0.8rem;"></i>
+							        <small class="text-body-secondary ms-1 lh-1">(4/5)</small>
+							    </div>
+		                    </td>
+		                    <td><span>뭔가길게있겄지</span></td>
+		                    <td>2026-01-01</td>
+		                    <td><button type="button" class="btn btn-outline-info">관리</button></td>
+		                    <td><button type="button" class="btn btn-outline-primary">바로가기</button></td>
+		                </tr>
+		            </tbody>
+		        </table>
+		        <nav><ul class="pagination justify-content-center">
+		            <li class="page-item"><a class="page-link" href="#">«</a></li>
+		            <li class="page-item"><a class="page-link" href="#">1</a></li>
+		            <li class="page-item"><a class="page-link" href="#">2</a></li>
+		            <li class="page-item"><a class="page-link" href="#">3</a></li>
+		            <li class="page-item"><a class="page-link" href="#">»</a></li>
+		        </ul></nav>
+		    </div>
+		    <div class="tab-pane fade" id="question">
+		        <table class="table table-hover text-center align-middle">
+		            <thead>
+		                <tr>
+		                    <th>#</th>
+		                    <th>제목</th>
+		                    <th>등록일</th>
+		                    <th>관리</th>
+		                    <th>바로가기</th>
+		                </tr>
+		            </thead>
+		            <tbody>
+		                <tr>
+		                    <th>1</th>
+		                    <td>테스트</td>
+		                    <td>2026-01-01</td>
+		                    <td><button type="button" class="btn btn-outline-info">관리</button></td>
+		                    <td><button type="button" class="btn btn-outline-primary">바로가기</button></td>
+		                </tr>
+		            </tbody>
+		        </table>
+		        <nav><ul class="pagination justify-content-center">
+		            <li class="page-item"><a class="page-link" href="#">«</a></li>
+		            <li class="page-item"><a class="page-link" href="#">1</a></li>
+		            <li class="page-item"><a class="page-link" href="#">2</a></li>
+		            <li class="page-item"><a class="page-link" href="#">3</a></li>
+		            <li class="page-item"><a class="page-link" href="#">»</a></li>
+		        </ul></nav>
+		    </div>
+		    <div class="tab-pane fade" id="answer">
+		        <table class="table table-hover text-center align-middle">
+		            <thead>
+		                <tr>
+		                    <th>#</th>
+		                    <th>질문제목</th>
+		                    <th>답변내용</th>
+		                    <th>등록일</th>
+		                    <th>관리</th>
+		                    <th>바로가기</th>
+		                </tr>
+		            </thead>
+		            <tbody>
+		                <tr>
+		                    <th>1</th>
+		                    <td>테스트</td>
+		                    <td><span>뭔가길게있겄지</span></td>
+		                    <td>2026-01-01</td>
+		                    <td><button type="button" class="btn btn-outline-info">관리</button></td>
+		                    <td><button type="button" class="btn btn-outline-primary">바로가기</button></td>
+		                </tr>
+		            </tbody>
+		        </table>
+		        <nav><ul class="pagination justify-content-center">
+		            <li class="page-item"><a class="page-link" href="#">«</a></li>
+		            <li class="page-item"><a class="page-link" href="#">1</a></li>
+		            <li class="page-item"><a class="page-link" href="#">2</a></li>
+		            <li class="page-item"><a class="page-link" href="#">3</a></li>
+		            <li class="page-item"><a class="page-link" href="#">»</a></li>
+		        </ul></nav>
+		    </div>
+		</div>
 	</div>
 </body>
 </html>
