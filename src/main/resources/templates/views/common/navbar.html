@@ -14,9 +14,9 @@
 			</ul> 
 			<div class="col-md-3 text-end">
 			
-				<button type="button" class="btn btn-light me-2 noto-sans-kr-900" onclick="location.href='/admin/member-management'"><i class="bi bi-key"></i></button>
-				<button type="button" class="btn btn-light me-2 noto-sans-kr-900" onclick="location.href='/login'">Login</button> 
-				<button type="button" class="btn btn-info text-white me-2 noto-sans-kr-900" onclick="location.href='/enroll'">Sign-up</button> 
+				<button type="button" class="btn btn-light me-2 noto-sans-kr-900" onclick="location.href='/admin/member-management'"  th:if="${session.loginUser!=null && session.loginUser.isAdmin=='Y'}"><i class="bi bi-key"></i></button>
+				<button type="button" class="btn btn-light me-2 noto-sans-kr-900" onclick="location.href='/login'"  th:if="${session.loginUser==null}">Login</button> 
+				<button type="button" class="btn btn-info text-white me-2 noto-sans-kr-900" onclick="location.href='/enroll'"  th:if="${session.loginUser==null}">Sign-up</button> 
 			</div> 
 		</header> 
 	</div>
