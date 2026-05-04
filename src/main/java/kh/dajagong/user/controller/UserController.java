@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import kh.dajagong.user.model.exception.UserException;
+import kh.dajagong.common.exception.UserException;
 import kh.dajagong.user.model.vo.User;
 import kh.dajagong.user.service.UserService;
 import lombok.RequiredArgsConstructor;
