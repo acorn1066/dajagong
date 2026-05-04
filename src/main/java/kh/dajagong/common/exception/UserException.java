@@ -1,4 +1,4 @@
-package kh.dajagong.user.model.exception;
+package kh.dajagong.common.exception;
 
 public class UserException extends RuntimeException{
 
