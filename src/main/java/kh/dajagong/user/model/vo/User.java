@@ -13,12 +13,12 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class User {
+public class User { 
 	private String userId;
 	private String pwd;
-	private String nickName;
+	private String nickname;
 	private String email;
-	private int phoneNum;
+	private String phone;
 	private Date createDate;
 	private String status;
 	private String isAdmin;
