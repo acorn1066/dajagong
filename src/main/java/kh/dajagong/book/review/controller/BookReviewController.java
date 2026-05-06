@@ -1,18 +1,25 @@
 package kh.dajagong.book.review.controller;
 
+import java.util.ArrayList;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import kh.dajagong.book.review.model.vo.Book;
+import kh.dajagong.book.review.service.BookReviewService;
 import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
 public class BookReviewController {
-	
+	private final BookReviewService bService; 
 	
 	@GetMapping("/book-review/main")
-	public String main() {
+	public String main(Model model) {
+		ArrayList<Book> bookList = bService.selectTop();
+		model.addAttribute("bookList",bookList);
 		return "/views/book-review/main";
 	}
 	
