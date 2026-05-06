@@ -13,7 +13,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class User {
+public class User { 
 	private String userId;
 	private String pwd;
 	private String nickname;
