@@ -2,9 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="kh.dajagong.user.mapper.UserMapper">
-	<select id="login" resultType="kh.dajagong.user.model.vo.User">
+	<select id="login" resultType="User">
 	    SELECT * FROM "USER"
-	    WHERE user_id=#{userId} AND pwd=#{pwd} AND status='Y'
+	    WHERE user_id=#{userId} <!-- AND  pwd=#{pwd} --> AND status='Y'
 	</select>
 
+	<insert id="insertUser">
+		insert into "USER"
+		values(#{userId}, #{pwd}, #{nickname}, #{email}, #{phone}, sysdate, default, default)
+	</insert>
 </mapper>
