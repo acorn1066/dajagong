@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import jakarta.servlet.http.HttpSession;
 import kh.dajagong.book.review.model.vo.Book;
 import kh.dajagong.book.review.service.BookReviewService;
 import kh.dajagong.common.exception.UserException;
@@ -73,6 +74,13 @@ public class UserController {
 		} else {
 			throw new UserException("회원가입을 실패하였습니다.");
 		}
+	}
+	
+	// 로그아웃 후 메인으로
+	@GetMapping("logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/";
 	}
 	 
 	
