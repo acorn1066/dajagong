@@ -8,5 +8,7 @@ import kh.dajagong.user.model.vo.User;
 public interface UserMapper {
 
 	User login(User u);
+
+	int insertUser(User u);
 	
 }
