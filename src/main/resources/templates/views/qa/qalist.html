@@ -13,20 +13,24 @@
             </div>
         </div>
 
-   
-        <form action="/qa/search" method="get">
+        <form action="/qa/list" method="get">
             <div class="row mb-3 g-2">
                 <div class="col-auto">
-                    <select class="form-select" name="certType">
-                        <option value="" th:selected="${sc == null or sc.certType == ''}">자격증명</option>
-                        <option value="1" th:selected="${sc?.certType == '1'}">정보처리기사</option>
-                        <option value="2" th:selected="${sc?.certType == '2'}">컴퓨터활용능력</option>
+                    <select class="form-select" name="licenseCode">
+                        <option value="0" th:selected="${sc == null or sc.licenseCode == 0}">전체 자격증</option>
+                        <option th:each="l : ${lList}" 
+                                th:value="${l.licenseCode}" 
+                                th:text="${l.licenseName}"
+                                th:selected="${sc?.licenseCode == l.licenseCode}">
+                            자격증명
+                        </option>
                     </select>
                 </div>
+        
                 <div class="col-auto">
                     <select class="form-select" name="searchType">
                         <option value="title" th:selected="${sc?.searchType == 'title'}">제목</option>
-                        <option value="writer" th:selected="${sc?.searchType == 'writer'}">작성자</option>
+                        <option value="user_id" th:selected="${sc?.searchType == 'user_id'}">작성자</option>
                     </select>
                 </div>
                 <div class="col">
@@ -38,10 +42,8 @@
             </div>
         </form>
 
-        
         <div class="bd-example">
-            <table class="table table-hover">
-                <thead>
+            <table class="table table-hover text-center"> <thead>
                     <tr>
                         <th width="80px">번호</th>
                         <th>제목</th>
@@ -52,14 +54,14 @@
                 </thead>
                 <tbody>
                     <tr th:each="q : ${list}">
-                        <td>[[${q.q_index}]]</td>
+                        <td th:text="${q.qIndex}">번호</td>
                         <td class="text-start">
-                            <span class="badge bg-info text-dark" th:if="${q.license_code == 1}">정보처리</span>
+                            <span class="badge bg-info text-dark" th:text="${q.licenseName}">자격증명</span>
                             [[${q.title}]]
                         </td>
-                        <td>[[${q.user_id}]]</td>
-                        <td>[[${q.create_date}]]</td>
-                        <td>[[${q.count}]]</td>
+                        <td th:text="${q.userId}">작성자</td>
+                        <td th:text="${q.createDate}">작성일</td>
+                        <td th:text="${q.count}">조회수</td>
                     </tr>
                     <tr th:if="${#lists.isEmpty(list)}">
                         <td colspan="5" class="text-center">등록된 질문이 없습니다.</td>
@@ -68,29 +70,28 @@
             </table>
         </div>
 
-        
         <nav aria-label="Standard pagination example" style="float: right;">
             <ul class="pagination">
                 <li class="page-item" th:classappend="${pi.currentPage <= 1} ? 'disabled'">
-                    <a class="page-link" th:href="@{${loc}(page=${pi.currentPage-1}, certType=${sc?.certType}, keyword=${sc?.keyword})}" aria-label="Previous">
+                    <a class="page-link" th:href="@{/qa/list(page=${pi.currentPage-1}, licenseCode=${sc?.licenseCode}, searchType=${sc?.searchType}, keyword=${sc?.keyword})}" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
+                
                 <li class="page-item" th:each="p : ${#numbers.sequence(pi.startPage, pi.endPage)}" th:classappend="${p == pi.currentPage} ? 'active'">
-                    <a class="page-link" th:href="@{${loc}(page=${p}, certType=${sc?.certType}, keyword=${sc?.keyword})}">[[${p}]]</a>
+                    <a class="page-link" th:href="@{/qa/list(page=${p}, licenseCode=${sc?.licenseCode}, searchType=${sc?.searchType}, keyword=${sc?.keyword})}">[[${p}]]</a>
                 </li>
+                
                 <li class="page-item" th:classappend="${pi.currentPage >= pi.maxPage} ? 'disabled'">
-                    <a class="page-link" th:href="@{${loc}(page=${pi.currentPage+1}, certType=${sc?.certType}, keyword=${sc?.keyword})}" aria-label="Next">
+                    <a class="page-link" th:href="@{/qa/list(page=${pi.currentPage+1}, licenseCode=${sc?.licenseCode}, searchType=${sc?.searchType}, keyword=${sc?.keyword})}" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
                 </li>
             </ul>
         </nav>
 
-       
-        <button th:if="${session.loginUser}" class="btn btn-outline-success" type="button" onclick="location.href='/qa/write'">질문하기</button>
+        <button th:if="${session.loginUser}" class="btn btn-outline-success" type="button" onclick="location.href='/qa/Qwriter'">질문하기</button>
     </div>
-
 
     <script th:inline="javascript">
         window.onload = () => {
@@ -98,9 +99,9 @@
             tbody.addEventListener('click', (e) => {
                 const tr = e.target.closest('tr');
                 if (tr && tr.cells.length > 1) {
-                    const qIndex = tr.cells[0].innerText; 
+                    const qIndex = tr.cells[0].innerText;                    
                     const currentPage = /*[[${pi.currentPage}]]*/ 1;
-                    location.href = '/qa/detail/' + qIndex + '/' + currentPage; 
+                    location.href = '/qa/detail?qIndex=' + qIndex + '&page=' + currentPage; 
                 }
             });
         }
