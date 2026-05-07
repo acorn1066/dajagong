@@ -3,6 +3,7 @@ package kh.dajagong.book.review.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,11 +22,11 @@ public class BookReviewAjaxController {
 
 	
 	@GetMapping("book/bookList")
-	public ArrayList<Book> bookList(@RequestParam(value="page", defaultValue="1") int currentPage, 
+	public Map<String, Object> bookList(@RequestParam(value="currentPage", defaultValue="1") int currentPage, 
 							@RequestParam(value="pageSize", defaultValue="10") int pageSize, 
 							@RequestParam(value="licenseType", defaultValue="all") String licenseType, 
 							@RequestParam(value="searchType", defaultValue="bookName") String searchType, 
-							@RequestParam("searchText") String searchText) {
+							@RequestParam(value="searchText", defaultValue="") String searchText) {
 		
 		HashMap<String,Object> map = new HashMap<>();
 		if(!licenseType.equals("all"))map.put("licenseType", licenseType);
@@ -37,7 +38,9 @@ public class BookReviewAjaxController {
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, pageSize);
 		
 		ArrayList<Book> list = bService.selectBookList(pi,map);
-		
-		return list;
+		Map<String, Object> result = new HashMap<>();
+	    result.put("list", list);
+	    result.put("pageInfo", pi);
+	    return result;
 	}
 }

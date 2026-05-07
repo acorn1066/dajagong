@@ -60,17 +60,7 @@
 		  <div class="mx-auto border-0 align-items-center"> 
 	        <nav aria-label="Standard pagination example">
 	          <ul class="pagination justify-content-center">
-	            <li class="page-item">
-	              <a class="page-link" href="#" aria-label="Previous">
-	                <span aria-hidden="true">«</span>
-	              </a>
-	            </li>
-	            <li class="page-item"><a class="page-link" href="#">1</a></li>
-	            <li class="page-item">
-	              <a class="page-link" href="#" aria-label="Next">
-	                <span aria-hidden="true">»</span>
-	              </a>
-	            </li>
+	            
 	          </ul>
 	        </nav>
 	      </div>  	
@@ -106,17 +96,15 @@
 	<footer th:replace="~{views/common/footer :: footer}"></footer>
 	<script>
 	window.onload=()=>{
-		searchBookList();
+		searchBookList(1);
 	}
 	
-	const searchBookList = () => {
-		const currentPage = 1; //임시
+	const searchBookList = (page) => {
+		const currentPage = page;
 		const pageSize = document.querySelector('#pageSize').value;
 		const licenseType = document.querySelector('#licenseType').value;
 		const searchType = document.querySelector('#searchType').value;
 		const searchText = document.querySelector('#searchText').value;
-		
-		//console.log("currentPage :: "+currentPage + " / pageSize ::"+pageSize+ " / licenseType ::"+licenseType+ " / searchType ::"+searchType+ " / searchText ::"+searchText);
 		
 		 $.ajax({
 			url:'/book/bookList',
@@ -128,11 +116,10 @@
 				searchText:searchText
 			},
 			success:data=>{
-				console.log(data);
-				
+
 				document.querySelector('.bookListBody').innerHTML = '';
 				
-				for(const b of data) {
+				for(const b of data.list) {
 					const dummy = document.querySelector('#dummy').children[0].cloneNode(true);
 					
 					dummy.querySelector('img').src="/img/book/"+b.bookNum+".jpg";
@@ -146,12 +133,47 @@
 					document.querySelector('.bookListBody').append(dummy);
 				}
 				
-				//아진짜말도안된다
+				
+				//페이징....
+				const pagination = document.querySelector('.pagination');
+				pagination.innerHTML = '';
+				 
+				//이전 버튼
+			    const beforeLi = document.createElement('li');
+				
+				beforeLi.setAttribute('class', 'page-item' + (data.pageInfo.currentPage === 1 ? ' disabled' : '')); 
+			    beforeLi.innerHTML= '<a class="page-link" href="#" onclick="searchBookList('+(data.pageInfo.currentPage-1)+'); return false;" aria-label="Previous">'
+			             +'<span aria-hidden="true">«</span>'
+				         +'</a>';
+				pagination.append(beforeLi);
+				
+				//페이지
+				for(let i=data.pageInfo.startPage; i<=data.pageInfo.endPage; i++){
+					const page = document.createElement('li');
+					page.setAttribute('class', 'page-item'); 
+					page.innerHTML= '<a class="page-link '+(data.pageInfo.currentPage === i ? ' active' : '')+'" href="#"  onclick="searchBookList('+i+'); return false;">'+i+'</a>';
+					pagination.append(page);
+				}
+				
+				//다음 버튼
+				const afterLi = document.createElement('li');
+					
+				afterLi.setAttribute('class', 'page-item' + (data.pageInfo.currentPage === data.pageInfo.maxPage ? ' disabled' : '')); 
+				afterLi.innerHTML= '<a class="page-link" href="#" onclick="searchBookList('+(data.pageInfo.currentPage+1)+'); return false;" aria-label="Previous">'
+			             +'<span aria-hidden="true">»</span>'
+				         +'</a>';
+				pagination.append(afterLi);
+				
 				
 			},
 			error: data=>console.log(data)
 		})
 	}
+	
+	
+	
+	
+	
 	</script>
 </body>
 </html>
