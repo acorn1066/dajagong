@@ -8,7 +8,7 @@
 	      <h2 class="do-hyeon-regular">요즘 인기있는 책들</h2>
 	      <div class="row row-cols-5">
 			<div class="col" th:each="b:${bookList}">
-	          <div class="card shadow-sm" role="button" style="height:400px;" th:onclick="|location.href='/book-review/detail?num=${b.bookNum}'|">
+	          <div class="card shadow-sm" role="button" th:onclick="|location.href='/book-review/detail?num=${b.bookNum}'|">
 	            <img class="bd-placeholder-img img-thumbnail" width="100%" height="225" th:src="@{/img/book/}+${b.bookNum}+@{.jpg}" />
 	            <div class="card-body">
 	              <p class="card-text noto-sans-kr-500" th:text="${b.bookName}"></p>
@@ -24,8 +24,8 @@
 	  <div class="container">
 		  <div class="row mt-2">
 		    <div class="col-2">
-		        <select class="form-select" id="pageSize">
-		            <option selected>10개 보기</option>
+		        <select class="form-select" id="pageSize" onchange="searchBookList();">
+		            <option value="10" selected>10개 보기</option>
 		            <option value="20">20개 보기</option>
 		            <option value="30">30개 보기</option>
 		        </select>
@@ -33,101 +33,30 @@
 		</div>
 		<div class="row mt-1 g-2">
 		    <div class="col-auto">
-		        <select class="form-select" id="certType">
-		            <option selected>자격증 선택</option>
-		            <option value="기사">기사</option>
-		            <option value="산업기사">산업기사</option>
+		        <select class="form-select" id="licenseType" onchange="searchBookList();">
+		            <option selected value="all">자격증 선택</option>
+		            <th:block th:each="l:${licenseList}">
+		            	<option th:value="${l.licenseCode}">[[${l.licenseName}]]</option>
+		            </th:block>
 		        </select>
 		    </div>
 		    <div class="col-auto">
-		        <select class="form-select" id="searchType">
-		            <option selected>책 제목</option>
+		        <select class="form-select" id="searchType" onchange="searchBookList();">
+		            <option value="bookName"selected>제목</option>
+		            <option value="bookWriter">지은이</option>
 		            <option value="publisher">출판사</option>
 		        </select>
 		    </div>
 		    <div class="col">
 		        <div class="input-group">
-		            <input type="search" class="form-control" placeholder="검색하기" />
-		            <button class="btn btn-outline-primary" type="button">검색하기</button>
+		            <input type="search" class="form-control" placeholder="검색하기" id="searchText" name="searchText"/>
+		            <button class="btn btn-outline-primary" type="button" onclick="searchBookList();">검색하기</button>
 		        </div>
 		    </div>
 		</div>
-		 <div class="row my-3">
-		  <div class="col">
-		    <div class="card">
-		      <div class="row g-0">
-		        <div class="col-md-2" style="height:150px;" role="button" onclick="location.href='/book-review/detail'">
-		          <svg aria-label="Placeholder: Image" class="bd-placeholder-img h-100" height="100" preserveAspectRatio="xMidYMid slice" role="img" width="100%" xmlns="http://www.w3.org/2000/svg"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image</text></svg>
-		        </div>
-		        <div class="col-md-10">
-		          <div class="card-body d-flex flex-column h-100 p-3">
-		            <div>
-		              <span class="card-title mb-1 noto-sans-kr-900 h4" role="button" onclick="location.href='/book-review/detail'">도서이름</span> 
-		              <div class="card-text">출판사이름</div>
-		              <div class="card-text">
-		                <small class="text-body-secondary">출판날짜</small>
-		              </div>
-		            </div>
-		            <div class="mt-auto text-end">
-		              <a href="/book-review/detail" class="text-decoration-none text-dark noto-sans-kr-200">후기보기 &gt;&gt;</a>
-		            </div>
-		          </div>
-		        </div>
-		      </div>
-		    </div>
-		  </div>
+		<div class="bookListBody">
+		
 		</div>
-		 <div class="row my-3">
-		  <div class="col">
-		    <div class="card">
-		      <div class="row g-0">
-		        <div class="col-md-2" style="height:150px;" role="button" onclick="location.href='/book-review/detail'">
-		          <svg aria-label="Placeholder: Image" class="bd-placeholder-img h-100" height="100" preserveAspectRatio="xMidYMid slice" role="img" width="100%" xmlns="http://www.w3.org/2000/svg"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image</text></svg>
-		        </div>
-		        <div class="col-md-10">
-		          <div class="card-body d-flex flex-column h-100 p-3">
-		            <div>
-		              <span class="card-title mb-1 noto-sans-kr-900 h4" role="button" onclick="location.href='/book-review/detail'">도서이름</span> 
-		              <div class="card-text">출판사이름</div>
-		              <div class="card-text">
-		                <small class="text-body-secondary">출판날짜</small>
-		              </div>
-		            </div>
-		            <div class="mt-auto text-end">
-		              <a href="/book-review/detail" class="text-decoration-none text-dark noto-sans-kr-200">후기보기 &gt;&gt;</a>
-		            </div>
-		          </div>
-		        </div>
-		      </div>
-		    </div>
-		  </div>
-		</div>
-		<div class="row my-3">
-		  <div class="col">
-		    <div class="card">
-		      <div class="row g-0">
-		        <div class="col-md-2" style="height:150px;" role="button" onclick="location.href='/book-review/detail'">
-		          <svg aria-label="Placeholder: Image" class="bd-placeholder-img h-100" height="100" preserveAspectRatio="xMidYMid slice" role="img" width="100%" xmlns="http://www.w3.org/2000/svg"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image</text></svg>
-		        </div>
-		        <div class="col-md-10">
-		          <div class="card-body d-flex flex-column h-100 p-3">
-		            <div>
-		              <span class="card-title mb-1 noto-sans-kr-900 h4" role="button" onclick="location.href='/book-review/detail'">도서이름</span> 
-		              <div class="card-text">출판사이름</div>
-		              <div class="card-text">
-		                <small class="text-body-secondary">출판날짜</small>
-		              </div>
-		            </div>
-		            <div class="mt-auto text-end">
-		              <a href="/book-review/detail" class="text-decoration-none text-dark noto-sans-kr-200">후기보기 &gt;&gt;</a>
-		            </div>
-		          </div>
-		        </div>
-		      </div>
-		    </div>
-		  </div>
-		</div>
-		  
 		  <div class="mx-auto border-0 align-items-center"> 
 	        <nav aria-label="Standard pagination example">
 	          <ul class="pagination justify-content-center">
@@ -137,8 +66,6 @@
 	              </a>
 	            </li>
 	            <li class="page-item"><a class="page-link" href="#">1</a></li>
-	            <li class="page-item"><a class="page-link" href="#">2</a></li>
-	            <li class="page-item"><a class="page-link" href="#">3</a></li>
 	            <li class="page-item">
 	              <a class="page-link" href="#" aria-label="Next">
 	                <span aria-hidden="true">»</span>
@@ -148,7 +75,83 @@
 	        </nav>
 	      </div>  	
 	  </div>
-	  
+	  <div class="d-none" id="dummy">
+	  	<div class="row my-3">
+		  <div class="col">
+		    <div class="card">
+		      <div class="row g-0">
+		        <div class="col-md-2 text-center py-1" style="height:150px;" role="button" onclick="location.href='/book-review/detail'">
+		          <img class="bd-placeholder-img h-100"/>
+		          <!-- <svg aria-label="Placeholder: Image" class="bd-placeholder-img h-100" height="100" preserveAspectRatio="xMidYMid slice" role="img" width="100%" xmlns="http://www.w3.org/2000/svg"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image</text></svg> -->
+		        </div>
+		        <div class="col-md-10">
+		          <div class="card-body d-flex flex-column h-100 p-3">
+		            <div>
+		              <span class="card-title mb-1 noto-sans-kr-900 h4" role="button" onclick="location.href='/book-review/detail'">도서이름</span> 
+		              <div class="card-text"></div>
+		              <div class="card-text">
+		                <small class="text-body-secondary"></small>
+		              </div>
+		            </div>
+		            <div class="mt-auto text-end">
+		              <a href="/book-review/detail" class="text-decoration-none text-dark noto-sans-kr-200">후기보기 &gt;&gt;</a>
+		            </div>
+		          </div>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+	  </div>
 	<footer th:replace="~{views/common/footer :: footer}"></footer>
+	<script>
+	window.onload=()=>{
+		searchBookList();
+	}
+	
+	const searchBookList = () => {
+		const currentPage = 1; //임시
+		const pageSize = document.querySelector('#pageSize').value;
+		const licenseType = document.querySelector('#licenseType').value;
+		const searchType = document.querySelector('#searchType').value;
+		const searchText = document.querySelector('#searchText').value;
+		
+		//console.log("currentPage :: "+currentPage + " / pageSize ::"+pageSize+ " / licenseType ::"+licenseType+ " / searchType ::"+searchType+ " / searchText ::"+searchText);
+		
+		 $.ajax({
+			url:'/book/bookList',
+			data:{
+				currentPage:currentPage,
+				pageSize:pageSize,
+				licenseType:licenseType,
+				searchType:searchType,
+				searchText:searchText
+			},
+			success:data=>{
+				console.log(data);
+				
+				document.querySelector('.bookListBody').innerHTML = '';
+				
+				for(const b of data) {
+					const dummy = document.querySelector('#dummy').children[0].cloneNode(true);
+					
+					dummy.querySelector('img').src="/img/book/"+b.bookNum+".jpg";
+					dummy.querySelector('.card-title').innerText=b.bookName;
+					dummy.querySelector('.card-title').setAttribute('onclick',"location.href='/book-review/detail?num="+b.bookNum+"'");
+					dummy.querySelector('.card-text').innerText=b.bookWriter + " :: "+b.publisher;
+					dummy.querySelector('.text-body-secondary').innerText="출간일 : "+b.publicationDate.split('T')[0];
+					dummy.querySelector('a').setAttribute('href',"/book-review/detail?num="+b.bookNum);
+					dummy.querySelector('.card div').children[0].setAttribute('onclick',"location.href='/book-review/detail?num="+b.bookNum+"'");
+							
+					document.querySelector('.bookListBody').append(dummy);
+				}
+				
+				//아진짜말도안된다
+				
+			},
+			error: data=>console.log(data)
+		})
+	}
+	</script>
 </body>
 </html>
