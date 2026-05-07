@@ -8,6 +8,7 @@
 		<result column="book_name" property="bookName"/>
 		<result column="publication_date" property="publicationDate"/>
 		<result column="license_code" property="licenseCode"/>
+		<result column="license_name" property="licenseName"/>
 		<result column="book_writer" property="bookWriter"/>
 		<result column="review_count" property="reviewCount"/>
 	</resultMap>
@@ -76,5 +77,13 @@
 				  </trim>
                 group by b.book_num, b.book_name, b.publisher,b.publication_date, b.license_code, b.book_writer
                 order by book_num
-</select>
+	</select>
+	<select id="selectBook" resultMap="bookResultSet" parameterType="_int">
+			select b.*, l.license_name
+                from book b
+                    left outer join license l on l.license_code = b.license_code
+            where b.book_num = #{num}
+	</select>
+
+
 </mapper>

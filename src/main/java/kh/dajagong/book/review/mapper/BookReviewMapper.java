@@ -20,4 +20,6 @@ public interface BookReviewMapper {
 
 	ArrayList<Book> selectBookList(HashMap<String, Object> map, RowBounds rowBounds);
 
+	Book selectBook(int num);
+
 }

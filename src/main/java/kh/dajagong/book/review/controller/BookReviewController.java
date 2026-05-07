@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpServletRequest;
 import kh.dajagong.book.review.model.vo.Book;
@@ -31,7 +32,11 @@ public class BookReviewController {
 	}
 	
 	@GetMapping("/book-review/detail")
-	public String detail() {
+	public String detail(@RequestParam(value="num", defaultValue="1") int num, Model model) {
+		Book book = bService.selectBook(num);
+		
+		model.addAttribute("book",book);
+		
 		return "/views/book-review/detail";
 	}
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{views/common/head :: head}"></head>
 <body>
 	<div th:replace="~{views/common/navbar :: navbar}"></div>
@@ -7,8 +7,8 @@
 		<nav aria-label="breadcrumb" class="mt-3"> 
 			<ol class="breadcrumb p-3 bg-f3faff rounded-3"> 
 				<li class="breadcrumb-item"> <a class="link-body-emphasis" href="/book-review/main"> <svg class="bi" width="16" height="16" aria-hidden="true"><i class="bi bi-house-door-fill"></i></svg></a> </li> 
-				<li class="breadcrumb-item"> <a class="link-body-emphasis fw-semibold text-decoration-none noto-sans-kr-500" href="/book-review/main">자격증 명</a> </li> 
-				<li class="breadcrumb-item active noto-sans-kr" aria-current="page">도서명</li> 
+				<li class="breadcrumb-item"> <a class="link-body-emphasis fw-semibold text-decoration-none noto-sans-kr-500" href="/book-review/main">[[${book.licenseName}]]</a> </li> 
+				<li class="breadcrumb-item active noto-sans-kr" aria-current="page">[[${book.bookName}]]</li> 
 			</ol> 
 		</nav>
 		
@@ -16,13 +16,15 @@
 		  <div class="col">
               <div class="card">
                 <div class="row g-0">
-                  <div class="col-md-3">
-                    <svg aria-label="Placeholder: Image" class="bd-placeholder-img " height="250" preserveAspectRatio="xMidYMid slice" role="img" width="100%" xmlns="http://www.w3.org/2000/svg"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image</text></svg>
+                  <div class="col-md-2">
+                  	<img class="bd-placeholder-img" style="max-width: 100%; height: auto;" th:src="@{/img/book/}+${book.bookNum}+@{.jpg}" />
+                  
                   </div>
                   <div class="col-md-9">
                     <div class="card-body">
-                      <h5 class="card-title noto-sans-kr-500">도서 이름</h5>
-                      <p class="card-text noto-sans-kr">도서 이름</p>
+                      <h5 class="card-title noto-sans-kr-500">[[${book.bookName}]]</h5>
+                      <p class="card-text noto-sans-kr mb-0">[[${book.bookWriter}]] :: [[${book.publisher}]]</p>
+                      <p class="card-text noto-sans-kr text-body-secondary">[[${book.publicationDate}]]</p>
                     </div>
                   </div>
                 </div>
@@ -32,7 +34,7 @@
 		<hr class="hr-2">
 		<div class="row my-3">
 		  <div class="col">
-		    <div class="card p-3">
+		    <div class="card p-3 view-mode">
 		      <div class="d-flex justify-content-between align-items-center mb-2">
 		        <div class="d-flex gap-3 align-items-center">
 				    <small class="text-body-secondary lh-1">작성날짜</small>
@@ -47,46 +49,36 @@
 				    </div>
 				</div>
 		        <div class="d-flex gap-1">
-		          <button class="btn btn-outline-info btn-sm" style="width:60px;">수정</button>
-		          <button class="btn btn-outline-danger btn-sm deleteBtn" style="width:60px;">삭제</button>
+		          <button class="btn btn-outline-info btn-sm" style="width:60px;" onclick="editReview(this);">수정</button>
+		          <button class="btn btn-outline-danger btn-sm deleteBtn" style="width:60px;" onclick="showDeleteModal(1);">삭제</button>
 		        </div>
 		      </div>
 		      <div class="border p-3 noto-sans-kr">
 		        <p>내용</p>
 		      </div>
 		    </div>
-		  </div>
-		</div>
-		<div class="row">
-		  <div class="col">
-		    <div class="card p-3">
-		      <div class="row g-0">
-		        <div class="col">
-		         <form>
-					    <div class="col-md-6">
-						    <div class="rating-card">
-						        <div class="star-rating animated-stars">
-						            <input type="radio" id="star5" name="rating" value="5">
-						            <label for="star5" class="bi bi-star-fill"></label>
-						            <input type="radio" id="star4" name="rating" value="4">
-						            <label for="star4" class="bi bi-star-fill"></label>
-						            <input type="radio" id="star3" name="rating" value="3">
-						            <label for="star3" class="bi bi-star-fill"></label>
-						            <input type="radio" id="star2" name="rating" value="2">
-						            <label for="star2" class="bi bi-star-fill"></label>
-						            <input type="radio" id="star1" name="rating" value="1">
-						            <label for="star1" class="bi bi-star-fill"></label>
-						        </div>
-						    </div>
-						</div>
-			         <textarea class="form-control" id="exampleFormControlTextarea1 noto-sans-kr" rows="5" style="resize: none;"></textarea>
-			         <div class="d-flex gap-2 mt-3">
-			            <button type="button" class="btn btn-info w-50 btn-lg noto-sans-kr-900 text-white">수정하기</button>
-			            <button type="button" class="btn btn-secondary w-50 btn-lg noto-sans-kr-900 text-white">취소하기</button>
-			        </div>
-		         </form>
+		    <div class="card p-3 edit-mode d-none">
+				    <div class="col-md-6">
+					    <div class="rating-card">
+					        <div class="star-rating animated-stars">
+					            <input type="radio" id="star5" name="rating" value="5">
+					            <label for="star5" class="bi bi-star-fill"></label>
+					            <input type="radio" id="star4" name="rating" value="4">
+					            <label for="star4" class="bi bi-star-fill"></label>
+					            <input type="radio" id="star3" name="rating" value="3">
+					            <label for="star3" class="bi bi-star-fill"></label>
+					            <input type="radio" id="star2" name="rating" value="2">
+					            <label for="star2" class="bi bi-star-fill"></label>
+					            <input type="radio" id="star1" name="rating" value="1">
+					            <label for="star1" class="bi bi-star-fill"></label>
+					        </div>
+					    </div>
+					</div>
+		         <textarea class="form-control noto-sans-kr" id="exampleFormControlTextarea1" rows="5" style="resize: none;"></textarea>
+		         <div class="d-flex gap-2 mt-3">
+		            <button type="button" class="btn btn-info w-50 btn-lg noto-sans-kr-900 text-white">수정하기</button>
+		            <button type="button" class="btn btn-secondary w-50 btn-lg noto-sans-kr-900 text-white" onclick="closeReview(this);">취소하기</button>
 		        </div>
-		      </div>
 		    </div>
 		  </div>
 		</div>
@@ -107,7 +99,7 @@
 				    </div>
 				</div>
 		        <div class="d-flex gap-1">
-		          <button class="btn btn-danger btn-sm blockBtn" style="width:100px;">글차단</button>
+		          <button class="btn btn-danger btn-sm blockBtn" style="width:100px;" onclick="showBlockModal(1);" >글차단</button>
 		        </div>
 		      </div>
 		      <div class="border p-3 noto-sans-kr">
@@ -211,13 +203,13 @@
 	        </nav>
 	      </div>  	
 		<div class="row mt-3"></div>
-		<hr class="hr-2">
-		<div class="row mb-5">
-		  <div class="col">
-		    <div class="card p-3">
-		      <div class="row g-0">
-		        <div class="col">
-		         <form>
+		<th:block th:if="${session.loginUser!=null}">
+			<hr class="hr-2">
+			<div class="row mb-5">
+			  <div class="col">
+			    <div class="card p-3">
+			      <div class="row g-0">
+			        <div class="col">
 					    <div class="col-md-6">
 						    <div class="rating-card">
 						        <div class="star-rating animated-stars">
@@ -232,17 +224,16 @@
 						            <input type="radio" id="star1" name="rating" value="1">
 						            <label for="star1" class="bi bi-star-fill"></label>
 						        </div>
-						    </div>
+						    </div>	
 						</div>
-			         <textarea class="form-control" id="exampleFormControlTextarea1 noto-sans-kr" rows="5" style="resize: none;"></textarea>
-			         <button type="button" class="btn btn-info w-100 mt-3 btn-lg noto-sans-kr-900 text-white">등록하기</button>
-		         </form>
-		         
-		        </div>
-		      </div>
-		    </div>
-		  </div>
-		</div>
+				        <textarea class="form-control noto-sans-kr" id="newReviewTextarea" rows="5" style="resize: none;"></textarea>
+				        <button type="button" class="btn btn-info w-100 mt-3 btn-lg noto-sans-kr-900 text-white" onclick="insertReview();">등록하기</button>
+			        </div>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+		</th:block>
 	</div>
 	
 		
@@ -255,7 +246,7 @@
 	                <p class="mb-0 text-body-secondary">삭제 후 후기는 되돌릴 수 없습니다.</p>
 	            </div>
 	            <div class="modal-footer flex-nowrap p-0">
-	                <button type="button" class="btn btn-lg fs-6 col-6 py-3 m-0 rounded-0 rounded-bottom-start btn-danger text-white"><strong>네</strong></button>
+	                <button type="button" class="btn btn-lg fs-6 col-6 py-3 m-0 rounded-0 rounded-bottom-start btn-danger text-white" onclick="deleteReview();" ><strong>네</strong></button>
 				    <button type="button" class="btn btn-lg fs-6 col-6 py-3 m-0 rounded-0 rounded-bottom-end" data-bs-dismiss="modal">아니요</button> 
 	            </div>
 	        </div>
@@ -280,31 +271,57 @@
 	    </div>
 	</div>
 <script>
-    document.querySelectorAll('.star-rating:not(.readonly) label').forEach(star => {
-        star.addEventListener('click', function() {
-            this.style.transform = 'scale(1.2)';
-            setTimeout(() => {
-                this.style.transform = 'scale(1)';
-            }, 200);
-        });
-    });
+    let deleteReviewNum;
+    let blockReviewNum;
     
-    window.onload=()=>{
-		const deleteBtnList = document.getElementsByClassName('deleteBtn');
-		for(const deleteModal of deleteBtnList){
-			deleteModal.addEventListener('click',()=>{
-				$('#modalDelete').modal('show');
-			});
-		}
 
-		
-		const blockBtnList = document.getElementsByClassName('blockBtn');
-		for(const blockModal of blockBtnList){
-			blockModal.addEventListener('click',()=>{
-				$('#modalBlock').modal('show');
-			});
-		}
+    window.onload=()=>{
+    	document.querySelectorAll('.star-rating:not(.readonly) label').forEach(star => {
+            star.addEventListener('click', function() {
+                this.style.transform = 'scale(1.2)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 200);
+            });
+        });
 	}
+    
+    const insertReview=()=>{
+
+    }
+    
+    const editReview = (obj) =>{
+    	obj.closest('.col').querySelector('.view-mode').classList.add('d-none');
+    	obj.closest('.col').querySelector('.edit-mode').classList.remove('d-none');
+    }
+
+    const closeReview = (obj) =>{
+    	obj.closest('.col').querySelector('.edit-mode').classList.add('d-none');
+    	obj.closest('.col').querySelector('.view-mode').classList.remove('d-none');
+    }
+    
+    
+    
+    
+    const showDeleteModal = (reviewNum) =>{
+    	deleteReviewNum=reviewNum;
+    	$('#modalDelete').modal('show');
+    }
+    
+    const deleteReview = () => {
+		//reviewNum 들고 가서 지우시오
+    }
+    
+    const showBlockModal = (reviewNum) =>{
+    	blockReviewNum=reviewNum;
+    	$('#modalBlock').modal('show');
+    }
+    
+    const blockModal = () => {
+		//reviewNum 들고 가서 차단하시오
+    }
+    
+    	
 </script>
 	<footer th:replace="~{views/common/footer :: footer}"></footer>
 </body>

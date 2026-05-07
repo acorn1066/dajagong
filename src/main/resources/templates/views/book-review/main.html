@@ -57,7 +57,7 @@
 		<div class="bookListBody">
 		
 		</div>
-		  <div class="mx-auto border-0 align-items-center"> 
+		  <div class="mx-auto border-0 align-items-center mt-1"> 
 	        <nav aria-label="Standard pagination example">
 	          <ul class="pagination justify-content-center">
 	            
@@ -97,9 +97,15 @@
 	<script>
 	window.onload=()=>{
 		searchBookList(1);
+		
+		
+		document.querySelector('#searchText').addEventListener('keypress', function(e) {
+			  if(e.key=="Enter") searchBookList(1);
+		});
+		
 	}
 	
-	const searchBookList = (page) => {
+	const searchBookList = (page = 1) => {
 		const currentPage = page;
 		const pageSize = document.querySelector('#pageSize').value;
 		const licenseType = document.querySelector('#licenseType').value;
@@ -150,19 +156,28 @@
 				//페이지
 				for(let i=data.pageInfo.startPage; i<=data.pageInfo.endPage; i++){
 					const page = document.createElement('li');
-					page.setAttribute('class', 'page-item'); 
-					page.innerHTML= '<a class="page-link '+(data.pageInfo.currentPage === i ? ' active' : '')+'" href="#"  onclick="searchBookList('+i+'); return false;">'+i+'</a>';
+					page.setAttribute('class', 'page-item' + (data.pageInfo.currentPage === i ? ' active' : '')); 
+					page.innerHTML= '<a class="page-link" href="#"  onclick="searchBookList('+i+'); return false;">'+i+'</a>';
+					pagination.append(page);
+				}
+				if(data.pageInfo.maxPage==0){
+					const page = document.createElement('li');
+					page.setAttribute('class', 'page-item disabled'); 
+					page.innerHTML= '<a class="page-link" href="#"  onclick="searchBookList('+0+'); return false;">-</a>';
 					pagination.append(page);
 				}
 				
 				//다음 버튼
 				const afterLi = document.createElement('li');
-					
-				afterLi.setAttribute('class', 'page-item' + (data.pageInfo.currentPage === data.pageInfo.maxPage ? ' disabled' : '')); 
+				afterLi.setAttribute('class', 'page-item' + (data.pageInfo.currentPage === data.pageInfo.maxPage || data.pageInfo.maxPage==0 ? ' disabled' : '')); 
 				afterLi.innerHTML= '<a class="page-link" href="#" onclick="searchBookList('+(data.pageInfo.currentPage+1)+'); return false;" aria-label="Previous">'
 			             +'<span aria-hidden="true">»</span>'
 				         +'</a>';
 				pagination.append(afterLi);
+				
+				
+				
+				
 				
 				
 			},
