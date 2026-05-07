@@ -19,6 +19,7 @@ public class Book {
 	private String publisher;
 	private Date publicationDate;
 	private int licenseCode;
+	private String licenseName;
 	private String bookWriter;
 	private int reviewCount;
 }

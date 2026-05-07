@@ -35,4 +35,8 @@ public class BookReviewService {
 		return mapper.selectBookList(map,rowBounds);
 	}
 
+	public Book selectBook(int num) {
+		return mapper.selectBook(num);
+	}
+
 }
