@@ -1,11 +1,15 @@
 package kh.dajagong.book.review.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 
 import kh.dajagong.book.review.mapper.BookReviewMapper;
 import kh.dajagong.book.review.model.vo.Book;
+import kh.dajagong.common.PageInfo;
+import kh.dajagong.common.model.vo.License;
 import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
@@ -15,6 +19,20 @@ public class BookReviewService {
 
 	public ArrayList<Book> selectTop() {
 		return  mapper.selectTop();
+	}
+
+	public ArrayList<License> selectLicense() {
+		return  mapper.selectLicense();
+	}
+
+	public int getBookListCount(HashMap<String, Object> map) {
+		return mapper.getBookListCount(map);
+	}
+
+	public ArrayList<Book> selectBookList(PageInfo pi, HashMap<String, Object> map) {
+		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return mapper.selectBookList(map,rowBounds);
 	}
 
 }

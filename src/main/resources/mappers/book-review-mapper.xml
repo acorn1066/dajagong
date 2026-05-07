@@ -17,15 +17,64 @@
 		<![CDATA[ 
 		select * 
 		from (
-			SELECT b.book_num, b.book_name, b.publisher,b.publication_date, b.license_code, b.book_writer, COUNT(r.book_num) AS review_count
-                FROM book b
-                    LEFT OUTER JOIN review r ON b.book_num = r.book_num
-                GROUP BY b.book_num, b.book_name, b.publisher,b.publication_date, b.license_code, b.book_writer
+			select b.book_num, b.book_name, b.publisher,b.publication_date, b.license_code, b.book_writer, COUNT(r.book_num) AS review_count
+                from book b
+                    left outer join review r ON b.book_num = r.book_num
+                group BY b.book_num, b.book_name, b.publisher,b.publication_date, b.license_code, b.book_writer
                 order by review_count
 		)
 		where rownum<=5]]>
 	</select>
 	
-	
-	
+	<select id="selectLicense">
+			SELECT * from license
+	</select>
+
+	<select id="getBookListCount" resultType="_int">
+		select count(*) 
+		from book b
+                left outer join license l on l.license_code = b.license_code
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+		    <if test="licenseType != null">
+		         and l.license_code = #{licenseType}
+		    </if>
+		    <if test="searchText != null">
+			    <if test="searchType == 'bookName'">
+			        and book_name like '%${searchText}%'
+			    </if>
+			    <if test="searchType == 'bookWriter'">
+			        and book_writer like '%${searchText}%'
+			    </if>
+			    <if test="searchType == 'publisher'">
+			        and publisher like '%${searchText}%'
+			    </if>
+		    </if>
+		  </trim>
+		  order by b.book_num
+	</select>
+
+	<select id="selectBookList" resultMap="bookResultSet" parameterType="map">
+	select b.book_num, b.book_name, b.publisher,b.publication_date, b.license_code, b.book_writer, COUNT(r.book_num) AS review_count
+                from book b
+                left outer join review r ON b.book_num = r.book_num
+                left outer join license l on l.license_code = b.license_code
+                <trim prefix="WHERE" prefixOverrides="AND |OR ">
+				    <if test="licenseType != null">
+				         and l.license_code = #{licenseType}
+				    </if>
+				    <if test="searchText != null">
+					    <if test="searchType == 'bookName'">
+					        and book_name like '%${searchText}%'
+					    </if>
+					    <if test="searchType == 'bookWriter'">
+					        and book_writer like '%${searchText}%'
+					    </if>
+					    <if test="searchType == 'publisher'">
+					        and publisher like '%${searchText}%'
+					    </if>
+				    </if>
+				  </trim>
+                group by b.book_num, b.book_name, b.publisher,b.publication_date, b.license_code, b.book_writer
+                order by book_num
+</select>
 </mapper>
