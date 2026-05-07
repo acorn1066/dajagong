@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import jakarta.servlet.http.HttpSession;
 import kh.dajagong.book.review.model.vo.Book;
 import kh.dajagong.book.review.service.BookReviewService;
 import kh.dajagong.common.exception.UserException;
@@ -51,7 +52,5 @@ public class UserController {
 			throw new UserException("로그인을 실패하였습니다.");
 		}
 	}
-	
-	
-	
+
 }
