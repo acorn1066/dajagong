@@ -22,7 +22,7 @@
                 from book b
                     left outer join review r ON b.book_num = r.book_num
                 group BY b.book_num, b.book_name, b.publisher,b.publication_date, b.license_code, b.book_writer
-                order by review_count
+                order by review_count desc
 		)
 		where rownum<=5]]>
 	</select>
@@ -85,5 +85,26 @@
             where b.book_num = #{num}
 	</select>
 
+	<insert id="insertReview" parameterType="Review">
+		<selectKey order="BEFORE" resultType="_int" keyProperty="reviewNum">
+			select SEQ_RID.nextval from dual
+		</selectKey>
+		insert into review values(#{reviewNum},#{review},sysdate,'Y',#{score},#{userId},#{bookNum})
+	</insert>
+	
+	<select id="getReviewListCount" resultType="_int">
+		select count(*) 
+		from review 
+		where book_num = #{bookNum}
+		and status != 'N'
+	</select>
+	
+	<select id="selectReviewList">
+		select r.*, u.nickname
+		from review r
+			left outer join "USER" u on r.user_id = u.user_id
+		where book_num=#{bookNum} and r.status != 'N'
+		order by review_num desc
+	</select>
 
 </mapper>

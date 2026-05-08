@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import kh.dajagong.book.review.mapper.BookReviewMapper;
 import kh.dajagong.book.review.model.vo.Book;
+import kh.dajagong.book.review.model.vo.Review;
 import kh.dajagong.common.PageInfo;
 import kh.dajagong.common.model.vo.License;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +38,21 @@ public class BookReviewService {
 
 	public Book selectBook(int num) {
 		return mapper.selectBook(num);
+	}
+
+	public int insertReview(Review review) {
+		return mapper.insertReview(review);
+	}
+
+	public int getReviewListCount(int bookNum) {
+		return mapper.getReviewListCount(bookNum);
+	}
+
+	public ArrayList<Review> selectReviewList(PageInfo pi, int bookNum) {
+		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return mapper.selectReviewList(bookNum,rowBounds);
 	}
 
 }

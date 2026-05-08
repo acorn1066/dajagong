@@ -19,6 +19,7 @@ public class Review {
 	private Date createDate;
 	private char status;
 	private int score;
-	private String user_id;
+	private String userId;
 	private int bookNum;
+	private String nickname;
 }

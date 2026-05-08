@@ -16,10 +16,10 @@
 			    </div>
 			</div>
 	      <div class="row row-cols-5">
-	        <div class="col" th:each="b:${bookList}">
-	          <div class="card shadow-sm" role="button" th:onclick="|location.href='/book-review/detail?num=${b.bookNum}'|">
-	            <img class="bd-placeholder-img img-thumbnail" width="100%" height="225" th:src="@{/img/book/}+${b.bookNum}+@{.jpg}" />
-	            <div class="card-body">
+			<div class="col" th:each="b:${bookList}">
+	          <div class="card shadow-sm h-100" role="button" th:onclick="|location.href='/book-review/detail?num=${b.bookNum}'|">
+	            <img class="bd-placeholder-img img-thumbnail" style="height: 270px; object-fit: contain; background: #fff;"th:src="@{/img/book/}+${b.bookNum}+@{.jpg}" />
+	            <div class="card-body d-flex flex-column">
 	              <p class="card-text noto-sans-kr-500" th:text="${b.bookName}"></p>
 	              <div class="mt-auto text-end">
 	                <small class="text-muted">[[${b.reviewCount}]] 리뷰</small>
