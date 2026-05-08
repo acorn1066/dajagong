@@ -32,4 +32,8 @@ public class QaService {
     public ArrayList<License> selectLicenseList() {        
         return qMapper.selectLicenseList();
     }
+
+	public int insertQuestion(Question q) {		
+		return qMapper.insertQuestion(q);
+	}
 }
