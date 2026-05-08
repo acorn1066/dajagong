@@ -17,7 +17,7 @@ public class Review {
 	private int reviewNum;
 	private String review;
 	private Date createDate;
-	private char status;
+	private String status;
 	private int score;
 	private String userId;
 	private int bookNum;

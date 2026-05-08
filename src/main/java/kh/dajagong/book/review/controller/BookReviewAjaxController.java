@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -48,8 +50,23 @@ public class BookReviewAjaxController {
 	}
 	
 	@PostMapping("/book/review")
-	public int review(@ModelAttribute Review review) {
+	public int insertReview(@ModelAttribute Review review) {
+		//System.out.println(review);
 		int insertResult = bService.insertReview(review);
 		return insertResult;
+	}
+	
+	@PutMapping("/book/review")
+	public int updateReview(@ModelAttribute Review review) {
+		//System.out.println(review);
+		int result = bService.updateReview(review);
+		return result;
+	}
+	
+	@DeleteMapping("/book/review")
+	public int deleteReview(@ModelAttribute Review review) {
+		//System.out.println(review);
+		int result = bService.deleteReview(review);
+		return result;
 	}
 }

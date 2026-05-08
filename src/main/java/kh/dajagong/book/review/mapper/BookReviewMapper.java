@@ -29,4 +29,12 @@ public interface BookReviewMapper {
 
 	ArrayList<Review> selectReviewList(int bookNum, RowBounds rowBounds);
 
+	int updateReview(Review review);
+
+	int deleteReview(Review review);
+
+	int blockReview(int reviewNum);
+
+	Review selectReview(int reviewNum);
+
 }

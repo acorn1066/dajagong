@@ -33,7 +33,7 @@ public class BookReviewController {
 	
 	
 	@GetMapping("/book-review/main")
-	public String main(Model model,HttpServletRequest request) {
+	public String main(@RequestParam(value="license", defaultValue="1") int licenseCode, Model model,HttpServletRequest request) {
 		ArrayList<Book> bookList = bService.selectTop();
 		model.addAttribute("bookList",bookList);
 		
@@ -42,12 +42,13 @@ public class BookReviewController {
 		model.addAttribute("licenseList",licenseList);
 		
 		model.addAttribute("loc", request.getRequestURI());
+		if(licenseCode!=1) model.addAttribute("licenseCode", licenseCode);
 		return "/views/book-review/main";
 	}
 	
 	@GetMapping("/book-review/detail")
 	public String detail(@RequestParam(value="num", defaultValue="1") int num, 
-						 @RequestParam(value="page", defaultValue="1") int page, Model model) {
+						 @RequestParam(value="page", defaultValue="1") int page, Model model, HttpServletRequest request) {
 		Book book = bService.selectBook(num);
 		
 		model.addAttribute("book",book);
@@ -59,7 +60,8 @@ public class BookReviewController {
 
 		model.addAttribute("reviewList", list);
 		model.addAttribute("pi", pi);
-		
+		//System.out.println(pi);
+		model.addAttribute("loc", request.getRequestURI());
 		return "/views/book-review/detail";
 	}
 	

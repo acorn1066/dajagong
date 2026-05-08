@@ -20,7 +20,7 @@
 		from (
 			select b.book_num, b.book_name, b.publisher,b.publication_date, b.license_code, b.book_writer, COUNT(r.book_num) AS review_count
                 from book b
-                    left outer join review r ON b.book_num = r.book_num
+                    left outer join review r ON b.book_num = r.book_num and r.status != 'N'
                 group BY b.book_num, b.book_name, b.publisher,b.publication_date, b.license_code, b.book_writer
                 order by review_count desc
 		)
@@ -57,7 +57,7 @@
 	<select id="selectBookList" resultMap="bookResultSet" parameterType="map">
 	select b.book_num, b.book_name, b.publisher,b.publication_date, b.license_code, b.book_writer, COUNT(r.book_num) AS review_count
                 from book b
-                left outer join review r ON b.book_num = r.book_num
+                left outer join review r ON b.book_num = r.book_num and r.status != 'N'
                 left outer join license l on l.license_code = b.license_code
                 <trim prefix="WHERE" prefixOverrides="AND |OR ">
 				    <if test="licenseType != null">
@@ -106,5 +106,30 @@
 		where book_num=#{bookNum} and r.status != 'N'
 		order by review_num desc
 	</select>
+	
+	<update id="updateReview">
+		update review
+		set review = #{review}
+		   ,score = #{score}
+		where review_num = #{reviewNum}
+	</update>
+	
+	<update id="deleteReview">
+		update review
+		set status='N'
+		where review_num = #{reviewNum}
+	</update>
 
+	<update id="blockReview">
+		update review
+		set status='B'
+		where review_num = #{reviewNum}
+	</update>
+
+
+	<select id="selectReview">
+		select *
+		from review
+		where review_num = #{reviewNum}
+	</select>
 </mapper>

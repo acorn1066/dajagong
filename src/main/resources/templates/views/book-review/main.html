@@ -34,9 +34,9 @@
 		<div class="row mt-1 g-2">
 		    <div class="col-auto">
 		        <select class="form-select" id="licenseType" onchange="searchBookList();">
-		            <option selected value="all">자격증 선택</option>
+		            <option selected value="all" th:selected="${licenseCode == null || licenseCode == ''}">자격증 선택</option>
 		            <th:block th:each="l:${licenseList}">
-		            	<option th:value="${l.licenseCode}">[[${l.licenseName}]]</option>
+		            	<option th:value="${l.licenseCode}" th:selected="${l.licenseCode == licenseCode}">[[${l.licenseName}]]</option>
 		            </th:block>
 		        </select>
 		    </div>
@@ -94,11 +94,10 @@
 		</div>
 	  </div>
 	<footer th:replace="~{views/common/footer :: footer}"></footer>
-	<script>
+	<script th:inline="javascript"> 
+	
 	window.onload=()=>{
 		searchBookList(1);
-		
-		
 		document.querySelector('#searchText').addEventListener('keypress', function(e) {
 			  if(e.key=="Enter") searchBookList(1);
 		});
@@ -174,11 +173,6 @@
 			             +'<span aria-hidden="true">»</span>'
 				         +'</a>';
 				pagination.append(afterLi);
-				
-				
-				
-				
-				
 				
 			},
 			error: data=>console.log(data)
