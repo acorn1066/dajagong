@@ -55,4 +55,20 @@ public class BookReviewService {
 		return mapper.selectReviewList(bookNum,rowBounds);
 	}
 
+	public int updateReview(Review review) {
+		return mapper.updateReview(review);
+	}
+
+	public int deleteReview(Review review) {
+		return mapper.deleteReview(review);
+	}
+
+	public int blockReview(int reviewNum) {
+		return mapper.blockReview(reviewNum);
+	}
+
+	public Review selectReview(int reviewNum) {
+		return mapper.selectReview(reviewNum);
+	}
+
 }
