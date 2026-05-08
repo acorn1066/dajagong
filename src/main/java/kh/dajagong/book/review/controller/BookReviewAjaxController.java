@@ -6,10 +6,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import kh.dajagong.book.review.model.vo.Book;
+import kh.dajagong.book.review.model.vo.Review;
 import kh.dajagong.book.review.service.BookReviewService;
 import kh.dajagong.common.PageInfo;
 import kh.dajagong.common.Pagination;
@@ -42,5 +45,11 @@ public class BookReviewAjaxController {
 	    result.put("list", list);
 	    result.put("pageInfo", pi);
 	    return result;
+	}
+	
+	@PostMapping("/book/review")
+	public int review(@ModelAttribute Review review) {
+		int insertResult = bService.insertReview(review);
+		return insertResult;
 	}
 }

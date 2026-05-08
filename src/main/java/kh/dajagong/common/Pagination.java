@@ -12,7 +12,10 @@ public class Pagination {
             maxPage = 1;
         }
 
-      
+        if (currentPage >maxPage) currentPage = maxPage;
+        
+        if (currentPage < 1) currentPage = 1;
+        
         int startPage = (currentPage - 1) / pageLimit * pageLimit + 1;
         
        

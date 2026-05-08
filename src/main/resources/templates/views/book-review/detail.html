@@ -32,32 +32,38 @@
             </div>
 		</div>
 		<hr class="hr-2">
-		<div class="row my-3">
+		<div class="row my-3" th:each="r:${reviewList}">
 		  <div class="col">
 		    <div class="card p-3 view-mode">
 		      <div class="d-flex justify-content-between align-items-center mb-2">
 		        <div class="d-flex gap-3 align-items-center">
-				    <small class="text-body-secondary lh-1">작성날짜</small>
-				    <small class="text-body-secondary lh-1">유저 ID</small>
+				    <small class="text-body-secondary lh-1">[[${r.createDate}]]</small>
+				    <small class="text-body-secondary lh-1">[[${r.nickname}]]</small>
 				    <div class="d-flex align-items-center gap-1">
 				        <i class="bi bi-star-fill text-warning" style="font-size:0.8rem;"></i>
 				        <i class="bi bi-star-fill text-warning" style="font-size:0.8rem;"></i>
 				        <i class="bi bi-star-fill text-warning" style="font-size:0.8rem;"></i>
 				        <i class="bi bi-star-fill text-warning" style="font-size:0.8rem;"></i>
 				        <i class="bi bi-star-fill text-secondary" style="font-size:0.8rem;"></i>
-				        <small class="text-body-secondary ms-1 lh-1">(4/5)</small>
+				        <small class="text-body-secondary ms-1 lh-1">([[${r.score}]]/5)</small>
 				    </div>
 				</div>
 		        <div class="d-flex gap-1">
-		          <button class="btn btn-outline-info btn-sm" style="width:60px;" onclick="editReview(this);">수정</button>
+	        	 <th:block th:if="${session.loginUser!=null && session.loginUser.userId==r.userId}">
+	        	  <button class="btn btn-outline-info btn-sm" style="width:60px;" onclick="editReview(this);">수정</button>
 		          <button class="btn btn-outline-danger btn-sm deleteBtn" style="width:60px;" onclick="showDeleteModal(1);">삭제</button>
+	        	 </th:block>
+		         <th:block th:if="${session.loginUser!=null && session.loginUser.userId=='admin'}">
+	        	  <button class="btn btn-danger btn-sm blockBtn" style="width:100px;" onclick="showBlockModal(1);" >글차단</button>
+	        	 </th:block>
 		        </div>
 		      </div>
 		      <div class="border p-3 noto-sans-kr">
-		        <p>내용</p>
+		        <p th:unless="${r.status =='B'}">[[${r.review}]]</p>
+		        <p th:if="${r.status =='B'}">운영진에 의해 차단된 후기입니다.</p>
 		      </div>
 		    </div>
-		    <div class="card p-3 edit-mode d-none">
+		    <div class="card p-3 edit-mode d-none" th:if="${session.loginUser!=null && session.loginUser.userId==r.userId}">
 				    <div class="col-md-6">
 					    <div class="rating-card">
 					        <div class="star-rating animated-stars">
@@ -79,107 +85,6 @@
 		            <button type="button" class="btn btn-info w-50 btn-lg noto-sans-kr-900 text-white">수정하기</button>
 		            <button type="button" class="btn btn-secondary w-50 btn-lg noto-sans-kr-900 text-white" onclick="closeReview(this);">취소하기</button>
 		        </div>
-		    </div>
-		  </div>
-		</div>
-		<div class="row my-3">
-		  <div class="col">
-		    <div class="card p-3">
-		      <div class="d-flex justify-content-between align-items-center mb-2">
-		        <div class="d-flex gap-3 align-items-center">
-				    <small class="text-body-secondary lh-1">작성날짜</small>
-				    <small class="text-body-secondary lh-1">유저 ID</small>
-				    <div class="d-flex align-items-center gap-1">
-				        <i class="bi bi-star-fill text-warning" style="font-size:0.8rem;"></i>
-				        <i class="bi bi-star-fill text-warning" style="font-size:0.8rem;"></i>
-				        <i class="bi bi-star-fill text-warning" style="font-size:0.8rem;"></i>
-				        <i class="bi bi-star-fill text-warning" style="font-size:0.8rem;"></i>
-				        <i class="bi bi-star-fill text-secondary" style="font-size:0.8rem;"></i>
-				        <small class="text-body-secondary ms-1 lh-1">(4/5)</small>
-				    </div>
-				</div>
-		        <div class="d-flex gap-1">
-		          <button class="btn btn-danger btn-sm blockBtn" style="width:100px;" onclick="showBlockModal(1);" >글차단</button>
-		        </div>
-		      </div>
-		      <div class="border p-3 noto-sans-kr">
-		        <p>내용</p>
-		      </div>
-		    </div>
-		  </div>
-		</div>
-		<div class="row my-3">
-		  <div class="col">
-		    <div class="card p-3">
-		      <div class="row g-0">
-		        <div class="col">
-		          <div class="d-flex gap-3 mb-2">
-		            <small class="text-body-secondary">작성날짜</small>
-		            <small class="text-body-secondary">유저 ID</small>
-		            <div class="d-flex align-items-center gap-1">
-				        <i class="bi bi-star-fill text-warning" style="font-size:0.8rem;"></i>
-				        <i class="bi bi-star-fill text-warning" style="font-size:0.8rem;"></i>
-				        <i class="bi bi-star-fill text-warning" style="font-size:0.8rem;"></i>
-				        <i class="bi bi-star-fill text-warning" style="font-size:0.8rem;"></i>
-				        <i class="bi bi-star-fill text-secondary" style="font-size:0.8rem;"></i>
-				        <small class="text-body-secondary ms-1 lh-1">(4/5)</small>
-				    </div>
-		          </div>
-		          <div class="border p-3 noto-sans-kr">
-		            <p>내용</p>
-		          </div>
-		        </div>
-		      </div>
-		    </div>
-		  </div>
-		</div>
-		<div class="row my-3">
-		  <div class="col">
-		    <div class="card p-3">
-		      <div class="row g-0">
-		        <div class="col">
-		          <div class="d-flex gap-3 mb-2">
-		            <small class="text-body-secondary">작성날짜</small>
-		            <small class="text-body-secondary">유저 ID</small>
-		            <div class="d-flex align-items-center gap-1">
-				        <i class="bi bi-star-fill text-warning" style="font-size:0.8rem;"></i>
-				        <i class="bi bi-star-fill text-warning" style="font-size:0.8rem;"></i>
-				        <i class="bi bi-star-fill text-warning" style="font-size:0.8rem;"></i>
-				        <i class="bi bi-star-fill text-warning" style="font-size:0.8rem;"></i>
-				        <i class="bi bi-star-fill text-secondary" style="font-size:0.8rem;"></i>
-				        <small class="text-body-secondary ms-1 lh-1">(4/5)</small>
-				    </div>
-		          </div>
-		          <div class="border p-3 noto-sans-kr">
-		            <p>내용</p>
-		          </div>
-		        </div>
-		      </div>
-		    </div>
-		  </div>
-		</div>
-		<div class="row my-3">
-		  <div class="col">
-		    <div class="card p-3">
-		      <div class="row g-0">
-		        <div class="col">
-		          <div class="d-flex gap-3 mb-2">
-		            <small class="text-body-secondary">작성날짜</small>
-		            <small class="text-body-secondary">유저 ID</small>
-		            <div class="d-flex align-items-center gap-1">
-				        <i class="bi bi-star-fill text-warning" style="font-size:0.8rem;"></i>
-				        <i class="bi bi-star-fill text-warning" style="font-size:0.8rem;"></i>
-				        <i class="bi bi-star-fill text-warning" style="font-size:0.8rem;"></i>
-				        <i class="bi bi-star-fill text-warning" style="font-size:0.8rem;"></i>
-				        <i class="bi bi-star-fill text-secondary" style="font-size:0.8rem;"></i>
-				        <small class="text-body-secondary ms-1 lh-1">(4/5)</small>
-				    </div>
-		          </div>
-		          <div class="border p-3 noto-sans-kr">
-		            <p>내용</p>
-		          </div>
-		        </div>
-		      </div>
 		    </div>
 		  </div>
 		</div>
@@ -213,16 +118,16 @@
 					    <div class="col-md-6">
 						    <div class="rating-card">
 						        <div class="star-rating animated-stars">
-						            <input type="radio" id="star5" name="rating" value="5">
-						            <label for="star5" class="bi bi-star-fill"></label>
-						            <input type="radio" id="star4" name="rating" value="4">
-						            <label for="star4" class="bi bi-star-fill"></label>
-						            <input type="radio" id="star3" name="rating" value="3">
-						            <label for="star3" class="bi bi-star-fill"></label>
-						            <input type="radio" id="star2" name="rating" value="2">
-						            <label for="star2" class="bi bi-star-fill"></label>
-						            <input type="radio" id="star1" name="rating" value="1">
-						            <label for="star1" class="bi bi-star-fill"></label>
+						            <input type="radio" id="write-star5" name="write-rating" value="5">
+						            <label for="write-star5" class="bi bi-star-fill"></label>
+						            <input type="radio" id="write-star4" name="write-rating" value="4">
+						            <label for="write-star4" class="bi bi-star-fill"></label>
+						            <input type="radio" id="write-star3" name="write-rating" value="3">
+						            <label for="write-star3" class="bi bi-star-fill"></label>
+						            <input type="radio" id="write-star2" name="write-rating" value="2">
+						            <label for="write-star2" class="bi bi-star-fill"></label>
+						            <input type="radio" id="write-star1" name="write-rating" value="1">
+						            <label for="write-star1" class="bi bi-star-fill"></label>
 						        </div>
 						    </div>	
 						</div>
@@ -270,7 +175,7 @@
 	        </div>
 	    </div>
 	</div>
-<script>
+<script th:inline="javascript">
     let deleteReviewNum;
     let blockReviewNum;
     
@@ -286,8 +191,36 @@
         });
 	}
     
+   
+    
     const insertReview=()=>{
-
+    	const checkedScore = document.querySelector('input[name="write-rating"]:checked');
+   	    
+    	if (!checkedScore) {
+   	      alert('별점을 선택해주세요.');
+   	      return;
+   	    }
+   	    const reviewText = document.getElementById('newReviewTextarea').value.trim();
+   	   
+   	    if (!reviewText) {
+   	      alert('내용을 입력해주세요.');
+   	      return;
+   	    }
+    	    
+    	$.ajax({
+			url: '/book/review',
+			type: 'post',
+			data: {
+				review : reviewText,
+				score : checkedScore.value,
+				user_id : /*[[${session.loginUser!=null? session.loginUser.userId:''}]]*/"test",
+				bookNum : /*[[${book.bookNum}]]*/1
+			},
+			success:data=>{
+				location.reload();
+			},
+			error :data=> console.log(data)
+		});
     }
     
     const editReview = (obj) =>{
