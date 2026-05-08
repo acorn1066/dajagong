@@ -18,6 +18,10 @@ public class UserService {
 	public int insertUser(User u) {
 		return mapper.insertUser(u);
 	}
+
+	public int updateUser(User u) {
+		return mapper.updateUser(u);
+	}
 	
 	
 }
