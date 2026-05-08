@@ -30,7 +30,7 @@
                 <div class="col-auto">
                     <select class="form-select" name="searchType">
                         <option value="title" th:selected="${sc?.searchType == 'title'}">제목</option>
-                        <option value="user_id" th:selected="${sc?.searchType == 'user_id'}">작성자</option>
+                        <option value="userId" th:selected="${sc?.searchType == 'user_id'}">작성자</option>
                     </select>
                 </div>
                 <div class="col">
@@ -46,6 +46,7 @@
             <table class="table table-hover text-center"> <thead>
                     <tr>
                         <th width="80px">번호</th>
+                        <th width="80px">자격증</th>
                         <th>제목</th>
                         <th width="150px">작성자</th>
                         <th width="150px">작성일</th>
@@ -54,14 +55,12 @@
                 </thead>
                 <tbody>
                     <tr th:each="q : ${list}">
-                        <td th:text="${q.qIndex}">번호</td>
-                        <td class="text-start">
-                            <span class="badge bg-info text-dark" th:text="${q.licenseName}">자격증명</span>
-                            [[${q.title}]]
-                        </td>
-                        <td th:text="${q.userId}">작성자</td>
-                        <td th:text="${q.createDate}">작성일</td>
-                        <td th:text="${q.count}">조회수</td>
+                        <td>[[${q.qIndex}]]</td>
+                        <td>[[${q.licenseCode}]]</td>
+                        <td>[[${q.title}]]</td>
+                        <td>[[${q.userId}]]</td>
+                        <td>[[${q.createDate}]]</td>
+                        <td>[[${q.count}]]</td>
                     </tr>
                     <tr th:if="${#lists.isEmpty(list)}">
                         <td colspan="5" class="text-center">등록된 질문이 없습니다.</td>

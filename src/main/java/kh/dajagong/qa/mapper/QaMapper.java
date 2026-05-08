@@ -16,4 +16,6 @@ public interface QaMapper {
     ArrayList<Question> selectQaList(RowBounds rowBounds, HashMap<String, Object> searchMap);
 
     ArrayList<License> selectLicenseList();
+
+	int insertQuestion(Question q);
 }

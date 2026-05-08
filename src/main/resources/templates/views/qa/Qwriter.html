@@ -1,36 +1,53 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{views/common/head :: head}"></head>
-<body>
+<body class="bg-light">
     <div th:replace="~{views/common/navbar :: navbar}"></div>
     
     <div class="container mt-5 mb-5" style="max-width: 800px; border: 1px solid #999; padding: 30px; background-color: #fff;">
-        <nav aria-label="breadcrumb" class=""> 
-			<ol class="breadcrumb p-3 bg-f3faff rounded-3"> 
-				<li class="breadcrumb-item"> <a class="link-body-emphasis text-decoration-none" href="/qa/list"> <svg class="bi" width="16" height="16" aria-hidden="true"><i class="bi bi-house-door-fill"></i></svg> 돌아가기</a> </li> 
-			</ol> 
-		</nav>
+        <nav aria-label="breadcrumb"> 
+            <ol class="breadcrumb p-3 bg-f3faff rounded-3"> 
+                <li class="breadcrumb-item"> 
+                    <a class="link-body-emphasis text-decoration-none" href="/qa/list"> 
+                        <i class="bi bi-house-door-fill"></i> 돌아가기
+                    </a> 
+                </li> 
+            </ol> 
+        </nav>
 
         <h3 class="text-center mb-2 noto-sans-kr-900 py-5">질문 상세 보기</h3>
+			
+        <form class="needs-validation" action="/qa/insert" method="POST">
+            <div class="row g-3">
+                
+                <div class="col-12">
+                    <div class="input-group mb-3">
+                        <select class="form-select noto-sans-kr-500" name="licenseCode" style="max-width: 180px;" required>
+                            <option value="" disabled selected>자격증</option>
+                            <option th:each="l : ${lList}" 
+                                    th:value="${l.licenseCode}" 
+                                    th:text="${l.licenseName}">자격증명</option>
+                        </select>
+                        <span class="input-group-text noto-sans-kr-500">제목</span>
+                        <input type="text" class="form-control noto-sans-kr-500" name="title" 
+                               placeholder="질문 제목을 입력하세요." required>
+                    </div>
+                </div>
 
-        <div class="input-group mb-3">
-            <select class="form-select noto-sans-kr-500" style="max-width: 150px;">
-                <option selected disabled>자격증 </option>
-                <option>정보처리기사</option>
-                <option>컴퓨터활용능력</option>
-                <option>전기기사</option>
-            </select>
-            <span class="input-group-text noto-sans-kr-500">제목 :</span>
-            <input type="text" class="form-control noto-sans-kr-500" placeholder="질문 제목을 입력하세요.">
-        </div>
+                <div class="col-12">
+                    <div class="mb-4">                       
+                        <textarea class="form-control noto-sans-kr-500" rows="15" name="content" 
+                                  style="resize: none;" placeholder="질문 내용을 작성하시오." required></textarea>
+                    </div>
+                </div>
 
-        <div class="mb-4">
-            <textarea class="form-control noto-sans-kr-500" rows="15" style="resize: none;" placeholder="질문 내용을 작성하시오."></textarea>
-        </div>
+                <hr class="my-4">
 
-        <div class="text-end">
-            <button type="button" onclick="location.href='/qa/list'" class="btn btn-primary px-5 py-2 noto-sans-kr-900">등록하기</button>
-        </div>
+                <div class="col-12 text-end">
+                    <button class="btn btn-primary px-5 py-2 noto-sans-kr-900" type="submit">제출</button>                   
+                </div>
+            </div>
+        </form>
     </div>
 
     <footer th:replace="~{views/common/footer :: footer}"></footer>

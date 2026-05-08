@@ -14,26 +14,26 @@
 				<when test="searchType == 'title'">
 					AND TITLE LIKE '%' || #{keyword} || '%'
 				</when>
-				<when test="searchType == 'user_id'">
-					AND USER_ID LIKE '%' || #{keyword} || '%'
+				<when test="searchType == 'userId'"> AND USER_ID LIKE '%' || #{keyword} || '%'
 				</when>
 			</choose>
 		</if>
 	</select>
 
 	<select id="selectQaList" resultType="kh.dajagong.qa.model.vo.Question">
-		SELECT *
-		FROM QUESTION
-		WHERE STATUS = 'Y'
+		SELECT Q.*, L.LICENSE_NAME as licenseName
+		FROM QUESTION Q
+		JOIN LICENSE L ON (Q.LICENSE_CODE = L.LICENSE_CODE)
+		WHERE Q.STATUS = 'Y'
 		<if test="licenseCode != 0">
-			AND LICENSE_CODE = #{licenseCode}
+			AND Q.LICENSE_CODE = #{licenseCode}
 		</if>
 		<if test="keyword != null and keyword != ''">
 			<choose>
 				<when test="searchType == 'title'">
 					AND TITLE LIKE '%' || #{keyword} || '%'
 				</when>
-				<when test="searchType == 'user_id'">
+				<when test="searchType == 'userId'">
 					AND USER_ID LIKE '%' || #{keyword} || '%'
 				</when>
 			</choose>
@@ -48,5 +48,15 @@
 		FROM LICENSE
 		ORDER BY LICENSE_CODE ASC
 	</select>
+	
+	<insert id="insertQuestion">
+		<selectKey order="BEFORE" resultType="_int" keyProperty="qIndex">
+			SELECT SEQ_QNO.NEXTVAL FROM DUAL
+		</selectKey>
+
+		INSERT INTO QUESTION  VALUES (
+			#{qIndex}, 0, #{title}, #{content}, SYSDATE, 'Y', #{licenseCode}, #{userId}
+		)
+	</insert>
 
 </mapper>
