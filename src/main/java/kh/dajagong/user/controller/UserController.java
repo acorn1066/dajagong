@@ -90,8 +90,8 @@ public class UserController {
 	public String editMyPage(@ModelAttribute User u, Model model) {
 
 	    User loginUser = (User)model.getAttribute("loginUser");
-	    System.out.println(u);
-	    System.out.println(model);
+//	    System.out.println(u);
+//	    System.out.println(model);
 	    
 	    // 새 비밀번호 입력 시 변경
 	    u.setPwd(bcrypt.encode(u.getPwd()));
