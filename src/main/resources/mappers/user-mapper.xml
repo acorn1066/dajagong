@@ -11,4 +11,10 @@
 		insert into "USER"
 		values(#{userId}, #{pwd}, #{nickname}, #{email}, #{phone}, sysdate, default, default)
 	</insert>
+	
+	<update id="updateUser">
+		update "USER"
+		set pwd=#{pwd}, nickname=#{nickname}, email=#{email}, phone=#{phone}
+		where user_id=#{userId}
+	</update>
 </mapper>
