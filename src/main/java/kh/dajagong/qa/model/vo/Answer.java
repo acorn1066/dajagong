@@ -14,11 +14,11 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class Answer {
-	private int a_index;
+	private int aIndex;
 	private String content;
-	private Date create_date;
+	private Date createDate;
 	private String status;
-	private int q_index;
-	private String user_id;
+	private int qIndex;
+	private String userId;
 
 }
