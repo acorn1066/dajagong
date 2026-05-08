@@ -39,4 +39,11 @@ public class BookReviewController {
 		
 		return "/views/book-review/detail";
 	}
+	
+	@GetMapping("/")
+	public String index(Model model) {
+		ArrayList<Book> bookList = bService.selectTop();
+		model.addAttribute("bookList",bookList);
+		return "index";
+	}
 }
