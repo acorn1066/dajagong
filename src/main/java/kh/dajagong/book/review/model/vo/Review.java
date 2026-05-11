@@ -22,4 +22,7 @@ public class Review {
 	private String userId;
 	private int bookNum;
 	private String nickname;
+	
+	private String bookName;
+	private Date blockDate;
 }
