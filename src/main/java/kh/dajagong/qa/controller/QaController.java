@@ -85,10 +85,10 @@ public class QaController {
     }
 
     
-    @GetMapping("/Wwriter")
+    @GetMapping("/Awriter")
     public String writeReview(Model model) {
         ArrayList<License> lList = qService.selectLicenseList();
         model.addAttribute("lList", lList);
-        return "views/qa/Wwriter";
+        return "views/qa/Awriter";
     }
 }
