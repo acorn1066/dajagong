@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kh.dajagong.admin.mapper.AdminMapper">
+	
+	<resultMap type="Book" id="bookResultSet">
+		<id column="book_num" property="bookNum"/>
+		<result column="book_name" property="bookName"/>
+		<result column="publication_date" property="publicationDate"/>
+		<result column="license_code" property="licenseCode"/>
+		<result column="license_name" property="licenseName"/>
+		<result column="book_writer" property="bookWriter"/>
+		<result column="review_count" property="reviewCount"/>
+	</resultMap>
+	
+	
+	<select id="getUserListCount" resultType="_int">
+	    select count(*) FROM "USER"
+	    where status != 'N' and is_admin='N'
+	    <if test="searchText != null">
+		    <if test="searchType == 'userId'">
+		        and user_id like '%${searchText}%'
+		    </if>
+		    <if test="searchType == 'nickname'">
+		        and nickname like '%${searchText}%'
+		    </if>
+		    <if test="searchType == 'email'">
+		        and email like '%${searchText}%'
+		    </if>
+		    <if test="searchType == 'phone'">
+		        and phone like '%${searchText}%'
+		    </if>
+	    </if>
+	</select>
+	<select id="selectUserList" resultType="User">
+	   select u.user_id, u.nickname, u.email, u.phone, u.create_date, u.status, mh.update_date as blockDate, mh."COMMENT"
+		from "USER" u
+		left outer join (
+            select * from(SELECT user_id, update_date, "COMMENT", 
+            <!-- ROW_NUMBER() OVER(PARTITION BY [그룹핑할 컬럼] ORDER BY [정렬할 컬럼]) -->
+            ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY update_date DESC) AS rn
+            FROM management_history
+            order by update_date desc)
+        ) mh ON u.user_id = mh.user_id and rn=1
+		where u.status != 'N' and u.is_admin='N'
+		 <if test="searchText != null">
+		    <if test="searchType == 'userId'">
+		        and u.user_id like '%${searchText}%'
+		    </if>
+		    <if test="searchType == 'nickname'">
+		        and u.nickname like '%${searchText}%'
+		    </if>
+		    <if test="searchType == 'email'">
+		        and u.email like '%${searchText}%'
+		    </if>
+		    <if test="searchType == 'phone'">
+		        and u.phone like '%${searchText}%'
+		    </if>
+	    </if>
+		order by u.create_date DESC
+	</select>
+	<update id="blockUser">
+		update "USER"
+		set status=#{status}
+		where user_id=#{userId}
+	</update>
+	
+	<select id="getReviewListCount" resultType="_int">
+	    select count(*) 
+	    from review r
+	    	left outer join "USER" u on u.user_id = r.user_id and u.is_admin='N'
+	    	left outer join book b on b.book_num = r.book_num
+	    where r.status != 'N' and u.status != 'N'
+	    <if test="searchText != null">
+		    <if test="searchType == 'userId'">
+		        and u.user_id like '%${searchText}%'
+		    </if>
+		    <if test="searchType == 'nickname'">
+		        and u.nickname like '%${searchText}%'
+		    </if>
+		    <if test="searchType == 'bookName'">
+		        and b.book_name like '%${searchText}%'
+		    </if>
+	    </if>
+	</select>
+	
+	<select id="selectReviewList" resultType="Review">
+	   select r.review_num, r.review, r.create_date, r.status, r.score,r.user_id, r.book_num, b.book_name, u.nickname
+	    from review r
+	    	left outer join "USER" u on u.user_id = r.user_id and u.is_admin='N'
+	    	left outer join book b on b.book_num = r.book_num
+	    where r.status != 'N' and u.status != 'N'
+	    <if test="searchText != null">
+		    <if test="searchType == 'userId'">
+		        and u.user_id like '%${searchText}%'
+		    </if>
+		    <if test="searchType == 'nickname'">
+		        and u.nickname like '%${searchText}%'
+		    </if>
+		    <if test="searchType == 'bookName'">
+		        and b.book_name like '%${searchText}%'
+		    </if>
+	    </if>
+		order by r.create_date DESC
+	</select>
+	
+	<select id="getQuestionListCount" resultType="_int">
+	    select count(*) 
+	    from question q
+	    	left outer join "USER" u on u.user_id = q.user_id and u.is_admin='N'
+	    where q.status != 'N' and u.status != 'N'
+	    <if test="searchText != null">
+		    <if test="searchType == 'userId'">
+		        and u.user_id like '%${searchText}%'
+		    </if>
+		    <if test="searchType == 'nickname'">
+		        and u.nickname like '%${searchText}%'
+		    </if>
+		    <if test="searchType == 'title'">
+		        and q.title like '%${searchText}%'
+		    </if>
+	    </if>
+	</select>
+	
+	<select id="selectQuestionList" resultType="Question">
+	   select q.q_index, q.title, q.create_date, q.status, q.user_id, u.nickname
+	    from question q
+	    	left outer join "USER" u on u.user_id = q.user_id and u.is_admin='N'
+	    where q.status != 'N' and u.status != 'N'
+	    <if test="searchText != null">
+		    <if test="searchType == 'userId'">
+		        and u.user_id like '%${searchText}%'
+		    </if>
+		    <if test="searchType == 'nickname'">
+		        and u.nickname like '%${searchText}%'
+		    </if>
+		    <if test="searchType == 'title'">
+		        and q.title like '%${searchText}%'
+		    </if>
+	    </if>
+		order by q.create_date DESC
+	</select>
+	
+	
+	<select id="selectQuestion" resultType="kh.dajagong.qa.model.vo.Question">
+		SELECT *
+		FROM QUESTION
+		WHERE q_index = #{qIndex}
+	</select>
+	
+	<update id="blockQuestion">
+		update QUESTION
+		set status=#{status}
+		where q_index=#{qIndex}
+	</update>
+	
+	<select id="getAnswerListCount" resultType="_int">
+	    select count(*) 
+	    from answer a
+	    	left outer join "USER" u on u.user_id = a.user_id and u.is_admin='N'
+	    	left outer join question q on q.q_index = a.q_index and q.state!='N'
+	    where a.status != 'N' and u.status != 'N'
+	    <if test="searchText != null">
+		    <if test="searchType == 'userId'">
+		        and u.user_id like '%${searchText}%'
+		    </if>
+		    <if test="searchType == 'nickname'">
+		        and u.nickname like '%${searchText}%'
+		    </if>
+		    <if test="searchType == 'title'">
+		        and q.title like '%${searchText}%'
+		    </if>
+	    </if>
+	</select>
+	
+	<select id="selectAnswerList" resultType="Answer">
+	   select a.a_index, a.content, a.create_date, a.status, a.q_index, a_user_id, u.nickname
+	    from answer a
+	    	left outer join "USER" u on u.user_id = q.user_id and u.is_admin='N'
+	    	left outer join question q on q.q_index = a.q_index and q.state!='N'
+	    where q.status != 'N' and u.status != 'N'
+	    <if test="searchText != null">
+		    <if test="searchType == 'userId'">
+		        and u.user_id like '%${searchText}%'
+		    </if>
+		    <if test="searchType == 'nickname'">
+		        and u.nickname like '%${searchText}%'
+		    </if>
+		    <if test="searchType == 'title'">
+		        and q.title like '%${searchText}%'
+		    </if>
+	    </if>
+		order by q.create_date DESC
+	</select>
+</mapper>
