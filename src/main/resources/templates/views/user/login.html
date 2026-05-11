@@ -34,6 +34,12 @@ body {
 	border-color: #a8e6f7;
 	box-shadow: 0 0 0 0.2rem rgba(168, 230, 247, 0.25);
 }
+
+#loginFailArea {
+	min-height: 24px;
+	opacity: 1;
+	transition: opacity 0.5s ease;
+}
 </style>
 <body>
 	<div class="container">
@@ -61,12 +67,12 @@ body {
 					<button class="btn btn-secondary w-25" type="button" onclick="location.href='/enroll'">회원가입</button>
 				</div>
 			</form>
-			
-			<br/>
-			
-			<div th:if="${errorMsg}" class="alert alert-danger alert-dismissible fade show">
 
-				[[${errorMsg}]]
+			<br />
+
+			<div id="loginFailArea" class="text-danger text-center mb-3">
+
+				<span th:text="${errorMsg}"></span>
 
 			</div>
 
@@ -88,5 +94,18 @@ body {
 		  });
 		}, false);
 	</script>
+
+	<script th:if="${errorMsg}"> <!-- 로그인 실패 에러메시지를 5초간만 띄우게 하는 스크립트 -->
+    setTimeout(() => {
+
+        const errorArea =
+            document.getElementById('loginFailArea');
+
+        if(errorArea){
+            errorArea.style.opacity = '0';
+        }
+
+    }, 3000);
+</script>
 </body>
 </html>
