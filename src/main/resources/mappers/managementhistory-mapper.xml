@@ -9,4 +9,24 @@
 		insert into management_history values(#{index},#{type},#{subType},sysdate,#{comment},#{subIndex},#{userId})
 	</insert>
 	
+	<select id="selectLastUserStatus" resultType="ManagementHistory">
+	    select * from (
+		    select * from management_history
+		    where user_id = #{userId}
+		    order by update_date desc
+		)
+		WHERE rownum = 1
+	</select>
+	
+	
+	
+	<select id="selectSubIndex" resultType="ManagementHistory">
+	    select * from (
+		    select * from management_history
+		    where sub_index = #{subIndex}
+		    and type=#{type}
+		    order by update_date desc
+		)
+		WHERE rownum = 1
+	</select>
 </mapper>

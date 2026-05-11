@@ -1,26 +1,27 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{views/common/head :: head}"></head>
 <body>
 	<div th:replace="~{views/common/navbar-admin :: navbar-admin}"></div>
 	<div class="container-fluid">
-		<div class="row mt-1 g-2">
-		    <div class="col-auto">
-		    </div>
-		    <div class="col-auto">
-		        <select class="form-select" id="searchType">
-		            <option selected="">닉네임</option>
-		            <option value="publisher">아이디</option>
-		        </select>
-		    </div>
-		    <div class="col">
-		        <div class="input-group">
-		            <input type="search" class="form-control" placeholder="검색하기">
-		            <button class="btn btn-outline-primary" type="button">검색하기</button>
-		        </div>
-		    </div>
-		</div>
-		
+		<form th:action="@{/admin/member-management}" method="get">
+			<div class="row mt-1 g-2">
+			    <div class="col-auto">
+			        <select class="form-select" id="searchType" name="searchType">
+			            <option value="userId" th:selected="${searchType=='userId'}">아이디</option>
+			            <option value="nickname" th:selected="${searchType=='nickname'}">닉네임</option>
+			            <option value="email" th:selected="${searchType=='email'}">이메일</option>
+			            <option value="phone" th:selected="${searchType=='phone'}">전화번호</option>
+			        </select>
+			    </div>
+			    <div class="col">
+			        <div class="input-group">
+			            <input type="search" class="form-control" placeholder="검색하기" name="searchText" th:value="${searchText}">
+			            <button class="btn btn-outline-primary" type="submit">검색하기</button>
+			        </div>
+			    </div>
+			</div>
+		</form>
 		<table class="table table-hover text-center align-middle mt-2">
           <thead>
           <tr>
@@ -36,38 +37,19 @@
           </tr>
           </thead>
           <tbody>
-          <tr>
-            <th>1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>@twitter</td>
-            <td>@twitter</td>
-            <td><span class="badge rounded-pill bg-success text-white">정상</span></td>
-            <td><button type="button" class="btn btn-outline-info" onclick="location.href='/admin/member-activity'">이력보기</button></td>
-            <td><button type="button" class="btn btn-outline-danger blockBtn">차단관리</button></td>
-          </tr>
-          <tr>
-            <th>2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-            <td>@twitter</td>
-            <td>@twitter</td>
-            <td><span class="badge rounded-pill bg-success text-white">정상</span></td>
-            <td><button type="button" class="btn btn-outline-info" onclick="location.href='/admin/member-activity'">이력보기</button></td>
-            <td><button type="button" class="btn btn-outline-danger blockBtn">차단관리</button></td>
-          </tr>
-          <tr>
-            <th>3</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@twitter</td>
-            <td>@twitter</td>
-            <td>@twitter</td>
-            <td><span class="badge rounded-pill bg-danger text-white">차단</span></td>
-            <td><button type="button" class="btn btn-outline-info" onclick="location.href='/admin/member-activity'">이력보기</button></td>
-            <td><button type="button" class="btn btn-outline-danger blockBtn">차단관리</button></td>
+          <tr th:each="u, stat : ${list}">
+            <th>[[${stat.count}]]</th>
+            <td>[[${u.userId}]]</td>
+            <td>[[${u.nickname}]]</td>
+            <td>[[${u.email}]]</td>
+            <td>[[${u.phone}]]</td>
+            <td>[[${u.createDate}]]</td>
+            <td>
+            	<span th:if="${u.status=='Y'}" class="badge rounded-pill bg-success text-white">정상</span>
+            	<span th:unless="${u.status=='Y'}" class="badge rounded-pill bg-danger text-white">차단</span>
+            </td>
+            <td><button type="button" class="btn btn-outline-info" onclick="goActivity(this);" th:data-userid="${u.userId}">이력보기</button></td>
+            <td><button type="button" class="btn btn-outline-danger" th:data-userid="${u.userId}" th:data-nickname="${u.nickname}" th:data-status="${u.status}" onclick="showBlockModal(this)">차단관리</button></td>
           </tr>
           </tbody>
         </table>
@@ -75,16 +57,16 @@
         <div class="mx-auto border-0 align-items-center"> 
 	        <nav aria-label="Standard pagination example">
 	          <ul class="pagination justify-content-center">
-	            <li class="page-item">
-	              <a class="page-link" href="#" aria-label="Previous">
+	            <li class="page-item" th:classappend="${pi.currentPage == 1} ? 'disabled' : ''">
+	              <a class="page-link" th:href="@{/admin/member-management(page=${pi.currentPage - 1}, searchType=${searchType}, searchText=${searchText})}" aria-label="Previous">
 	                <span aria-hidden="true">«</span>
 	              </a>
 	            </li>
-	            <li class="page-item"><a class="page-link" href="#">1</a></li>
-	            <li class="page-item"><a class="page-link" href="#">2</a></li>
-	            <li class="page-item"><a class="page-link" href="#">3</a></li>
-	            <li class="page-item">
-	              <a class="page-link" href="#" aria-label="Next">
+	            <li class="page-item" th:classappend="${p == pi.currentPage} ? 'active' : ''" th:each="p:${#numbers.sequence(pi.startPage,pi.endPage)}">
+	            	<a class="page-link" th:href="@{/admin/member-management(page=${p}, searchType=${searchType}, searchText=${searchText})}">[[${p}]]</a>
+	            </li>
+	            <li class="page-item" th:classappend="${pi.currentPage == pi.maxPage} ? 'disabled' : ''"> 
+	              <a class="page-link" th:href="@{/admin/member-management(page=${pi.currentPage + 1}, searchType=${searchType}, searchText=${searchText})}" aria-label="Next">
 	                <span aria-hidden="true">»</span>
 	              </a>
 	            </li>
@@ -106,7 +88,7 @@
 					</div>
 	                <hr class="hr-1">
 	                <div class="form-floating mb-3">
-	                    <input type="date" class="form-control" id="blockDate">
+	                    <input type="date" class="form-control" id="blockDate" readonly>
 	                    <label for="blockDate">차단 일자</label>
 	                </div>
 	                <div class="form-floating mb-3">
@@ -115,26 +97,108 @@
 	                </div>
 	            </div>
 	           <div class="modal-footer flex-nowrap p-0">
-	               <button type="button" class="btn btn-lg fs-6 col-6 py-3 m-0 rounded-0 border-end btn-danger text-white"><strong>차단하기</strong></button>
+	               <button type="button" class="btn btn-lg fs-6 col-6 py-3 m-0 rounded-0 border-end btn-danger text-white" onclick="blockUser('Y');"><strong>차단하기</strong></button>
 	               <button type="button" class="btn btn-lg fs-6 col-6 py-3 m-0 rounded-0" data-bs-dismiss="modal">아니요</button>
 	           </div>
 	           <div class="modal-footer flex-nowrap p-0">
-	               <button type="button" class="btn btn-lg fs-6 col-6 py-3 m-0 rounded-0 border-end btn-success text-white"><strong>차단해제</strong></button>
+	               <button type="button" class="btn btn-lg fs-6 col-6 py-3 m-0 rounded-0 border-end btn-success text-white" onclick="blockUser('N');"><strong>차단해제</strong></button>
 	               <button type="button" class="btn btn-lg fs-6 col-6 py-3 m-0 rounded-0" data-bs-dismiss="modal">아니요</button>
 	           </div>
 	        </div>
 	    </div>
 	</div>
 	
-	<script>
-	    window.onload=()=>{
-	    	const blockBtnList = document.getElementsByClassName('blockBtn');
-	    	for(const blockModal of blockBtnList){
-	    		blockModal.addEventListener('click',()=>{
-	    			$('#modalBlock').modal('show');
-	    		});
-	    	}
-		}
-	</script>
+<script th:inline="javascript">
+    
+	const currentPage = /*[[${pi.currentPage}]]*/ 1;
+	
+	window.onload=()=>{
+	}
+    
+    const goActivity=(obj)=>{
+    	location.href = '/admin/member-activity?searchType=userId&searchText=' + obj.dataset.userid;
+    }
+    
+    const showBlockModal = (obj) =>{
+   	    const userId = obj.dataset.userid;
+   	    const nickname = obj.dataset.nickname;
+   	    
+   	    document.querySelector('#modalBlock .fw-bold').innerText = userId;
+   	    document.querySelector('#modalBlock .text-body-secondary').innerText = nickname;
+   	    
+   	    
+   	    
+   	    const status = obj.dataset.status;
+   	    
+   	    const badge = document.querySelector('#modalBlock .badge');
+   	    const footers = document.querySelectorAll('#modalBlock .modal-footer');
+
+   	    if (status === 'Y') {
+   	        badge.className = 'badge rounded-pill text-bg-success';
+   	        badge.innerText = '정상';
+   	        footers[0].style.display = '';
+   	        footers[1].style.display = 'none';
+   	        
+   	        
+   	     	// 오늘 날짜 가져오기
+   	        const today = new Date();
+   	        const year = today.getFullYear();
+   	        const month = String(today.getMonth() + 1).padStart(2, '0'); 
+   	        const day = String(today.getDate()).padStart(2, '0'); 
+
+   	        // yyyy-mm-dd 형식으로 날짜 문자열 생성
+   	        const formattedDate = `${year}-${month}-${day}`;
+
+   	        // input 요소에 날짜 설정
+   	        document.getElementById('blockDate').value = formattedDate;
+   	     	$('#modalBlock').modal('show');
+   	        
+   	    } else {
+   	        badge.className = 'badge rounded-pill text-bg-danger';
+   	        badge.innerText = '차단';
+   	        footers[0].style.display = 'none';
+   	        footers[1].style.display = '';
+   	        
+   	        
+	   	     $.ajax({
+	   	        url: '/admin/user',
+	   	        type: 'get',
+	   	        data: { userId: userId },
+	   	        success: data => {
+	   	            document.getElementById('blockDate').value = data.updateDate.split('T')[0];
+	   	            document.getElementById('manageReason').value = data.comment;
+	   	         	$('#modalBlock').modal('show');
+	   	        }
+	   	    });
+	   	}
+    }
+    
+    
+    const blockUser = (status) => {
+		const blockText = document.querySelector('#manageReason').value.trim();
+		const userId = document.querySelector('#modalBlock .fw-bold').innerText.trim();
+    	$.ajax({
+			url: '/admin/user',
+			type: 'put',
+			data: {
+				type : "U",
+				subType : status=='Y'?"B":"U",
+				subIndex : -1,
+				comment : blockText,
+				userId : userId,
+			},
+			success:data=>{
+				//console.log(data);
+				if(data==1){
+					alert("처리되었습니다.");
+					location.href="/admin/member-management?page="+currentPage;//새로고침
+				}else{
+					alert("오류가 발생했습니다.");
+				}
+			},
+			error :data=> console.log(data)
+		});
+    }
+</script>
 </body>
 </html>
