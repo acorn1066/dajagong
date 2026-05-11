@@ -12,5 +12,7 @@ public interface UserMapper {
 	int insertUser(User u);
 
 	int updateUser(User u);
+
+	int deleteUser(String userId);
 	
 }

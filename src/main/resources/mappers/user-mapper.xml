@@ -17,4 +17,10 @@
 		set pwd=#{pwd}, nickname=#{nickname}, email=#{email}, phone=#{phone}
 		where user_id=#{userId}
 	</update>
+	
+	<update id="deleteUser">
+		update "USER" 
+		set status='N'
+		where user_id=#{userId}
+	</update>
 </mapper>

@@ -22,6 +22,10 @@ public class UserService {
 	public int updateUser(User u) {
 		return mapper.updateUser(u);
 	}
+
+	public int deleteUser(String userId) {
+		return mapper.deleteUser(userId);
+	}
 	
 	
 }
