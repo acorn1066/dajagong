@@ -38,7 +38,7 @@ public class UserController {
 			session.setAttribute("loginUser", loginUser);
 			return "redirect:/";
 		}else {
-			throw new UserException("로그인을 실패하였습니다.");
+			throw new UserException("아이디 또는 비밀번호를 잘못입력하셨습니다.");
 		}
 	}
 	
