@@ -1,8 +1,6 @@
 package kh.dajagong.book.review.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import kh.dajagong.book.review.model.vo.Book;
 import kh.dajagong.book.review.model.vo.Review;
 import kh.dajagong.book.review.service.BookReviewService;
@@ -25,9 +24,18 @@ public class BookReviewController {
 	
 	
 	@GetMapping("/")
-	public String index(Model model) {
+	public String index(Model model,HttpSession session) {
 		ArrayList<Book> bookList = bService.selectTop();
 		model.addAttribute("bookList",bookList);
+		
+		
+		
+		//오류 메세지가 넣어왔으면 넣어줌
+		String message = (String) session.getAttribute("message");
+	    if (message != null) {
+	        model.addAttribute("message", message);
+	        session.removeAttribute("message");
+	    }
 		return "index";
 	}
 	

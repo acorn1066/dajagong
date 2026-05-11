@@ -82,13 +82,35 @@
                     <td class="text-start ps-4">정보처리기사 실기 질문 있습니다.</td>
                     <td>2026-04-28</td>
                     <td>홍길동</td>
-                    <td>12</td>
+                    <td>12[[${message}]]</td>
                 </tr>
             </tbody>
         </table>		
 	  </div>
 	
 	<footer th:replace="~{views/common/footer :: footer}"></footer>
-	
+	<th:block th:if="${message != null}">
+		<div class="modal fade noto-sans-kr-500" tabindex="-1" role="dialog" id="exceptionMoal">
+		    <div class="modal-dialog modal-dialog-centered">
+		        <div class="modal-content rounded-3 shadow overflow-hidden">
+		            <div class="modal-header bg-danger text-white">
+			          <h5 class="modal-title" id="exampleModalLabel">경고</h5>
+			          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			        </div>
+		            <div class="modal-body p-4">
+		                <div class="form-floating mb-3 text-center ">
+		                    <h5>[[${message}]]</h5>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+		<script>
+		
+			 window.onload=()=>{
+				 $('#exceptionMoal').modal('show');
+			}
+		</script>
+	</th:block>
 </body>
 </html>
