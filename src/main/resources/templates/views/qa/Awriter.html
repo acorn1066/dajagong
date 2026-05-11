@@ -51,8 +51,7 @@
         </table>
 
         <div class="text-center mt-4">
-            <button class="btn btn-secondary me-2 px-4" onclick="location.href='/qa/list'">목록으로</button>
-            
+                        
             <th:block th:if="${session.loginUser != null and session.loginUser.userId == q.userId}">
                 <button class="btn btn-success me-2 px-4" 
                         th:onclick="|location.href='/qa/editView?qIndex=${q.qIndex}'|">수정하기</button>
