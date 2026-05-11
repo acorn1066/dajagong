@@ -45,7 +45,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="q : ${list}">
+                <tr th:each="q : ${list}" style="cursor:pointer;">
                     <td class="q-idx">[[${q.qIndex}]]</td>
                     <td>[[${q.licenseName}]]</td>
                     <td>[[${q.title}]]</td>
