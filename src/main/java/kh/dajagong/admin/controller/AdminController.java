@@ -5,6 +5,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import kh.dajagong.common.exception.AuthorityException;
+import kh.dajagong.user.model.vo.User;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -13,8 +16,11 @@ public class AdminController {
 	
 	
 	@GetMapping("/admin/member-management")
-	public String memberManagement(HttpServletRequest request, Model model) {
+	public String memberManagement(HttpServletRequest request, Model model,HttpSession session) {
+		User u = (User)session.getAttribute("loginUser");
+		if(u==null || !u.getStatus().equals("Y")) throw new AuthorityException("권한이 부족합니다");
 		model.addAttribute("currentURI", request.getRequestURI());
+		
 		return "/views/admin/member-management";
 	}
 	
