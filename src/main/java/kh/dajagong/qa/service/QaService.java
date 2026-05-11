@@ -5,7 +5,7 @@ import java.util.HashMap;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import kh.dajagong.common.PageInfo; // 실제 프로젝트의 PageInfo 경로로 수정하세요
+import kh.dajagong.common.PageInfo; 
 import kh.dajagong.common.model.vo.License;
 import kh.dajagong.qa.mapper.QaMapper;
 import kh.dajagong.qa.model.vo.Question;
