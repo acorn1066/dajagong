@@ -2,61 +2,85 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="kh.dajagong.qa.mapper.QaMapper">
 
-	<select id="getListCount" resultType="_int">
-		SELECT COUNT(*)
-		FROM QUESTION
-		WHERE STATUS = 'Y'
-		<if test="licenseCode != 0">
-			AND LICENSE_CODE = #{licenseCode}
-		</if>
-		<if test="keyword != null and keyword != ''">
-			<choose>
-				<when test="searchType == 'title'">
-					AND TITLE LIKE '%' || #{keyword} || '%'
-				</when>
-				<when test="searchType == 'userId'"> AND USER_ID LIKE '%' || #{keyword} || '%'
-				</when>
-			</choose>
-		</if>
-	</select>
+    <select id="selectLicenseList" resultType="kh.dajagong.common.model.vo.License">
+        SELECT LICENSE_CODE as licenseCode, LICENSE_NAME as licenseName
+        FROM LICENSE ORDER BY LICENSE_CODE ASC
+    </select>
 
-	<select id="selectQaList" resultType="kh.dajagong.qa.model.vo.Question">
-		SELECT Q.*, L.LICENSE_NAME as licenseName
-		FROM QUESTION Q
-		JOIN LICENSE L ON (Q.LICENSE_CODE = L.LICENSE_CODE)
-		WHERE Q.STATUS = 'Y'
-		<if test="licenseCode != 0">
-			AND Q.LICENSE_CODE = #{licenseCode}
-		</if>
-		<if test="keyword != null and keyword != ''">
-			<choose>
-				<when test="searchType == 'title'">
-					AND TITLE LIKE '%' || #{keyword} || '%'
-				</when>
-				<when test="searchType == 'userId'">
-					AND USER_ID LIKE '%' || #{keyword} || '%'
-				</when>
-			</choose>
-		</if>
-		ORDER BY Q_INDEX DESC
-	</select>
-	
-	<select id="selectLicenseList" resultType="kh.dajagong.common.model.vo.License">
-		SELECT 
-			LICENSE_CODE as licenseCode,
-			LICENSE_NAME as licenseName
-		FROM LICENSE
-		ORDER BY LICENSE_CODE ASC
-	</select>
-	
-	<insert id="insertQuestion">
-		<selectKey order="BEFORE" resultType="_int" keyProperty="qIndex">
-			SELECT SEQ_QNO.NEXTVAL FROM DUAL
-		</selectKey>
+    <select id="getListCount" resultType="_int">
+        SELECT COUNT(*) FROM QUESTION WHERE STATUS = 'Y'
+        <if test="licenseCode != 0"> AND LICENSE_CODE = #{licenseCode} </if>
+        <if test="keyword != null and keyword != ''">
+            <choose>
+                <when test="searchType == 'title'"> AND TITLE LIKE '%' || #{keyword} || '%' </when>
+                <when test="searchType == 'userId'"> AND USER_ID LIKE '%' || #{keyword} || '%' </when>
+            </choose>
+        </if>
+    </select>
 
-		INSERT INTO QUESTION  VALUES (
-			#{qIndex}, 0, #{title}, #{content}, SYSDATE, 'Y', #{licenseCode}, #{userId}
-		)
-	</insert>
+    <select id="selectQaList" resultType="kh.dajagong.qa.model.vo.Question">
+      SELECT Q.*, L.LICENSE_NAME as licenseName
+        FROM QUESTION Q
+        JOIN LICENSE L ON (Q.LICENSE_CODE = L.LICENSE_CODE)
+        WHERE Q.STATUS = 'Y'
+        
+        <if test="licenseCode != 0"> AND Q.LICENSE_CODE = #{licenseCode} </if>
+        
+        <if test="keyword != null and keyword != ''">
+            <choose>
+                <when test="searchType == 'title'"> AND Q.TITLE LIKE '%' || #{keyword} || '%' </when>
+                <when test="searchType == 'userId'"> AND Q.USER_ID LIKE '%' || #{keyword} || '%' </when>
+            </choose>
+        </if>
+        
+        ORDER BY Q_INDEX DESC
+    </select>
 
+    <select id="selectQuestion" resultType="kh.dajagong.qa.model.vo.Question">
+        SELECT Q.*, L.LICENSE_NAME as licenseName
+        FROM QUESTION Q
+        JOIN LICENSE L ON (Q.LICENSE_CODE = L.LICENSE_CODE)
+        WHERE Q.Q_INDEX = #{qIndex} AND Q.STATUS = 'Y'
+    </select>
+
+    <update id="updateCount">
+        UPDATE QUESTION SET COUNT = COUNT + 1 WHERE Q_INDEX = #{qIndex}
+    </update>
+
+    <update id="updateQuestionStatus">
+        UPDATE QUESTION SET STATUS = 'N' WHERE Q_INDEX = #{qIndex}
+    </update>
+
+    <select id="selectAnswerList" resultType="kh.dajagong.qa.model.vo.Answer">
+        SELECT A_INDEX as aIndex, CONTENT, CREATE_DATE as createDate, 
+               STATUS, Q_INDEX as qIndex, USER_ID as userId
+        FROM ANSWER
+        WHERE Q_INDEX = #{qIndex} AND STATUS = 'Y'
+        ORDER BY A_INDEX DESC
+    </select>
+
+    <insert id="insertAnswer">
+        INSERT INTO ANSWER VALUES (SEQ_ANO.NEXTVAL, #{content}, SYSDATE, 'Y', #{qIndex}, #{userId})
+    </insert>
+    
+    <insert id="insertQuestion">
+        INSERT INTO QUESTION (
+            Q_INDEX, 
+            TITLE, 
+            CONTENT, 
+            CREATE_DATE, 
+            STATUS, 
+            LICENSE_CODE, 
+            USER_ID, 
+            COUNT
+        ) VALUES (
+            SEQ_QNO.NEXTVAL, #{title},
+            #{content},
+            SYSDATE,
+            'Y',
+            #{licenseCode},
+            #{userId},
+            0
+        )
+    </insert>
 </mapper>

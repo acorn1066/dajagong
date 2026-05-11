@@ -1,111 +1,104 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{views/common/head :: head}">   
-    <style>td:hover{cursor: pointer;}</style>
+    <style>
+        td:hover { cursor: pointer; }
+        .pagination { justify-content: center; } /* 페이지 번호 중앙 정렬 */
+    </style>
 </head>
 <body>
     <div th:replace="~{views/common/navbar :: navbar}"></div>
 	
     <div class="container py-4">      
-        <div class="p-5 mb-4 bg-light rounded-3">
-            <div class="container-fluid py-5">
-                <h1 class="display-5 fw-bold do-hyeon-regular">질의 응답 (Q&A)</h1>
-            </div>
+        <div class="p-5 mb-4 bg-light rounded-3 text-center">
+            <h1 class="display-5 fw-bold mb-2 noto-sans-kr-900 py-5">질의 응답 (Q&A)</h1>
         </div>
 
         <form action="/qa/list" method="get">
-            <div class="row mb-3 g-2">
+            <div class="row mb-3 g-2 justify-content-center">
                 <div class="col-auto">
                     <select class="form-select" name="licenseCode">
                         <option value="0" th:selected="${sc == null or sc.licenseCode == 0}">전체 자격증</option>
-                        <option th:each="l : ${lList}" 
-                                th:value="${l.licenseCode}" 
-                                th:text="${l.licenseName}"
-                                th:selected="${sc?.licenseCode == l.licenseCode}">
-                            자격증명
-                        </option>
+                        <option th:each="l : ${lList}" th:value="${l.licenseCode}" 
+                                th:text="${l.licenseName}" th:selected="${sc?.licenseCode == l.licenseCode}"></option>
                     </select>
                 </div>
-        
                 <div class="col-auto">
                     <select class="form-select" name="searchType">
                         <option value="title" th:selected="${sc?.searchType == 'title'}">제목</option>
-                        <option value="userId" th:selected="${sc?.searchType == 'user_id'}">작성자</option>
+                        <option value="userId" th:selected="${sc?.searchType == 'userId'}">작성자</option>
                     </select>
                 </div>
-                <div class="col">
+                <div class="col-md-5">
                     <div class="input-group">
-                        <input type="search" name="keyword" class="form-control" placeholder="검색어를 입력하세요" th:value="${sc?.keyword}" />
-                        <button class="btn btn-outline-primary" type="submit">검색</button>
+                        <input type="search" name="keyword" class="form-control" th:value="${sc?.keyword}" placeholder="검색어를 입력하세요" />
+                        <button class="btn btn-primary" type="submit">검색</button>
                     </div>
                 </div>
             </div>
         </form>
 
-        <div class="bd-example">
-            <table class="table table-hover text-center"> <thead>
-                    <tr>
-                        <th width="80px">번호</th>
-                        <th width="80px">자격증</th>
-                        <th>제목</th>
-                        <th width="150px">작성자</th>
-                        <th width="150px">작성일</th>
-                        <th width="80px">조회수</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="q : ${list}">
-                        <td>[[${q.qIndex}]]</td>
-                        <td>[[${q.licenseCode}]]</td>
-                        <td>[[${q.title}]]</td>
-                        <td>[[${q.userId}]]</td>
-                        <td>[[${q.createDate}]]</td>
-                        <td>[[${q.count}]]</td>
-                    </tr>
-                    <tr th:if="${#lists.isEmpty(list)}">
-                        <td colspan="5" class="text-center">등록된 질문이 없습니다.</td>
-                    </tr>
-                </tbody>
-            </table>
+        <table class="table table-hover text-center">
+            <thead>
+                <tr>
+                    <th>번호</th><th>자격증</th><th>제목</th><th>작성자</th><th>작성일</th><th>조회수</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="q : ${list}">
+                    <td class="q-idx">[[${q.qIndex}]]</td>
+                    <td>[[${q.licenseName}]]</td>
+                    <td>[[${q.title}]]</td>
+                    <td>[[${q.userId}]]</td>
+                    <td>[[${q.createDate}]]</td>
+                    <td>[[${q.count}]]</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="row mt-4">
+            <div class="col-2">
+                <button th:if="${session.loginUser}" class="btn btn-success" onclick="location.href='/qa/Qwriter'">질문하기</button>
+            </div>
+            <div class="col-8">
+                <nav>
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item" th:classappend="${pi.currentPage <= 1} ? 'disabled'">
+                            <a class="page-link" th:href="@{/qa/list(page=${pi.currentPage - 1}, licenseCode=${sc?.licenseCode}, searchType=${sc?.searchType}, keyword=${sc?.keyword})}">&laquo;</a>
+                        </li>
+                        
+                        <li class="page-item" th:each="p : ${#numbers.sequence(pi.startPage, pi.endPage)}" 
+                            th:classappend="${p == pi.currentPage} ? 'active'">
+                            <a class="page-link" th:href="@{/qa/list(page=${p}, licenseCode=${sc?.licenseCode}, searchType=${sc?.searchType}, keyword=${sc?.keyword})}">[[${p}]]</a>
+                        </li>
+                        
+                        <li class="page-item" th:classappend="${pi.currentPage >= pi.maxPage} ? 'disabled'">
+                            <a class="page-link" th:href="@{/qa/list(page=${pi.currentPage + 1}, licenseCode=${sc?.licenseCode}, searchType=${sc?.searchType}, keyword=${sc?.keyword})}">&raquo;</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-2"></div>
         </div>
-
-        <nav aria-label="Standard pagination example" style="float: right;">
-            <ul class="pagination">
-                <li class="page-item" th:classappend="${pi.currentPage <= 1} ? 'disabled'">
-                    <a class="page-link" th:href="@{/qa/list(page=${pi.currentPage-1}, licenseCode=${sc?.licenseCode}, searchType=${sc?.searchType}, keyword=${sc?.keyword})}" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-                
-                <li class="page-item" th:each="p : ${#numbers.sequence(pi.startPage, pi.endPage)}" th:classappend="${p == pi.currentPage} ? 'active'">
-                    <a class="page-link" th:href="@{/qa/list(page=${p}, licenseCode=${sc?.licenseCode}, searchType=${sc?.searchType}, keyword=${sc?.keyword})}">[[${p}]]</a>
-                </li>
-                
-                <li class="page-item" th:classappend="${pi.currentPage >= pi.maxPage} ? 'disabled'">
-                    <a class="page-link" th:href="@{/qa/list(page=${pi.currentPage+1}, licenseCode=${sc?.licenseCode}, searchType=${sc?.searchType}, keyword=${sc?.keyword})}" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-
-        <button th:if="${session.loginUser}" class="btn btn-outline-success" type="button" onclick="location.href='/qa/Qwriter'">질문하기</button>
     </div>
 
-    <script th:inline="javascript">
+    <input type="hidden" id="hiddenCurrentPage" th:value="${pi.currentPage}">
+
+    <script>
         window.onload = () => {
             const tbody = document.querySelector('tbody');
-            tbody.addEventListener('click', (e) => {
-                const tr = e.target.closest('tr');
-                if (tr && tr.cells.length > 1) {
-                    const qIndex = tr.cells[0].innerText;                    
-                    const currentPage = /*[[${pi.currentPage}]]*/ 1;
-                    location.href = '/qa/detail?qIndex=' + qIndex + '&page=' + currentPage; 
-                }
-            });
+            if(tbody) {
+                tbody.onclick = (e) => {
+                    const tr = e.target.closest('tr');
+                    if (tr && tr.querySelector('.q-idx')) {
+                        const qIndex = tr.querySelector('.q-idx').innerText;
+                        const page = document.getElementById('hiddenCurrentPage').value;
+                        location.href = "/qa/Awriter?qIndex=" + qIndex + "&page=" + page;
+                    }
+                };
+            }
         }
     </script>
-    
     <footer th:replace="~{views/common/footer :: footer}"></footer>
 </body>
 </html>

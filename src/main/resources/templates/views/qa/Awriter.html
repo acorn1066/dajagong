@@ -1,175 +1,141 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{views/common/head :: head}"></head>
-<body>
+<head th:replace="~{views/common/head :: head}">
+    <style>
+        /* 사진 스타일을 위한 테이블 커스텀 */
+        .qa-table th { background-color: #f8f9fa !important; text-align: center; width: 15%; border: 1px solid #dee2e6; }
+        .qa-table td { padding: 12px 20px !important; border: 1px solid #dee2e6; }
+        .content-box { min-height: 350px; padding: 25px; vertical-align: top; text-align: left; }
+        .reply-header { background-color: #f8f9fa; border: 1px solid #dee2e6; padding: 10px 15px; }
+    </style>
+</head>
+<body class="bg-light">
     <div th:replace="~{views/common/navbar :: navbar}"></div>
-    
-    <div class="container mt-5 mb-5" style="max-width: 800px; border: 1px solid #999; padding: 20px; background-color: #fff;">
-    	<nav aria-label="breadcrumb" class=""> 
-			<ol class="breadcrumb p-3 bg-f3faff rounded-3"> 
-				<li class="breadcrumb-item"> <a class="link-body-emphasis" href="/qa/list"> <svg class="bi" width="16" height="16" aria-hidden="true"><i class="bi bi-house-door-fill"></i></svg></a> </li> 
-				<li class="breadcrumb-item"> <a class="link-body-emphasis fw-semibold text-decoration-none noto-sans-kr-500" href="/qa/list">자격증 명</a> </li> 
-				<li class="breadcrumb-item active noto-sans-kr" aria-current="page">질문 제목</li> 
-			</ol> 
-		</nav>
+	
+	 <div class="container py-4">      
+		 <nav aria-label="breadcrumb"> 
+            <ol class="breadcrumb p-3 bg-f3faff rounded-3"> 
+                <li class="breadcrumb-item"> 
+                    <a class="link-body-emphasis text-decoration-none" href="/qa/list"> 
+                        <i class="bi bi-house-door-fill"></i> 돌아가기
+                    </a> 
+                </li> 
+            </ol> 
+        </nav>
+		
+    <div class="container py-4 bg-white " style="max-width: 1000px;">
+        <h2 class="do-hyeon-regular text-center mb-5">질의응답 상세보기</h2>
 
-        <h3 class="text-center mb-2 noto-sans-kr-900 py-5">질문 상세 보기</h3>
-     
-        <table class="table table-bordered text-center">
+        <table class="table table_hover qa-table mb-0">
             <tr>
-                <td style="width: 30%; background-color: #f8f9fa;">자격증</td>
-                <td colspan="2">정보처리기사</td>
+                <th>제목</th>
+                <td colspan="3" class="fw-bold" th:text="${q.title}">DB 제목 데이터</td>
             </tr>
-            <tr class="noto-sans-kr-500"> <td>작성자: 홍길동</td>
-                <td>작성일: 2026-04-28</td>
-                <td>조회수: 12</td>
+            <tr>
+                <th>작성자</th>
+                <td style="width: 35%;" th:text="${q.userId}">DB 작성자ID</td>
+                <th style="width: 15%;">작성일</th>
+                <td style="width: 35%;" th:text="${q.createDate}">DB 작성일</td>
+            </tr>
+            <tr>
+                <th>자격증</th>
+                <td th:text="${q.licenseName}">DB 자격증명</td>
+                <th>조회수</th>
+                <td th:text="${q.count}">0</td>
+            </tr>
+            <tr>
+                <td colspan="4" class="content-box">
+                    <div style="white-space: pre-wrap;" th:text="${q.content}">DB 본문 내용</div>
+                </td>
             </tr>
         </table>
 
-        <div class="border p-5 mb-4" style="min-height: 200px; background-color: #fafafa;">
-            질문 내용
+        <div class="text-center mt-4">
+            <button class="btn btn-secondary me-2 px-4" onclick="location.href='/qa/list'">목록으로</button>
+            
+            <th:block th:if="${session.loginUser != null and session.loginUser.userId == q.userId}">
+                <button class="btn btn-success me-2 px-4" 
+                        th:onclick="|location.href='/qa/editView?qIndex=${q.qIndex}'|">수정하기</button>
+                <button class="btn btn-danger px-4" id="deletePostBtn">삭제하기</button>
+            </th:block>
         </div>
-        
-        <div class="d-flex gap-2">
-		    <button class="btn btn-success btn-lg flex-fill noto-sans-kr-900" type="button" onclick="location.href='/qa/Qwriter'">수정하기</button>
-		    <button class="btn btn-secondary btn-lg flex-fill noto-sans-kr-900" type="button">삭제하기</button>
-		</div> 
-		<!-- 관리자 계정은 이게 보여요 -->
-        <!-- <div class="d-flex gap-2">
-		    <button class="w-100 btn btn-danger btn-lg" type="button">차단</button>
-		</div>  -->
-		
-		
-		<hr class="hr-2">
-		<div class="mt-5">
-            <table class="table table-bordered mb-2">
-                <tr class="table-light">
-                    <td style="width: 50%;">작성자 : 관리자</td>
-                    <td>작성일 : 2026-04-28</td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <div class="p-3" style="min-height: 100px; background-color: #fafafa;">
-				            답변 내용
-				        </div>
-                    </td>
-                </tr>
-            </table>
+
+        <hr class="my-5">
+
+        <div class="reply-section">
+            <h5 class="do-hyeon-regular mb-4">답변 목록 <span class="text-primary" th:text="${#lists.size(aList)}">0</span></h5>
+            
+            <div id="answerListContainer">
+                <div th:each="a : ${aList}" class="mb-4 border rounded shadow-sm">
+                    <div class="reply-header d-flex justify-content-between">
+                        <strong th:text="${a.userId}">답변자ID</strong>
+                        <small class="text-muted" th:text="${a.createDate}">2026-05-11</small>
+                    </div>
+                    <div class="p-4 bg-white" th:text="${a.content}">답변 내용 데이터</div>
+                </div>
+
+                <div th:if="${#lists.isEmpty(aList)}" class="text-center py-5 text-muted bg-white border rounded">
+                    아직 등록된 답변이 없습니다.
+                </div>
+            </div>
+
+            <div th:if="${session.loginUser != null}" class="mt-5 p-4 border rounded bg-white shadow-sm">
+                <label class="form-label fw-bold">작성자: [[${session.loginUser.userId}]]</label>
+                <textarea class="form-control mb-3" id="replyContent" rows="4" placeholder="답변 내용을 입력하세요."></textarea>
+                <div class="text-end">
+                    <button type="button" class="btn btn-primary px-5" id="submitReplyBtn">답변 등록</button>
+                </div>
+            </div>
         </div>
-        <div class="mt-5">
-            <table class="table table-bordered mb-2">
-                <tr class="table-light">
-                    <td style="width: 50%;">작성자 : 관리자</td>
-                    <td>작성일 : 2026-04-28</td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <div class="p-3" style="min-height: 100px; background-color: #fafafa;">
-				            답변 내용
-				        </div>
-                    </td>
-                </tr>
-                <tr>
-		            <td colspan="2" class="text-end">
-		                <button type="button" class="btn btn-outline-primary px-4 noto-sans-kr-500">수정하기</button>
-		                <button type="button" class="btn btn-outline-danger px-4 noto-sans-kr-500 deleteBtn">삭제하기</button>
-		            </td>
-		        </tr>
-            </table>
-        </div>
-        <div class="mt-5">
-		    <table class="table table-bordered mb-2">
-		        <tr class="table-light">
-		            <td style="width: 50%;">작성자 : 관리자</td>
-		            <td>작성일 : 2026-04-28</td>
-		        </tr>
-		        <tr>
-		            <td colspan="2">
-		                <div class="p-3" style="min-height: 100px; background-color: #fafafa;">
-		                    답변 내용
-		                </div>
-		            </td>
-		        </tr>
-		        <tr>
-		            <td colspan="2" class="text-end">
-		                <button type="button" class="btn btn-danger px-4 noto-sans-kr-500 blockBtn">답변 차단</button>
-		            </td>
-		        </tr>
-		    </table>
-		</div>
-		<hr class="hr-2">
-		 <div class="mt-5">
-		    <table class="table table-bordered mb-2">
-		        <tr class="table-light">
-		            <td>작성자 : 관리자</td>
-		        </tr>
-		        <tr>
-		            <td>
-		                <textarea class="form-control mb-2" rows="5" style="resize: none;" placeholder="답변 내용을 입력하세요."></textarea>
-		            </td>
-		        </tr>
-		        <tr>
-		            <td class="text-end">
-		                <button type="button" class="btn btn-outline-primary px-4 noto-sans-kr-500">등록하기</button>
-		            </td>
-		        </tr>
-		    </table>
-		</div>
     </div>
-    
-    
-	<div class="modal fade noto-sans-kr" tabindex="-1" role="dialog" id="modalDelete">
-	    <div class="modal-dialog">
-	        <div class="modal-content rounded-3 shadow">
-	            <div class="modal-body p-4 text-center">
-	                <i class="bi bi-exclamation-triangle-fill text-danger mb-3" style="font-size:2.5rem;"></i>
-	                <h5 class="mb-1">정말로 답변을 삭제하시겠습니까?</h5>
-	                <p class="mb-0 text-body-secondary">삭제 후 답변은 되돌릴 수 없습니다.</p>
-	            </div>
-	            <div class="modal-footer flex-nowrap p-0">
-	                <button type="button" class="btn btn-lg fs-6 col-6 py-3 m-0 rounded-0 border-end btn-danger text-white"><strong>네</strong></button>
-	                <button type="button" class="btn btn-lg fs-6 col-6 py-3 m-0 rounded-0" data-bs-dismiss="modal">아니요</button>
-	            </div>
-	        </div>
-	    </div>
-	</div>
 
-	<div class="modal fade noto-sans-kr" tabindex="-1" role="dialog" id="modalBlock">
-	    <div class="modal-dialog">
-	        <div class="modal-content rounded-3 shadow overflow-hidden">
-	            <div class="modal-body p-4 text-center">
-	                <i class="bi bi-exclamation-triangle-fill text-danger mb-3" style="font-size:2.5rem;"></i>
-	                <h5 class="mb-3">정말로 이 답변을 차단하시겠습니까?</h5>
-	                <div class="form-floating">
-					  <textarea class="form-control" placeholder="" id="floatingTextarea"></textarea>
-					  <label for="floatingTextarea">차단사유</label>
-					</div>
-	            </div>
-	            <div class="modal-footer flex-nowrap p-0">
-				    <button type="button" class="btn btn-lg fs-6 col-6 py-3 m-0 rounded-0 rounded-bottom-start btn-danger text-white"><strong>네</strong></button>
-				    <button type="button" class="btn btn-lg fs-6 col-6 py-3 m-0 rounded-0 rounded-bottom-end" data-bs-dismiss="modal">아니요</button> 
-				</div>
-	        </div>
-	    </div>
-	</div>
-<script>
-window.onload=()=>{
-	const deleteBtnList = document.getElementsByClassName('deleteBtn');
-	for(const deleteModal of deleteBtnList){
-		deleteModal.addEventListener('click',()=>{
-			$('#modalDelete').modal('show');
-		});
-	}
-
-	
-	const blockBtnList = document.getElementsByClassName('blockBtn');
-	for(const blockModal of blockBtnList){
-		blockModal.addEventListener('click',()=>{
-			$('#modalBlock').modal('show');
-		});
-	}
-}
-</script>
     <footer th:replace="~{views/common/footer :: footer}"></footer>
+	
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script th:inline="javascript">
+        $(document).ready(function() {
+            // 타임리프를 통해 현재 게시글 번호를 JS 변수로 저장
+            const qIndex = /*[[${q.qIndex}]]*/ 0;
+
+            // 1. 답변 등록 (AJAX)
+            $('#submitReplyBtn').click(function() {
+                const content = $('#replyContent').val().trim();
+                if(!content) {
+                    alert("내용을 입력해주세요.");
+                    return;
+                }
+
+                $.ajax({
+                    url: '/qa/insertAnswer',
+                    type: 'POST',
+                    data: {
+                        content: content,
+                        qIndex: qIndex
+                    },
+                    success: function(res) {
+                        if(res === 'success') {
+                            location.reload(); 
+                        } else {
+                            alert("답변 등록 실패");
+                        }
+                    },
+                    error: function() {
+                        alert("서버 통신 중 오류가 발생했습니다.");
+                    }
+                });
+            });
+
+            // 2. 게시글 삭제
+            $('#deletePostBtn').click(function() {
+                if(confirm("정말로 이 질문을 삭제하시겠습니까?")) {
+                    const form = $('<form>', { method: 'POST', action: '/qa/changeStatus' });
+                    form.append($('<input>', { type: 'hidden', name: 'qIndex', value: qIndex }));
+                    $('body').append(form);
+                    form.submit();
+                }
+            });
+        });
+    </script>
+    </div>
 </body>
 </html>
