@@ -9,6 +9,7 @@ import org.apache.ibatis.session.RowBounds;
 import kh.dajagong.book.review.model.vo.Book;
 import kh.dajagong.book.review.model.vo.Review;
 import kh.dajagong.common.model.vo.License;
+import kh.dajagong.qa.model.vo.Question;
 
 @Mapper
 public interface BookReviewMapper {
@@ -33,7 +34,7 @@ public interface BookReviewMapper {
 
 	int deleteReview(Review review);
 
-	int blockReview(int reviewNum);
+	int blockReview(HashMap<String, Object> map);
 
 	Review selectReview(int reviewNum);
 

@@ -27,6 +27,7 @@
 			            <button class="btn btn-outline-primary" type="submit">검색하기</button>
 			        </div>
 			    </div>
+			    <input type="hidden" name="tab" th:value="${tab}">
 			</div>
 		</form>
 
@@ -78,7 +79,7 @@
 				            	<span th:if="${r.status=='Y'}" class="badge rounded-pill bg-success text-white">정상</span>
 				            	<span th:unless="${r.status=='Y'}" class="badge rounded-pill bg-danger text-white">차단</span>
 				            </td>
-		                    <td><button type="button" class="btn btn-outline-danger" th:data-userid="${r.userId}" th:data-nickname="${r.nickname}" th:data-status="${r.status}" onclick="showBlockModal(this)">차단관리</button></td>
+		                    <td><button type="button" class="btn btn-outline-danger" th:data-status="${r.status}" th:data-reviewnum="${r.reviewNum}" th:data-userid="${r.userId}" onclick="showBlockModal(this)">차단관리</button></td>
           					<td><button type="button" class="btn btn-outline-primary">바로가기</button></td>
 		                </tr>
 		            </tbody>
@@ -101,78 +102,6 @@
 		          </ul>
 		        </nav>
 		    </div>
-		    <div class="tab-pane fade" id="question">
-		        <table class="table table-hover text-center align-middle">
-		            <thead>
-		                <tr>
-		                    <th>#</th>
-		                    <th>아이디</th>
-		                    <th>닉네임</th>
-		                    <th>제목</th>
-		                    <th>등록일</th>
-		                    <th>상태</th>
-		                    <th>관리</th>
-		                    <th>바로가기</th>
-		                </tr>
-		            </thead>
-		            <tbody>
-		                <tr>
-		                    <th>1</th>
-		                    <td>테스트</td>
-		                    <td>테스트</td>
-		                    <td>테스트</td>
-		                    <td>2026-01-01</td>
-		                    <td><span class="badge rounded-pill bg-success text-white">정상</span></td>
-		                    <td><button type="button" class="btn btn-outline-danger blockBtn">차단관리</button></td>
-		                    <td><button type="button" class="btn btn-outline-primary">바로가기</button></td>
-		                </tr>
-		            </tbody>
-		        </table>
-		        <nav><ul class="pagination justify-content-center">
-		            <li class="page-item"><a class="page-link" href="#">«</a></li>
-		            <li class="page-item"><a class="page-link" href="#">1</a></li>
-		            <li class="page-item"><a class="page-link" href="#">2</a></li>
-		            <li class="page-item"><a class="page-link" href="#">3</a></li>
-		            <li class="page-item"><a class="page-link" href="#">»</a></li>
-		        </ul></nav>
-		    </div>
-		    <div class="tab-pane fade" id="answer">
-		        <table class="table table-hover text-center align-middle">
-		            <thead>
-		                <tr>
-		                    <th>#</th>
-		                    <th>아이디</th>
-		                    <th>닉네임</th>
-		                    <th>질문제목</th>
-		                    <th>답변내용</th>
-		                    <th>등록일</th>
-		                    <th>상태</th>
-		                    <th>관리</th>
-		                    <th>바로가기</th> 
-		                </tr>
-		            </thead>
-		            <tbody>
-		                <tr>
-		                    <th>1</th>
-		                    <td>테스트</td>
-		                    <td>테스트</td>
-		                    <td>테스트</td>
-		                    <td><span>뭔가길게있겄지</span></td>
-		                    <td>2026-01-01</td>
-		                    <td><span class="badge rounded-pill bg-success text-white">정상</span></td>
-		                    <td><button type="button" class="btn btn-outline-danger blockBtn">차단관리</button></td>
-		                    <td><button type="button" class="btn btn-outline-primary">바로가기</button></td>
-		                </tr>
-		            </tbody>
-		        </table>
-		        <nav><ul class="pagination justify-content-center">
-		            <li class="page-item"><a class="page-link" href="#">«</a></li>
-		            <li class="page-item"><a class="page-link" href="#">1</a></li>
-		            <li class="page-item"><a class="page-link" href="#">2</a></li>
-		            <li class="page-item"><a class="page-link" href="#">3</a></li>
-		            <li class="page-item"><a class="page-link" href="#">»</a></li>
-		        </ul></nav>
-		    </div>
 		</div>
 	</div>
 	
@@ -183,8 +112,7 @@
 	                <div class="bg-light rounded p-3 mb-3 d-flex justify-content-between align-items-center">
 					    <div class="d-flex align-items-center gap-2">
 					        <span class="badge rounded-pill text-bg-success">정상</span>
-					        <span class="fw-bold">아이디</span>
-					        <span class="text-body-secondary small">닉네임</span>
+					        <span class="fw-bold">후기내용들어가야됨</span>
 					    </div>
 					</div>
 	                <hr class="hr-1">
@@ -198,76 +126,108 @@
 	                </div>
 	            </div>
 	           <div class="modal-footer flex-nowrap p-0">
-	               <button type="button" class="btn btn-lg fs-6 col-6 py-3 m-0 rounded-0 border-end btn-danger text-white"><strong>차단하기</strong></button>
+	               <button type="button" class="btn btn-lg fs-6 col-6 py-3 m-0 rounded-0 border-end btn-danger text-white" onclick="blockReview('Y');"><strong>차단하기</strong></button>
 	               <button type="button" class="btn btn-lg fs-6 col-6 py-3 m-0 rounded-0" data-bs-dismiss="modal">아니요</button>
 	           </div>
 	           <div class="modal-footer flex-nowrap p-0">
-	               <button type="button" class="btn btn-lg fs-6 col-6 py-3 m-0 rounded-0 border-end btn-success text-white"><strong>차단해제</strong></button>
+	               <button type="button" class="btn btn-lg fs-6 col-6 py-3 m-0 rounded-0 border-end btn-success text-white" onclick="blockReview('N');"><strong>차단해제</strong></button>
 	               <button type="button" class="btn btn-lg fs-6 col-6 py-3 m-0 rounded-0" data-bs-dismiss="modal">아니요</button>
 	           </div>
 	        </div>
 	    </div>
 	</div>
 	
-	<script>
-	    window.onload=()=>{
-			
-		}
-	    
-	    
-	    const showBlockModal = (obj) =>{
-	   	    const userId = obj.dataset.userid;
-	   	    const nickname = obj.dataset.nickname;
-	   	    
-	   	    document.querySelector('#modalBlock .fw-bold').innerText = userId;
-	   	    document.querySelector('#modalBlock .text-body-secondary').innerText = nickname;
-	   	    
-	   	    
-	   	    
-	   	    const status = obj.dataset.status;
-	   	    
-	   	    const badge = document.querySelector('#modalBlock .badge');
-	   	    const footers = document.querySelectorAll('#modalBlock .modal-footer');
+<script th:inline="javascript">
+let subIndex = null;
+const currentPage = /*[[${pi.currentPage}]]*/ 1;
+    
+    window.onload=()=>{
+		
+	}
+    
+    
+    const showBlockModal = (obj) =>{
+   	   
+   	    const status = obj.dataset.status;
+   	 	const reviewNum = obj.dataset.reviewnum;
+   	 	subIndex = reviewNum;
+   	 	const review = obj.closest('tr').querySelector('.review').innerText;
+   	 	document.querySelector('#modalBlock .fw-bold').innerText = review;
+   		
+   		
+   		
+   	    const badge = document.querySelector('#modalBlock .badge');
+   	    const footers = document.querySelectorAll('#modalBlock .modal-footer');
 
-	   	    if (status === 'Y') {
-	   	        badge.className = 'badge rounded-pill text-bg-success';
-	   	        badge.innerText = '정상';
-	   	        footers[0].style.display = '';
-	   	        footers[1].style.display = 'none';
-	   	        
-	   	        
-	   	     	// 오늘 날짜 가져오기
-	   	        const today = new Date();
-	   	        const year = today.getFullYear();
-	   	        const month = String(today.getMonth() + 1).padStart(2, '0'); 
-	   	        const day = String(today.getDate()).padStart(2, '0'); 
+   	 
+   	    
+   	    
+   	    if (status === 'Y') {
+   	        badge.className = 'badge rounded-pill text-bg-success';
+   	        badge.innerText = '정상';
+   	        footers[0].style.display = '';
+   	        footers[1].style.display = 'none';
+   	        
+   	        
+   	     	// 오늘 날짜 가져오기
+   	        const today = new Date();
+   	        const year = today.getFullYear();
+   	        const month = String(today.getMonth() + 1).padStart(2, '0'); 
+   	        const day = String(today.getDate()).padStart(2, '0'); 
 
-	   	        // yyyy-mm-dd 형식으로 날짜 문자열 생성
-	   	        const formattedDate = `${year}-${month}-${day}`;
+   	        // yyyy-mm-dd 형식으로 날짜 문자열 생성
+   	        const formattedDate = `${year}-${month}-${day}`;
 
-	   	        // input 요소에 날짜 설정
-	   	        document.getElementById('blockDate').value = formattedDate;
-	   	     	$('#modalBlock').modal('show');
-	   	        
-	   	    } else {
-	   	        badge.className = 'badge rounded-pill text-bg-danger';
-	   	        badge.innerText = '차단';
-	   	        footers[0].style.display = 'none';
-	   	        footers[1].style.display = '';
-	   	        
-	   	        
-		   	     $.ajax({
-		   	        url: '/admin/user',
-		   	        type: 'get',
-		   	        data: { userId: userId },
-		   	        success: data => {
-		   	            document.getElementById('blockDate').value = data.updateDate.split('T')[0];
-		   	            document.getElementById('manageReason').value = data.comment;
-		   	         	$('#modalBlock').modal('show');
-		   	        }
-		   	    });
-		   	}
-	    }
-	</script>
+   	        // input 요소에 날짜 설정
+   	        document.getElementById('blockDate').value = formattedDate;
+   	     	document.getElementById('manageReason').value = "";
+   	     	$('#modalBlock').modal('show');
+   	        
+   	    } else {
+   	        badge.className = 'badge rounded-pill text-bg-danger';
+   	        badge.textContent = '차단';
+   	        footers[0].style.display = 'none';
+   	        footers[1].style.display = '';
+   	        
+   	        
+	   	     $.ajax({
+	   	        url: '/admin/review',
+	   	        type: 'get',
+	   	        data: { reviewNum: reviewNum },
+	   	        success: data => {
+	   	            document.getElementById('blockDate').value = data.updateDate.split('T')[0];
+	   	            document.getElementById('manageReason').value = data.comment;
+	   	         	$('#modalBlock').modal('show');
+	   	        }
+	   	    });
+	   	}
+    }
+    
+    const blockReview = (status) => {
+		const blockText = document.querySelector('#manageReason').value.trim();
+    	$.ajax({
+			url: '/admin/review',
+			type: 'put',
+			data: {
+				type : "R",
+				subType : status=='Y'?"B":"U",
+				subIndex : subIndex,
+				comment : blockText,
+			},
+			success:data=>{
+				if(data==1){
+					alert("처리되었습니다.");
+					const searchType = document.querySelector('#searchType').value;
+					const searchText = document.querySelector('[name=searchText]').value;
+
+					location.href = '/admin/member-activity?tab=review&page='+currentPage+'&searchType='+searchType+'&searchText='+searchText;//새로고침..
+				}else{
+					alert("오류가 발생했습니다.");
+				}
+			},
+			error :data=> console.log(data)
+		});
+    }
+</script>
 </body>
 </html>

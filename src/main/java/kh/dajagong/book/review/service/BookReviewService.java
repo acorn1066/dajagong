@@ -11,6 +11,7 @@ import kh.dajagong.book.review.model.vo.Book;
 import kh.dajagong.book.review.model.vo.Review;
 import kh.dajagong.common.PageInfo;
 import kh.dajagong.common.model.vo.License;
+import kh.dajagong.qa.model.vo.Question;
 import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
@@ -63,8 +64,8 @@ public class BookReviewService {
 		return mapper.deleteReview(review);
 	}
 
-	public int blockReview(int reviewNum) {
-		return mapper.blockReview(reviewNum);
+	public int blockReview(HashMap<String, Object> map) {
+		return mapper.blockReview(map);
 	}
 
 	public Review selectReview(int reviewNum) {
