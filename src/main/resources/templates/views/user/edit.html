@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>회원가입 화면</title>
+<title>회원수정 화면</title>
 
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -107,7 +107,13 @@ body {
 		        let pwd = document.getElementById("pwd").value;
 		        let pwdConfirm = document.getElementById("pwdConfirm").value;
 
-		        if (pwd !== pwdConfirm) {
+		        if(pwd === ''){
+		        	alert("새 비밀번호를 입력해주십시오.");
+		        	return
+		        } else if (pwdConfirm === '') {
+		            alert("비밀번호 확인을 입력해주십시오.");
+		            return
+		        } else if (pwd !== pwdConfirm) {
 		            alert("비밀번호가 일치하지 않습니다.");
 		            return;
 		        }
