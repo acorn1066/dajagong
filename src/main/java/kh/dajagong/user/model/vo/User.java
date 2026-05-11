@@ -22,4 +22,8 @@ public class User {
 	private Date createDate;
 	private String status;
 	private String isAdmin;
+	
+	//관리용
+	private String comment;
+	private Date blockDate;
 }

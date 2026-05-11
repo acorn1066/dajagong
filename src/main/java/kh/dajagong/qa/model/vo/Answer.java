@@ -21,4 +21,8 @@ public class Answer {
 	private int qIndex;
 	private String userId;
 
+
+	//관리자페이지
+	private String nickname;
+	private Date blockDate;
 }
