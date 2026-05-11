@@ -88,10 +88,6 @@ public class UserController {
 	
 	@PostMapping("edit")
 	public String editMyPage(@ModelAttribute User u, Model model) {
-
-	    User loginUser = (User)model.getAttribute("loginUser");
-//	    System.out.println(u);
-//	    System.out.println(model);
 	    
 	    // 새 비밀번호 입력 시 변경
 	    u.setPwd(bcrypt.encode(u.getPwd()));
@@ -105,6 +101,17 @@ public class UserController {
 	    } else {
 	        throw new UserException("회원 정보 수정을 실패하였습니다.");
 	    }
+	}
+	
+	@GetMapping("delete")
+	public String deleteUser(HttpSession session) {
+		
+		int result = uService.deleteUser(((User)session.getAttribute("loginUser")).getUserId());
+		if(result > 0) {
+			return "redirect:/log-out";
+		} else {
+			throw new UserException("회원 탈퇴를 실패했습니다.");
+		}
 	}
 	
 }
