@@ -16,4 +16,13 @@ public class GlobalExceptionHandler {
 		 session.setAttribute("message", e.getMessage());
 		return "redirect:/";
 	}
+	
+	// login 실패시 에러메시지 반환
+	@ExceptionHandler(UserException.class)
+    public String userExceptionHandler(UserException ue, Model model) {
+
+        model.addAttribute("errorMsg", ue.getMessage());
+
+        return "views/user/login";
+    }
 }
