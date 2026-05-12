@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpSession;
 import kh.dajagong.common.exception.UserException;
@@ -50,7 +51,7 @@ public class UserController {
 	
 	// 회원가입 완료 후 메인으로
 	@PostMapping("/enroll")
-	public String enroll(@ModelAttribute User u, @RequestParam("userId") String id) {
+	public String enroll(@ModelAttribute User u, @RequestParam("userId") String id, RedirectAttributes ra) {
 
 		if(!id.trim().equals("")) {
 			u.setUserId(id);
@@ -60,6 +61,8 @@ public class UserController {
 		
 		int result = uService.insertUser(u);
 		if(result > 0) {
+			ra.addFlashAttribute("alertMsg", "회원가입이 완료되었습니다.");
+			
 			return "redirect:/";
 		} else {
 			throw new UserException("회원가입을 실패하였습니다.");
