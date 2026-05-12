@@ -6,7 +6,12 @@
         cursor:pointer;
     }
     
-    .pagination { justify-content: center; } /* 페이지 번호 중앙 정렬 */
+    .pagination { justify-content: center; }     
+    
+.questionTitle{	
+	overflow: hidden;	
+	white-space: nowrap;
+}	
 </style>
 <body>
     <div th:replace="~{views/common/navbar :: navbar}"></div>
@@ -41,6 +46,16 @@
         </form>
 
         <table class="table table-hover text-center">
+        
+        	<colgroup>
+		        <col style="width: 10%" />
+		        <col style="width: 10%; background-color: red" />
+		        <col style="width: 60%" />
+		        <col style="width: 100px; background-color: blue" />
+		        <col style="width: 10%" />
+		        <col style="width: 10%" />
+		       
+		    </colgroup>
             <thead>
                 <tr>
                     <th>번호</th><th>자격증</th><th>제목</th><th>작성자</th><th>작성일</th><th>조회수</th>
@@ -50,7 +65,11 @@
                 <tr class="qa-row" th:each="q : ${list}">
                     <td class="q-idx">[[${q.qIndex}]]</td>
                     <td>[[${q.licenseName}]]</td>
-                    <td>[[${q.title}]]</td>
+                    <td style="max-width: 300px;"> 
+                    	<span class="questionTitle" th:title="${q.title}" style="display: block;">
+					        [[${q.title}]]
+					    </span>
+					</td>
                     <td>[[${q.userId}]]</td>
                     <td>[[${q.createDate}]]</td>
                     <td>[[${q.count}]]</td>
