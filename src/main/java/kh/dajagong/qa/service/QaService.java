@@ -17,7 +17,9 @@ import lombok.RequiredArgsConstructor;
 public class QaService {
     private final QaMapper qMapper;
 
-    public int getListCount(HashMap<String, Object> searchMap) { return qMapper.getListCount(searchMap); }
+    public int getListCount(HashMap<String, Object> searchMap) { 
+        return qMapper.getListCount(searchMap); 
+    }
     
     public ArrayList<Question> selectQaList(PageInfo pi, HashMap<String, Object> searchMap) {
         int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
@@ -25,21 +27,64 @@ public class QaService {
         return qMapper.selectQaList(rowBounds, searchMap);
     }
 
-    public ArrayList<License> selectLicenseList() { return qMapper.selectLicenseList(); }
-    public int insertQuestion(Question q) { return qMapper.insertQuestion(q); }
+    public ArrayList<License> selectLicenseList() { 
+        return qMapper.selectLicenseList(); 
+    }
+    
+    public int insertQuestion(Question q) { 
+        return qMapper.insertQuestion(q); 
+    }
 
-    public Question selectQuestion(int qIndex) { // 1. 조회수를 먼저 올린다.
-        qMapper.updateCount(qIndex);
+   
+    public Question selectQuestion(int qIndex, String loginId) {
+       
+        Question q = qMapper.selectQuestion(qIndex);
         
-        // 2. 조회수가 올라간 게시글 정보를 가져온다.
-        return qMapper.selectQuestion(qIndex); }
-    
-    public int updateCount(int qIndex) { return qMapper.updateCount(qIndex); }
+        if(q != null) {
+           
+            if(loginId != null && !q.getUserId().equals(loginId)) {
+                int result = qMapper.updateCount(qIndex);
+                if(result > 0) {
+                    q.setCount(q.getCount() + 1); 
+                }
+            }
+        }
+        return q;
+    }
 
-    public int updateQuestionStatus(int qIndex) { return qMapper.updateQuestionStatus(qIndex); }
-
-    // 답변 관련 로직 구현
-    public ArrayList<Answer> selectAnswerList(int qIndex) { return qMapper.selectAnswerList(qIndex); }
+  
+    public int updateQuestion(Question q) {
+        return qMapper.updateQuestion(q);
+    }
     
-    public int insertAnswer(Answer a) { return qMapper.insertAnswer(a); }
+    public int updateCount(int qIndex) { 
+        return qMapper.updateCount(qIndex); 
+    }
+
+    public int updateQuestionStatus(int qIndex) { 
+        return qMapper.updateQuestionStatus(qIndex); 
+    }
+
+    public ArrayList<Answer> selectAnswerList(int qIndex) { 
+        return qMapper.selectAnswerList(qIndex); 
+    }
+    
+    public int insertAnswer(Answer a) { 
+        return qMapper.insertAnswer(a); 
+    }
+
+	public Question selectAdminQuestion(int qIndex, String loginId) {
+	
+        Question q = qMapper.selectAdminQuestion(qIndex);
+        
+        if(q != null) {
+            if(loginId != null && !q.getUserId().equals(loginId)) {
+                int result = qMapper.updateCount(qIndex);
+                if(result > 0) {
+                    q.setCount(q.getCount() + 1);  
+                }
+            }
+        }
+        return q;
+	}
 }

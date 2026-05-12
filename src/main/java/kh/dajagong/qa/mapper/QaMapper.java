@@ -21,4 +21,6 @@ public interface QaMapper {
     // 답변 관련 메소드 명칭 통일
     ArrayList<Answer> selectAnswerList(int qIndex);
     int insertAnswer(Answer a);
+	int updateQuestion(Question q);
+	Question selectAdminQuestion(int qIndex);
 }

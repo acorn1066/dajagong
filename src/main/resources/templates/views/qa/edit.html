@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{views/common/head :: head}">
+    <style>
+     
+        .qa-table th { background-color: #f8f9fa !important; text-align: center; width: 15%; border: 1px solid #dee2e6; }
+        .qa-table td { padding: 12px 20px !important; border: 1px solid #dee2e6; }
+        
+        .edit-input { 
+            width: 100%; 
+            border: 1px solid #ced4da; 
+            border-radius: 4px; 
+            padding: 8px; 
+            outline-color: #198754; 
+        }
+        .edit-textarea { 
+            width: 100%; 
+            min-height: 400px; 
+            padding: 20px; 
+            border: 1px solid #ced4da; 
+            border-radius: 4px; 
+            resize: none; 
+            outline-color: #198754;
+        }
+        .info-label { color: #6c757d; font-size: 0.9rem; }
+    </style>
+</head>
+<body class="bg-light">
+    <div th:replace="~{views/common/navbar :: navbar}"></div>
+	
+    <div class="container py-4">      
+        <nav aria-label="breadcrumb"> 
+            <ol class="breadcrumb p-3 bg-f3faff rounded-3"> 
+                <li class="breadcrumb-item"> 
+                    <a class="link-body-emphasis text-decoration-none" href="javascript:history.back();"> 
+                        <i class="bi bi-arrow-left"></i> 수정 취소하고 돌아가기
+                    </a> 
+                </li> 
+            </ol> 
+        </nav>
+		
+        <div class="container py-4 bg-white" style="max-width: 1000px; box-shadow: 0 0 15px rgba(0,0,0,0.05); border-radius: 10px;">
+            <h2 class="do-hyeon-regular text-center mb-5">질의응답 수정하기</h2>
+
+            <form action="/qa/update" method="POST">
+                <input type="hidden" name="qIndex" th:value="${q.qIndex}"/>
+                <input type="hidden" name="page" th:value="${page}"/>
+                
+                <table class="table qa-table mb-0">
+                    <tr>
+                        <th>제목</th>
+                        <td colspan="3">
+                            <input type="text" name="title" class="edit-input fw-bold" 
+                                   th:value="${q.title}" placeholder="제목을 입력하세요" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>작성자</th>
+                        <td style="width: 35%;">
+                            <span th:text="${q.userId}">작성자ID</span>
+                            <small class="info-label ms-2">(수정 불가)</small>
+                        </td>
+                        <th style="width: 15%;">자격증</th>
+                        <td style="width: 35%;">
+                            <span th:text="${q.licenseName}">자격증명</span>
+                            <small class="info-label ms-2">(수정 불가)</small>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <textarea name="content" class="edit-textarea" 
+                                      placeholder="내용을 입력하세요" required>[[${q.content}]]</textarea>
+                        </td>
+                    </tr>
+                </table>
+
+                <div class="text-center mt-5 mb-3">
+                    <button type="submit" class="btn btn-success px-5 py-2 me-2">
+                        <i class="bi bi-check-circle"></i> 업데이트 완료
+                    </button>
+                    <button type="button" class="btn btn-secondary px-5 py-2" onclick="javascript:history.back();">
+                        취소
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer th:replace="~{views/common/footer :: footer}"></footer>
+</body>
+</html>
