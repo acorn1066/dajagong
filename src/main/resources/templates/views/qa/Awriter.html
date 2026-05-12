@@ -14,6 +14,16 @@
 <body class="bg-light">
     <div th:replace="~{views/common/navbar :: navbar}"></div>
 	
+	<nav aria-label="breadcrumb"> 
+            <ol class="breadcrumb p-3 bg-f3faff rounded-3"> 
+                <li class="breadcrumb-item"> 
+                    <a class="link-body-emphasis text-decoration-none" href="/qa/list"> 
+                        <i class="bi bi-house-door-fill"></i> 돌아가기
+                    </a> 
+                </li> 
+            </ol> 
+        </nav>
+	
     <div class="container py-5">      
         <div class="qa-layout bg-white p-5 rounded shadow-sm">
             <h2 class="do-hyeon-regular text-center mb-5">QA DETAIL</h2>
@@ -59,8 +69,7 @@
                 <th:block th:if="${session.loginUser != null and (session.loginUser.userId == q.userId or session.loginUser.isAdmin == 'Y')}">
                     <button class="btn btn-success px-5 py-2 me-2" id="updateViewBtn">수정하기</button>
                     <button class="btn btn-danger px-5 py-2 me-2" id="deletePostBtn">삭제하기</button>
-                </th:block>
-                <button class="btn btn-dark px-5 py-2" onclick="location.href='/qa/list'">목록으로</button>
+                </th:block>                
             </div>
 
             <hr class="my-5">
