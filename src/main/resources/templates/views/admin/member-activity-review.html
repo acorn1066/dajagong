@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{views/common/head :: head}"></head>
 <style>
-.review{
+.review-td{
 	max-width: 300px;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -66,14 +66,14 @@
 		                    <th>[[${stat.count}]]</th>
 		                    <td>[[${r.userId}]]</td>
 		                    <td>[[${r.nickname}]]</td>
-		                    <td>[[${r.bookName}]]</td>
+		                    <td class="review-td">[[${r.bookName}]]</td>
 		                    <td>
 			                    <div class="d-flex align-items-center gap-1">
 							        <i th:each="i : ${#numbers.sequence(1, 5)}" class="bi bi-star-fill" th:classappend="${i <= r.score} ? 'text-warning' : 'text-secondary'" style="font-size:0.8rem;"></i>
 									<small class="text-body-secondary ms-1 lh-1">([[${r.score}]]/5)</small>
 							    </div>
 		                    </td>
-		                    <td><span class="review">[[${r.review}]]</span></td>
+		                    <td class="review-td"><span class="review">[[${r.review}]]</span></td>
 		                    <td>[[${r.createDate}]]</td>
 		                    <td>
 				            	<span th:if="${r.status=='Y'}" class="badge rounded-pill bg-success text-white">정상</span>
