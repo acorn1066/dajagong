@@ -89,54 +89,74 @@ body {
 	<script>
 		<!-- 폼 유효성 검사 -->
 		window.addEventListener('load', () => {
-		  const forms = document.getElementsByClassName('validation-form');
-		
-		  Array.from(forms).forEach((form) => {
-		    form.addEventListener('submit', function (event) {
-		      if (form.checkValidity() === false) {
-		        event.preventDefault();
-		        event.stopPropagation();
-		      }
-		
-		      form.classList.add('was-validated');
-		    }, false);
-		  });
+
+		    const forms = document.getElementsByClassName('validation-form');
+
+		    Array.from(forms).forEach((form) => {
+
+		        form.addEventListener('submit', function (event) {
+
+		            let pwdInput = document.getElementById("pwd");
+		            let pwdConfirmInput = document.getElementById("pwdConfirm");
+		            let phoneInput = document.getElementById("phone");
+
+		            let phone = phoneInput.value.replace(/[^0-9]/g, '');
+
+		            // 기존 invalid 상태 제거
+		            pwdConfirmInput.classList.remove('is-invalid');
+		            phoneInput.classList.remove('is-invalid');
+
+		            // 기본 required 검사
+		            if (form.checkValidity() === false) {
+		                event.preventDefault();
+		                event.stopPropagation();
+		                form.classList.add('was-validated');
+		                return;
+		            }
+
+		            // 비밀번호 일치 검사
+		            if (pwdInput.value !== pwdConfirmInput.value) {
+		                event.preventDefault();
+		                pwdConfirmInput.classList.add('is-invalid');
+		                pwdConfirmInput.nextElementSibling.innerText = '비밀번호가 일치하지 않습니다.';
+		                pwdConfirmInput.focus();
+		                return;
+		            }
+
+		            // 전화번호 검사
+		            if (!/^\d{10,11}$/.test(phone)) {
+		                event.preventDefault();
+		                phoneInput.classList.add('is-invalid');
+		                phoneInput.nextElementSibling.innerText = '올바르지 않은 전화번호입니다.';
+		                phoneInput.focus();
+		                return;
+		            }
+		            form.classList.add('was-validated');
+		        }, false);
+		    });
 		}, false);
-		
-		<!-- 비밀번호 일치 검사 -->
-		function checkPwd() {
-
-	        let pwd = document.getElementById("pwd").value;
-	        let pwdConfirm = document.getElementById("pwdConfirm").value;
-
-	        if (pwd !== pwdConfirm) {
-	            alert("비밀번호가 일치하지 않습니다.");
-	            return;
-	        }
-
-	        document.getElementById("enrollForm").submit();
-    	}
 	</script>
 
 	<!-- 전화번호 형식 제한 -->
-	<script>
-	document.getElementById('phone').addEventListener('input', function(e) {
+		<script>
+		document.getElementById('phone').addEventListener('input', function(e) {
 
-	    // 숫자만 입력 제한
-	    let value = e.target.value.replace(/[^0-9]/g, '');
+		    // 숫자만 남기기
+		    let value = e.target.value.replace(/[^0-9]/g, '');
 
-	    // 전화번호 형식 적용
-	    if(value.length < 4) {
-	        value = value;
-	    } else if(value.length < 8) {
-	        value = value.replace(/(\d{3})(\d+)/, '$1-$2');
-	    } else {
-	        value = value.replace(/(\d{3})(\d{4})(\d+)/, '$1-$2-$3');
-	    }
-
-	    e.target.value = value;
-	});
-	</script>
+		    // 전화번호 형식 적용
+		    if(value.length < 4) {
+		        value = value;
+		    } else if(value.length < 7) {
+		        value = value.replace(/(\d{3})(\d+)/, '$1-$2');
+		    } else if(value.length < 11) {
+		        value = value.replace(/(\d{3})(\d{3})(\d+)/, '$1-$2-$3');
+		    } else {
+		        value = value.replace(/(\d{3})(\d{4})(\d+)/, '$1-$2-$3');
+		    }
+		    e.target.value = value;
+		});
+		</script>
 
 </body>
 </html>

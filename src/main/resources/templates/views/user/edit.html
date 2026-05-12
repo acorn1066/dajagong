@@ -76,11 +76,11 @@ body {
 					<div class="invalid-feedback">이메일을 입력해주세요.</div>
 				</div>
 				<div class="mb-3">
-					<label for="phone">전화번호</label> <input type="tel" class="form-control" id="phone" name="phone" autocomplete="tel" placeholder="010-1234-1234" th:value="${session.loginUser.phone}" maxlength="13" required>
+					<label for="phone">전화번호</label> <input type="tel" class="form-control" id="phone" name="phone" autocomplete="tel" placeholder="010-1234-1234" th:value="${session.loginUser.phone}" required>
 					<div class="invalid-feedback">전화번호를 입력해주세요.</div>
 				</div>
 				<div class="d-flex justify-content-center">
-					<button class="btn btn-success w-25 mr-3" type="button" onclick="checkPwd()">수정 완료</button>
+					<button class="btn btn-success w-25 mr-3" type="submit">수정 완료</button>
 					<button class="btn btn-secondary w-25" type="button" onclick="location.href='/'">홈으로</button>
 				</div>
 			</form>
@@ -88,38 +88,50 @@ body {
 	</div>
 	<script>
 		window.addEventListener('load', () => {
-		  const forms = document.getElementsByClassName('validation-form');
-		
-		  Array.from(forms).forEach((form) => {
-		    form.addEventListener('submit', function (event) {
-		      if (form.checkValidity() === false) {
-		        event.preventDefault();
-		        event.stopPropagation();
-		      }
-		
-		      form.classList.add('was-validated');
-		    }, false);
-		  });
+
+		    const forms = document.getElementsByClassName('validation-form');
+
+		    Array.from(forms).forEach((form) => {
+
+		        form.addEventListener('submit', function (event) {
+
+		            let pwdInput = document.getElementById("pwd");
+		            let pwdConfirmInput = document.getElementById("pwdConfirm");
+		            let phoneInput = document.getElementById("phone");
+
+		            let phone = phoneInput.value.replace(/[^0-9]/g, '');
+
+		            // 기존 invalid 제거
+		            pwdConfirmInput.classList.remove('is-invalid');
+		            phoneInput.classList.remove('is-invalid');
+
+		            // Bootstrap 기본 검사
+		            if (form.checkValidity() === false) {
+		                event.preventDefault();
+		                event.stopPropagation();
+		            }
+
+		            // 비밀번호 불일치 검사
+		            if (pwdInput.value !== pwdConfirmInput.value) {
+		                event.preventDefault();
+		                pwdConfirmInput.classList.add('is-invalid');
+		                pwdConfirmInput.nextElementSibling.innerText = '비밀번호가 일치하지 않습니다.';
+		                pwdConfirmInput.focus();
+		                return;
+		            }
+
+		            // 전화번호 검사
+		            if (!/^\d{10,11}$/.test(phone)) {
+		                event.preventDefault();
+		                phoneInput.classList.add('is-invalid');
+		                phoneInput.nextElementSibling.innerText = '올바르지 않은 전화번호입니다.';
+		                phoneInput.focus();
+		                return;
+		            }
+		            form.classList.add('was-validated');
+		        }, false);
+		    });
 		}, false);
-		
-		 function checkPwd() {
-
-		        let pwd = document.getElementById("pwd").value;
-		        let pwdConfirm = document.getElementById("pwdConfirm").value;
-
-		        if(pwd === ''){
-		        	alert("새 비밀번호를 입력해주십시오.");
-		        	return
-		        } else if (pwdConfirm === '') {
-		            alert("비밀번호 확인을 입력해주십시오.");
-		            return
-		        } else if (pwd !== pwdConfirm) {
-		            alert("비밀번호가 일치하지 않습니다.");
-		            return;
-		        }
-
-		        document.getElementById("editForm").submit();
-	    }
 	</script>
 
 	<!-- 전화번호 형식 제한 -->
@@ -132,12 +144,13 @@ body {
 	    // 전화번호 형식 적용
 	    if(value.length < 4) {
 	        value = value;
-	    } else if(value.length < 8) {
+	    } else if(value.length < 7) {
 	        value = value.replace(/(\d{3})(\d+)/, '$1-$2');
+	    } else if(value.length < 11) {
+	        value = value.replace(/(\d{3})(\d{3})(\d+)/, '$1-$2-$3');
 	    } else {
 	        value = value.replace(/(\d{3})(\d{4})(\d+)/, '$1-$2-$3');
 	    }
-
 	    e.target.value = value;
 	});
 	</script>
