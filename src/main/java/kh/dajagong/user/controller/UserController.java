@@ -50,7 +50,7 @@ public class UserController {
 	
 	// 회원가입 완료 후 메인으로
 	@PostMapping("/enroll")
-	public String enroll(@ModelAttribute User u, @RequestParam("id") String id) {
+	public String enroll(@ModelAttribute User u, @RequestParam("userId") String id) {
 
 		if(!id.trim().equals("")) {
 			u.setUserId(id);

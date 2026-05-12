@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{views/common/head :: head}"></head>
 <style>
-.answer{
+.answer-td{
 	max-width: 300px;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -64,7 +64,7 @@
 		                    <td>[[${a.userId}]]</td>
 		                    <td>[[${a.nickname}]]</td>
 		                    <td class="">[[${a.title}]]</td>
-		                    <td><span class="answer">[[${a.content}]]</span></td>
+		                    <td class="answer-td"><span class="answer">[[${a.content}]]</span></td>
 		                    <td>[[${a.createDate}]]</td>
 		                    <td>
 		                    	<span th:if="${a.status=='Y'}" class="badge rounded-pill bg-success text-white">정상</span>
