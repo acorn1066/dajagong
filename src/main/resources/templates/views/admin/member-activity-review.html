@@ -80,7 +80,7 @@
 				            	<span th:unless="${r.status=='Y'}" class="badge rounded-pill bg-danger text-white">차단</span>
 				            </td>
 		                    <td><button type="button" class="btn btn-outline-danger" th:data-status="${r.status}" th:data-reviewnum="${r.reviewNum}" th:data-userid="${r.userId}" onclick="showBlockModal(this)">차단관리</button></td>
-          					<td><button type="button" class="btn btn-outline-primary">바로가기</button></td>
+          					<td><button type="button" class="btn btn-outline-primary"  th:data-booknum="${r.bookNum}" onclick="goPage(this);">바로가기</button></td>
 		                </tr>
 		            </tbody>
 		        </table>
@@ -227,6 +227,10 @@ const currentPage = /*[[${pi.currentPage}]]*/ 1;
 			},
 			error :data=> console.log(data)
 		});
+    }
+    
+    const goPage=(obj)=>{
+    	window.open('/book-review/detail?num=' + obj.dataset.booknum);
     }
 </script>
 </body>

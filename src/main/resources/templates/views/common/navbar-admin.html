@@ -8,7 +8,7 @@
 		                    <a class="nav-link"  id="member"href="/admin/member-management">회원 관리</a>
 		                </li>
 		                <li class="nav-item">
-		                    <a class="nav-link"  id="log" href="/admin/log-mem">관리 이력</a>
+		                    <a class="nav-link"  id="log" href="/admin/log?tab=member">관리 이력</a>
 		                </li>
 		                <!-- <li class="nav-item">
 		                   <button type="button" class="btn btn-light" onclick="location.href='/'">사이트로</button>
@@ -47,13 +47,16 @@
 			        <div class="collapse navbar-collapse" id="navbarSub">
 			            <ul class="navbar-nav me-auto mb-2 mb-md-0">
 			                <li class="nav-item">
-			                    <a class="nav-link" id="log-member" href="/admin/log-mem">회원 관리 이력</a>
+			                    <a class="nav-link" id="log-member" href="/admin/log?tab=member">회원 관리 이력</a>
 			                </li>
 			                <li class="nav-item">
-			                    <a class="nav-link" id="log-book" href="/admin/log-book">후기 관리 이력</a>
+			                    <a class="nav-link" id="log-review" href="/admin/log?tab=review">후기 관리 이력</a>
 			                </li>
 			                <li class="nav-item">
-			                    <a class="nav-link" id="log-QnA" href="/admin/log-QnA">질답 관리 이력</a>
+			                    <a class="nav-link" id="log-question" href="/admin/log?tab=question">질문 관리 이력</a>
+			                </li>
+			                <li class="nav-item">
+			                    <a class="nav-link" id="log-answer" href="/admin/log?tab=answer">답변 관리 이력</a>
 			                </li>
 			            </ul>
 			        </div>
@@ -86,16 +89,17 @@
 			}else if(window.location.pathname.includes("log")){
 				document.getElementById('log').className += ' active';
 				
-				if(window.location.pathname.includes("log-mem")){
-					document.getElementById('log-member').className += ' active';
-				}else if(window.location.pathname.includes("log-book")){
-					document.getElementById('log-book').className += ' active';
-				}else if(window.location.pathname.includes("log-QnA")){
-					document.getElementById('log-QnA').className += ' active';
-				}
+				const tab = new URLSearchParams(window.location.search).get('tab');
+			    if(tab === 'member'){
+			        document.getElementById('log-member').className += ' active';
+			    }else if(tab === 'review'){
+			        document.getElementById('log-review').className += ' active';
+			    }else if(tab === 'question'){
+			        document.getElementById('log-question').className += ' active';
+			    }else if(tab === 'answer'){
+			        document.getElementById('log-answer').className += ' active';
+			    }
 			}
-			
-			
 			
 			
 	</script>

@@ -29,4 +29,66 @@
 		)
 		WHERE rownum = 1
 	</select>
+	<select id="getLogCount" resultType="_int" >
+	    select count(*)
+	    from management_history mh
+	    join "USER" u on mh.user_id = u.user_id
+	    <if test="tab == 'review'">
+	        left outer join review r on r.review_num = mh.sub_index
+	    </if>
+	    <if test="tab == 'question'">
+	        left outer join question q on q.q_index = mh.sub_index
+	    </if>
+	    <if test="tab == 'answer'">
+	        left outer join answer a on a.a_index = mh.sub_index
+	    </if>
+	    <trim prefix="WHERE" prefixOverrides="AND |OR ">
+	        <if test="tab == 'review'">and mh.type = 'R'</if>
+	        <if test="tab == 'member'">and mh.type = 'U'</if>
+	        <if test="tab == 'question'">and mh.type = 'Q'</if>
+	        <if test="tab == 'answer'">and mh.type = 'A'</if>
+	        <if test="searchType != null and searchText != null">
+	            <if test="searchType == 'userId'">
+	            	and mh.user_id like '%${searchText}%'
+	            </if>
+	            <if test="searchType == 'nickname'">
+	            	and u.nickname like '%${searchText}%'
+	            </if>
+	        </if>
+	    </trim>
+	</select>
+	<select id="selectLogList" resultType="ManagementHistory">
+	    select mh.*, u.nickname,
+	        <if test="tab == 'review'">r.review as title</if>
+	        <if test="tab == 'question'">q.title</if>
+	        <if test="tab == 'answer'">a.content as title</if>
+	        <if test="tab == 'member'">null AS title</if>
+	    from management_history mh
+	    join "USER" u ON mh.user_id = u.user_id
+	    <if test="tab == 'review'">
+	        left outer join review r on r.review_num = mh.sub_index
+	    </if>
+	    <if test="tab == 'question'">
+	        left outer join question q on q.q_index = mh.sub_index
+	    </if>
+	    <if test="tab == 'answer'">
+	        left outer join answer a on a.a_index = mh.sub_index
+	        left outer join question q on q.q_index = a.q_index
+	    </if>
+	    <trim prefix="WHERE" prefixOverrides="AND |OR ">
+	        <if test="tab == 'review'">and mh.type = 'R'</if>
+	        <if test="tab == 'member'">and mh.type = 'U'</if>
+	        <if test="tab == 'question'">and mh.type = 'Q'</if>
+	        <if test="tab == 'answer'">and mh.type = 'A'</if>
+	        <if test="searchType != null and searchText != null">
+	            <if test="searchType == 'userId'">
+	            	and mh.user_id like '%${searchText}%'
+	            </if>
+	            <if test="searchType == 'nickname'">
+	            	and u.nickname like '%${searchText}%'
+	            </if>
+	        </if>
+	    </trim>
+	    order by mh.update_date desc
+	</select>
 </mapper>

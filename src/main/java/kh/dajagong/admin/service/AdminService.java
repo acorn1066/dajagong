@@ -71,4 +71,12 @@ public class AdminService {
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return mapper.selectAnswerList(map,rowBounds);
 	}
+
+	public int blockAnswer(HashMap<String, Object> map) {
+		return mapper.blockAnswer(map);
+	}
+
+	public Answer selectAnswer(int aIndex) {
+		return mapper.selectAnswer(aIndex);
+	}
 }
