@@ -33,13 +33,13 @@
 
 		<ul class="nav nav-tabs mb-3 mt-2">
 		    <li class="nav-item">
-		        <a class="nav-link" th:classappend="${tab == 'review'} ? 'active' : ''" th:href="@{/admin/member-activity(page=${p}, searchType=${searchType}, keyword=${keyword}, tab='review')}">후기 게시판</a>
+		        <a class="nav-link" th:classappend="${tab == 'review'} ? 'active' : ''" th:href="@{/admin/member-activity(searchType=${searchType}, searchText=${searchText}, tab='review')}">후기 게시판</a>
 		    </li>
 		    <li class="nav-item">
-		        <a class="nav-link" th:classappend="${tab == 'question'} ? 'active' : ''" th:href="@{/admin/member-activity(page=${p}, searchType=${searchType}, keyword=${keyword}, tab='question')}">질문</a>
+		        <a class="nav-link" th:classappend="${tab == 'question'} ? 'active' : ''" th:href="@{/admin/member-activity(searchType=${searchType}, searchText=${searchText}, tab='question')}">질문</a>
 		    </li>
 		    <li class="nav-item">
-		        <a class="nav-link" th:classappend="${tab == 'answer'} ? 'active' : ''" th:href="@{/admin/member-activity(page=${p}, searchType=${searchType}, keyword=${keyword}, tab='answer')}">답변</a>
+		        <a class="nav-link" th:classappend="${tab == 'answer'} ? 'active' : ''" th:href="@{/admin/member-activity(searchType=${searchType}, searchText=${searchText}, tab='answer')}">답변</a>
 		    </li>
 		</ul>
 		<div class="tab-content">
