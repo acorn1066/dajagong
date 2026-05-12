@@ -2,7 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{views/common/head :: head}">
     <style>
-        /* 사진 스타일을 위한 테이블 커스텀 */
         .qa-table th { background-color: #f8f9fa !important; text-align: center; width: 15%; border: 1px solid #dee2e6; }
         .qa-table td { padding: 12px 20px !important; border: 1px solid #dee2e6; }
         .content-box { min-height: 350px; padding: 25px; vertical-align: top; text-align: left; }
@@ -12,8 +11,8 @@
 <body class="bg-light">
     <div th:replace="~{views/common/navbar :: navbar}"></div>
 	
-	 <div class="container py-4">      
-		 <nav aria-label="breadcrumb"> 
+    <div class="container py-4">      
+        <nav aria-label="breadcrumb"> 
             <ol class="breadcrumb p-3 bg-f3faff rounded-3"> 
                 <li class="breadcrumb-item"> 
                     <a class="link-body-emphasis text-decoration-none" href="/qa/list"> 
@@ -23,118 +22,93 @@
             </ol> 
         </nav>
 		
-    <div class="container py-4 bg-white " style="max-width: 1000px;">
-        <h2 class="do-hyeon-regular text-center mb-5">질의응답 상세보기</h2>
+        <div class="container py-4 bg-white " style="max-width: 1000px;">
+            <h2 class="do-hyeon-regular text-center mb-5">질의응답 상세보기</h2>
 
-        <table class="table table_hover qa-table mb-0">
-            <tr>
-                <th>제목</th>
-                <td colspan="3" class="fw-bold" th:text="${q.title}">DB 제목 데이터</td>
-            </tr>
-            <tr>
-                <th>작성자</th>
-                <td style="width: 35%;" th:text="${q.userId}">DB 작성자ID</td>
-                <th style="width: 15%;">작성일</th>
-                <td style="width: 35%;" th:text="${q.createDate}">DB 작성일</td>
-            </tr>
-            <tr>
-                <th>자격증</th>
-                <td th:text="${q.licenseName}">DB 자격증명</td>
-                <th>조회수</th>
-                <td th:text="${q.count}">0</td>
-            </tr>
-            <tr>
-                <td colspan="4" class="content-box">
-                    <div style="white-space: pre-wrap;" th:text="${q.content}">DB 본문 내용</div>
-                </td>
-            </tr>
-        </table>
+            <form id="detailForm" method="POST">
+                <input type="hidden" th:value="${q.qIndex}" name="qIndex"/>
+                <input type="hidden" th:value="${page}" name="page"/>
+                
+                <table class="table table_hover qa-table mb-0">
+                    <tr>
+                        <th>제목</th>
+                        <td colspan="3" class="fw-bold" th:text="${q.title}">DB 제목 데이터</td>
+                    </tr>
+                    <tr>
+                        <th>작성자</th>
+                        <td style="width: 35%;" th:text="${q.userId}">DB 작성자ID</td>
+                        <th style="width: 15%;">작성일</th>
+                        <td style="width: 35%;" th:text="${q.createDate}">DB 작성일</td>
+                    </tr>
+                    <tr>
+                        <th>자격증</th>
+                        <td th:text="${q.licenseName}">DB 자격증명</td>
+                        <th>조회수</th>
+                        <td th:text="${q.count}">0</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" class="content-box">
+                            <div style="white-space: pre-wrap;" th:text="${q.content}">DB 본문 내용</div>
+                        </td>
+                    </tr>
+                </table>
+            </form>
 
-        <div class="text-center mt-4">
-                        
-            <th:block th:if="${session.loginUser != null and session.loginUser.userId == q.userId}">
-                <button class="btn btn-success me-2 px-4" 
-                        th:onclick="|location.href='/qa/editView?qIndex=${q.qIndex}'|">수정하기</button>
-                <button class="btn btn-danger px-4" id="deletePostBtn">삭제하기</button>
-            </th:block>
-        </div>
+            <div class="text-center mt-4">
+                <th:block th:if="${session.loginUser != null and session.loginUser.userId == q.userId}">
+                    <button class="btn btn-success me-2 px-4" id="updateViewBtn">수정하기</button>
+                    <button class="btn btn-danger px-4" id="deletePostBtn">삭제하기</button>
+                </th:block>
+            </div>
 
-        <hr class="my-5">
+            <hr class="my-5">
 
-        <div class="reply-section">
-            <h5 class="do-hyeon-regular mb-4">답변 목록 <span class="text-primary" th:text="${#lists.size(aList)}">0</span></h5>
-            
-            <div id="answerListContainer">
-                <div th:each="a : ${aList}" class="mb-4 border rounded shadow-sm">
-                    <div class="reply-header d-flex justify-content-between">
-                        <strong th:text="${a.userId}">답변자ID</strong>
-                        <small class="text-muted" th:text="${a.createDate}">2026-05-11</small>
+            <div class="reply-section">
+                <h5 class="do-hyeon-regular mb-4">답변 목록 <span class="text-primary" th:text="${#lists.size(aList)}">0</span></h5>
+                <div id="answerListContainer">
+                    <div th:each="a : ${aList}" class="mb-4 border rounded shadow-sm">
+                        <div class="reply-header d-flex justify-content-between">
+                            <strong th:text="${a.userId}">답변자ID</strong>
+                            <small class="text-muted" th:text="${a.createDate}">2026-05-11</small>
+                        </div>
+                        <div class="p-4 bg-white" th:text="${a.content}">답변 내용 데이터</div>
                     </div>
-                    <div class="p-4 bg-white" th:text="${a.content}">답변 내용 데이터</div>
                 </div>
-
-                <div th:if="${#lists.isEmpty(aList)}" class="text-center py-5 text-muted bg-white border rounded">
-                    아직 등록된 답변이 없습니다.
                 </div>
-            </div>
-
-            <div th:if="${session.loginUser != null}" class="mt-5 p-4 border rounded bg-white shadow-sm">
-                <label class="form-label fw-bold">작성자: [[${session.loginUser.userId}]]</label>
-                <textarea class="form-control mb-3" id="replyContent" rows="4" placeholder="답변 내용을 입력하세요."></textarea>
-                <div class="text-end">
-                    <button type="button" class="btn btn-primary px-5" id="submitReplyBtn">답변 등록</button>
-                </div>
-            </div>
         </div>
-    </div>
 
-    <footer th:replace="~{views/common/footer :: footer}"></footer>
-	
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script th:inline="javascript">
-        $(document).ready(function() {
-            // 타임리프를 통해 현재 게시글 번호를 JS 변수로 저장
-            const qIndex = /*[[${q.qIndex}]]*/ 0;
+        <footer th:replace="~{views/common/footer :: footer}"></footer>
+        
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script th:inline="javascript">
+            $(document).ready(function() {
+                const qIndex = /*[[${q.qIndex}]]*/ 0;
+                const form = $('#detailForm');
 
-            // 1. 답변 등록 (AJAX)
-            $('#submitReplyBtn').click(function() {
-                const content = $('#replyContent').val().trim();
-                if(!content) {
-                    alert("내용을 입력해주세요.");
-                    return;
-                }
+                $('#updateViewBtn').click(function() {
+                    form.attr("action", "/qa/editView");
+                    form.submit();
+                });
 
-                $.ajax({
-                    url: '/qa/insertAnswer',
-                    type: 'POST',
-                    data: {
-                        content: content,
-                        qIndex: qIndex
-                    },
-                    success: function(res) {
-                        if(res === 'success') {
-                            location.reload(); 
-                        } else {
-                            alert("답변 등록 실패");
-                        }
-                    },
-                    error: function() {
-                        alert("서버 통신 중 오류가 발생했습니다.");
+                $('#submitReplyBtn').click(function() {
+                    const content = $('#replyContent').val().trim();
+                    if(!content) { alert("내용을 입력해주세요."); return; }
+                    $.ajax({
+                        url: '/qa/insertAnswer',
+                        type: 'POST',
+                        data: { content: content, qIndex: qIndex },
+                        success: function(res) { if(res === 'success') { location.reload(); } else { alert("실패"); } }
+                    });
+                });
+
+                $('#deletePostBtn').click(function() {
+                    if(confirm("정말로 이 질문을 삭제하시겠습니까?")) {
+                        form.attr("action", "/qa/changeStatus");
+                        form.submit();
                     }
                 });
             });
-
-            // 2. 게시글 삭제
-            $('#deletePostBtn').click(function() {
-                if(confirm("정말로 이 질문을 삭제하시겠습니까?")) {
-                    const form = $('<form>', { method: 'POST', action: '/qa/changeStatus' });
-                    form.append($('<input>', { type: 'hidden', name: 'qIndex', value: qIndex }));
-                    $('body').append(form);
-                    form.submit();
-                }
-            });
-        });
-    </script>
+        </script>
     </div>
 </body>
 </html>
