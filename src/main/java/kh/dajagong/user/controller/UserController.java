@@ -61,8 +61,7 @@ public class UserController {
 		
 		int result = uService.insertUser(u);
 		if(result > 0) {
-			ra.addFlashAttribute("alertMsg", "회원가입이 완료되었습니다.");
-			
+			ra.addFlashAttribute("enrollMsg", "회원가입이 완료되었습니다.");
 			return "redirect:/";
 		} else {
 			throw new UserException("회원가입을 실패하였습니다.");
@@ -107,11 +106,14 @@ public class UserController {
 	}
 	
 	@GetMapping("delete")
-	public String deleteUser(HttpSession session) {
+	public String deleteUser(HttpSession session, RedirectAttributes ra) {
 		
 		int result = uService.deleteUser(((User)session.getAttribute("loginUser")).getUserId());
 		if(result > 0) {
-			return "redirect:/log-out";
+			session.invalidate();
+			
+			ra.addFlashAttribute("deleteMsg", "회원 탈퇴가 완료되었습니다.\n그동안 이용해 주셔서 감사합니다.");
+			return "redirect:/";
 		} else {
 			throw new UserException("회원 탈퇴를 실패했습니다.");
 		}
