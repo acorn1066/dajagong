@@ -1,10 +1,12 @@
 package kh.dajagong.qa.controller;
 
+import java.util.ArrayList;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpSession;
 import kh.dajagong.common.exception.AuthorityException;
 import kh.dajagong.common.exception.QaException;
 import kh.dajagong.qa.model.vo.Answer;
+import kh.dajagong.qa.model.vo.Question; 
 import kh.dajagong.qa.service.QaService;
 import kh.dajagong.user.model.vo.User;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +17,12 @@ import lombok.RequiredArgsConstructor;
 public class QaAjaxController {
 
     private final QaService qService;
+
+    
+    @GetMapping("/topList")
+    public ArrayList<Question> getTopList() {     
+        return qService.selectTopList();
+    }
 
     @PostMapping("/insertAnswer")
     public String insertAnswer(@ModelAttribute Answer a, HttpSession session) {

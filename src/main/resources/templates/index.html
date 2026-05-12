@@ -31,62 +31,32 @@
 	    </div>
 	  </div>
 	  
-	  <div class="container mt-3">
-	  	<div class="row mb-2">
-		    <div class="col">
-		        <h2 class="do-hyeon-regular">질의응답</h2>
-		    </div>
-		    <div class="col">
-		        <div class="d-flex align-items-end justify-content-end h-100">
-		            <a href="/qa/list" class="text-decoration-none text-dark noto-sans-kr-500">&gt;&gt;더 보러 가기</a>
-		        </div>
-		    </div>
-		</div>
-	  	
-	  	<table class="table table-hover text-center border-top border-bottom">
-            <thead class="table-light">
-                <tr>
-                    <th style="width: 50%;">제목</th>
-                    <th style="width: 15%;">작성일</th>
-                    <th style="width: 15%;">작성자</th>
-                    <th style="width: 10%;">조회수</th>
-                </tr>
-            </thead>
-            <tbody>
-               
-                <tr onclick="location.href='/qa/Awriter'" style="cursor: pointer;">
-                    <td class="text-start ps-4">정보처리기사 실기 질문 있습니다.</td>
-                    <td>2026-04-28</td>
-                    <td>홍길동</td>
-                    <td>12</td>
-                </tr>
-                <tr onclick="location.href='/qa/Awriter'" style="cursor: pointer;">
-                    <td class="text-start ps-4">정보처리기사 실기 질문 있습니다.</td>
-                    <td>2026-04-28</td>
-                    <td>홍길동</td>
-                    <td>12</td>
-                </tr>
-                <tr onclick="location.href='/qa/Awriter'" style="cursor: pointer;">
-                    <td class="text-start ps-4">정보처리기사 실기 질문 있습니다.</td>
-                    <td>2026-04-28</td>
-                    <td>홍길동</td>
-                    <td>12</td>
-                </tr>
-                <tr onclick="location.href='/qa/Awriter'" style="cursor: pointer;">
-                    <td class="text-start ps-4">정보처리기사 실기 질문 있습니다.</td>
-                    <td>2026-04-28</td>
-                    <td>홍길동</td>
-                    <td>12</td>
-                </tr>
-                <tr onclick="location.href='/qa/Awriter'" style="cursor: pointer;">
-                    <td class="text-start ps-4">정보처리기사 실기 질문 있습니다.</td>
-                    <td>2026-04-28</td>
-                    <td>홍길동</td>
-                    <td>12[[${message}]]</td>
-                </tr>
-            </tbody>
-        </table>		
-	  </div>
+		<div class="container mt-3 pb-5">
+	        <div class="row mb-2">
+	            <div class="col">
+	                <h2 class="do-hyeon-regular">질의응답</h2>
+	            </div>
+	            <div class="col">
+	                <div class="d-flex align-items-end justify-content-end h-100">
+	                    <a href="/qa/list" class="text-decoration-none text-dark noto-sans-kr-500">&gt;&gt;더 보러 가기</a>
+	                </div>
+	            </div>
+	        </div>
+	
+	        <table class="table table-hover text-center border-top border-bottom" style="table-layout: fixed;">
+	            <thead class="table-light">
+	                <tr>
+	                    <th style="width: 10%;">번호</th>
+	                    <th style="width: 50%;">제목</th>
+	                    <th style="width: 15%;">작성자</th>
+	                    <th style="width: 15%;">작성일</th>
+	                    <th style="width: 10%;">조회수</th>
+	                </tr>
+	            </thead>
+	            <tbody id="qa-top-body">
+	                </tbody>
+	        </table>
+	    </div>
 	
 	<footer th:replace="~{views/common/footer :: footer}"></footer>
 	<th:block th:if="${message != null}">
@@ -105,12 +75,45 @@
 		        </div>
 		    </div>
 		</div>
-		<script>
-		
-			 window.onload=()=>{
-				 $('#exceptionMoal').modal('show');
-			}
-		</script>
 	</th:block>
+		<script th:inline="javascript">
+        window.onload = () => {
+           
+            const modal = document.getElementById('exceptionMoal');
+            if(modal) {
+                $('#exceptionMoal').modal('show');
+            }
+
+            getQaTopList();
+        }
+
+        const getQaTopList = () => {
+            $.ajax({
+                url: '/qa/topList',
+                method: 'GET',
+                success: data => {
+                    const tbody = document.getElementById('qa-top-body');
+                    tbody.innerHTML = ''; 
+                   
+                    for(const q of data) {
+                        const tr = document.createElement('tr');
+                        tr.style.cursor = 'pointer';
+                        tr.onclick = () => {
+                            location.href = '/qa/Awriter?qIndex=' + q.qIndex + '&page=1';
+                        };
+
+                        let row = '<td>' + q.qIndex + '</td>';
+                        row += '<td class="text-start ps-4"><span class="questionTitle" title="' + q.title + '">' + q.title + '</span></td>';
+                        row += '<td>' + q.userId + '</td>';
+                        row += '<td>' + q.createDate.split('T')[0] + '</td>';
+                        row += '<td>' + q.count + '</td>';
+
+                        tr.innerHTML = row; 
+                        tbody.append(tr);                    }
+                },
+                error: e => console.log("메인 리스트 로딩 실패", e)
+            });
+        }
+    </script>
 </body>
 </html>
