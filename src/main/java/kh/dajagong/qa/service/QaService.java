@@ -94,5 +94,13 @@ public class QaService {
 	public int deleteAnswer(int aIndex) {
 		return qMapper.deleteAnswer(aIndex);
 	}
+
+	public ArrayList<Question> selectTopList() {
+		return qMapper.selectTopList();
+	}
+
+	
+
+	
 	
 }
