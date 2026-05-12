@@ -24,5 +24,5 @@ public class Answer {
 
 	//관리자페이지
 	private String nickname;
-	private Date blockDate;
+	private String title;
 }
