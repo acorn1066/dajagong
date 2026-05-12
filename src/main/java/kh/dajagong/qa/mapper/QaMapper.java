@@ -25,4 +25,5 @@ public interface QaMapper {
 	Question selectAdminQuestion(int qIndex);
 	int updateAnswer(Answer a);
 	int deleteAnswer(int aIndex);
+	ArrayList<Question> selectTopList();
 }
