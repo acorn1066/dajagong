@@ -109,5 +109,16 @@
         WHERE Q_INDEX = #{qIndex} 
           AND STATUS = 'Y'
     </update>
+    
+    <select id="selectTopList" resultType="kh.dajagong.qa.model.vo.Question">
+    SELECT *
+    FROM (
+        SELECT *
+        FROM QUESTION
+        WHERE STATUS = 'Y'
+        ORDER BY Q_INDEX DESC
+    )
+    WHERE ROWNUM <![CDATA[<=]]> 5
+	</select>
 
 </mapper>
