@@ -158,7 +158,7 @@
 	    select count(*) 
 	    from answer a
 	    	left outer join "USER" u on u.user_id = a.user_id and u.is_admin='N'
-	    	left outer join question q on q.q_index = a.q_index and q.state!='N'
+	    	left outer join question q on q.q_index = a.q_index and q.status!='N'
 	    where a.status != 'N' and u.status != 'N'
 	    <if test="searchText != null">
 		    <if test="searchType == 'userId'">
@@ -174,11 +174,11 @@
 	</select>
 	
 	<select id="selectAnswerList" resultType="Answer">
-	   select a.a_index, a.content, a.create_date, a.status, a.q_index, a_user_id, u.nickname
+	   select a.a_index, a.content, a.create_date, a.status, a.q_index, a.user_id, u.nickname
 	    from answer a
-	    	left outer join "USER" u on u.user_id = q.user_id and u.is_admin='N'
-	    	left outer join question q on q.q_index = a.q_index and q.state!='N'
-	    where q.status != 'N' and u.status != 'N'
+	    	left outer join "USER" u on u.user_id = a.user_id and u.is_admin='N'
+	    	left outer join question q on q.q_index = a.q_index and q.status!='N'
+	    where a.status != 'N' and u.status != 'N'
 	    <if test="searchText != null">
 		    <if test="searchType == 'userId'">
 		        and u.user_id like '%${searchText}%'
