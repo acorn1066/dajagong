@@ -34,7 +34,7 @@ public class AdminController {
 									@RequestParam(value="searchText", defaultValue="") String searchText,
 									HttpServletRequest request, Model model,HttpSession session) {
 		User u = (User)session.getAttribute("loginUser");
-		if(u==null || !u.getStatus().equals("Y")) throw new AuthorityException("권한이 부족합니다");
+		if(u==null || !u.getIsAdmin().equals("Y")) throw new AuthorityException("권한이 부족합니다");
 		
 		HashMap<String,Object> map = new HashMap<>();
 		if(!searchType.equals(""))map.put("searchType", searchType);
@@ -64,7 +64,7 @@ public class AdminController {
 								@RequestParam(value="tab", defaultValue="review") String tab, 
 								HttpServletRequest request, Model model,HttpSession session) {
 		User u = (User)session.getAttribute("loginUser");
-		if(u==null || !u.getStatus().equals("Y")) throw new AuthorityException("권한이 부족합니다");
+		if(u==null || !u.getIsAdmin().equals("Y")) throw new AuthorityException("권한이 부족합니다");
 		
 		HashMap<String,Object> map = new HashMap<>();
 		if(!searchType.equals(""))map.put("searchType", searchType);
@@ -123,7 +123,7 @@ public class AdminController {
 	@GetMapping("/admin/site-management-book")
 	public String siteManagementBook(HttpServletRequest request, Model model,HttpSession session) {
 		User u = (User)session.getAttribute("loginUser");
-		if(u==null || !u.getStatus().equals("Y")) throw new AuthorityException("권한이 부족합니다");
+		if(u==null || !u.getIsAdmin().equals("Y")) throw new AuthorityException("권한이 부족합니다");
 		model.addAttribute("currentURI", request.getRequestURI());
 		return "/views/admin/member-management";
 	}
@@ -131,7 +131,7 @@ public class AdminController {
 	@GetMapping("/admin/site-management-QnA")
 	public String siteManagementQnA(HttpServletRequest request, Model model,HttpSession session) {
 		User u = (User)session.getAttribute("loginUser");
-		if(u==null || !u.getStatus().equals("Y")) throw new AuthorityException("권한이 부족합니다");
+		if(u==null || !u.getIsAdmin().equals("Y")) throw new AuthorityException("권한이 부족합니다");
 		model.addAttribute("currentURI", request.getRequestURI());
 		return "/views/admin/member-management";
 	}
@@ -143,7 +143,7 @@ public class AdminController {
 							@RequestParam(value="tab", defaultValue="review") String tab, 
 							HttpServletRequest request, Model model,HttpSession session) {
 		User u = (User)session.getAttribute("loginUser");
-		if(u==null || !u.getStatus().equals("Y")) throw new AuthorityException("권한이 부족합니다");
+		if(u==null || !u.getIsAdmin().equals("Y")) throw new AuthorityException("권한이 부족합니다");
 		
 		HashMap<String,Object> map = new HashMap<>();
 		if(!searchType.equals(""))map.put("searchType", searchType);

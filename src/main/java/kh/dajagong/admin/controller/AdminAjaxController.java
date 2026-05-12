@@ -30,7 +30,7 @@ public class AdminAjaxController {
 	@PutMapping("/admin/review")
 	public int blockReview(@ModelAttribute ManagementHistory mh, HttpSession session) {
 		User u = (User)session.getAttribute("loginUser");
-		if(u==null || !u.getStatus().equals("Y")) throw new AuthorityException("권한이 부족합니다");
+		if(u==null || !u.getIsAdmin().equals("Y")) throw new AuthorityException("권한이 부족합니다");
 		
 		
 		HashMap<String,Object> map = new HashMap<>();
@@ -48,7 +48,7 @@ public class AdminAjaxController {
 	@PutMapping("/admin/user")
 	public int blockUser(@ModelAttribute ManagementHistory mh, HttpSession session) {
 		User u = (User)session.getAttribute("loginUser");
-		if(u==null || !u.getStatus().equals("Y")) throw new AuthorityException("권한이 부족합니다");
+		if(u==null || !u.getIsAdmin().equals("Y")) throw new AuthorityException("권한이 부족합니다");
 		
 		HashMap<String,Object> map = new HashMap<>();
 		map.put("userId", mh.getUserId());
@@ -63,7 +63,7 @@ public class AdminAjaxController {
 	@GetMapping("/admin/user")
 	public ManagementHistory selectUser(@RequestParam("userId") String userId, HttpSession session) {
 		User u = (User)session.getAttribute("loginUser");
-		if(u==null || !u.getStatus().equals("Y")) throw new AuthorityException("권한이 부족합니다");
+		if(u==null || !u.getIsAdmin().equals("Y")) throw new AuthorityException("권한이 부족합니다");
 		
 		
 		ManagementHistory user = mhService.selectLastUserStatus(userId);
@@ -74,7 +74,7 @@ public class AdminAjaxController {
 	@GetMapping("/admin/review")
 	public ManagementHistory selectReview(@RequestParam("reviewNum") String reviewNum, HttpSession session) {
 		User u = (User)session.getAttribute("loginUser");
-		if(u==null || !u.getStatus().equals("Y")) throw new AuthorityException("권한이 부족합니다");
+		if(u==null || !u.getIsAdmin().equals("Y")) throw new AuthorityException("권한이 부족합니다");
 		
 		HashMap<String,Object> map = new HashMap<>();
 		map.put("subIndex", reviewNum);
@@ -87,7 +87,7 @@ public class AdminAjaxController {
 	@GetMapping("/admin/question")
 	public ManagementHistory selectQuestion(@RequestParam("index") String index, HttpSession session) {
 		User u = (User)session.getAttribute("loginUser");
-		if(u==null || !u.getStatus().equals("Y")) throw new AuthorityException("권한이 부족합니다");
+		if(u==null || !u.getIsAdmin().equals("Y")) throw new AuthorityException("권한이 부족합니다");
 		
 		HashMap<String,Object> map = new HashMap<>();
 		map.put("subIndex", index);
@@ -100,7 +100,7 @@ public class AdminAjaxController {
 	@PutMapping("/admin/question")
 	public int blockQuestion(@ModelAttribute ManagementHistory mh, HttpSession session) {
 		User u = (User)session.getAttribute("loginUser");
-		if(u==null || !u.getStatus().equals("Y")) throw new AuthorityException("권한이 부족합니다");
+		if(u==null || !u.getIsAdmin().equals("Y")) throw new AuthorityException("권한이 부족합니다");
 		
 		
 		HashMap<String,Object> map = new HashMap<>();
@@ -118,7 +118,7 @@ public class AdminAjaxController {
 	@GetMapping("/admin/answer")
 	public ManagementHistory selectAnswer(@RequestParam("index") String index, HttpSession session) {
 		User u = (User)session.getAttribute("loginUser");
-		if(u==null || !u.getStatus().equals("Y")) throw new AuthorityException("권한이 부족합니다");
+		if(u==null || !u.getIsAdmin().equals("Y")) throw new AuthorityException("권한이 부족합니다");
 		
 		HashMap<String,Object> map = new HashMap<>();
 		map.put("subIndex", index);
@@ -131,7 +131,7 @@ public class AdminAjaxController {
 	@PutMapping("/admin/answer")
 	public int blockAnswer(@ModelAttribute ManagementHistory mh, HttpSession session) {
 		User u = (User)session.getAttribute("loginUser");
-		if(u==null || !u.getStatus().equals("Y")) throw new AuthorityException("권한이 부족합니다");
+		if(u==null || !u.getIsAdmin().equals("Y")) throw new AuthorityException("권한이 부족합니다");
 		
 		
 		HashMap<String,Object> map = new HashMap<>();
