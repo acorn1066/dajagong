@@ -138,25 +138,25 @@ body {
 	</script>
 
 	<!-- 전화번호 형식 제한 -->
-		<script>
-		document.getElementById('phone').addEventListener('input', function(e) {
+	<script>
+	document.getElementById('phone').addEventListener('input', function(e) {
 
-		    // 숫자만 남기기
-		    let value = e.target.value.replace(/[^0-9]/g, '');
+	    // 숫자만 남기기
+	    let value = e.target.value.replace(/[^0-9]/g, '');
 
-		    // 전화번호 형식 적용
-		    if(value.length < 4) {
-		        value = value;
-		    } else if(value.length < 7) {
-		        value = value.replace(/(\d{3})(\d+)/, '$1-$2');
-		    } else if(value.length < 11) {
-		        value = value.replace(/(\d{3})(\d{3})(\d+)/, '$1-$2-$3');
-		    } else {
-		        value = value.replace(/(\d{3})(\d{4})(\d+)/, '$1-$2-$3');
-		    }
-		    e.target.value = value;
-		});
-		</script>
+	    // 전화번호 형식 적용
+	    if(value.length < 4) {
+	        value = value;
+	    } else if(value.length < 7) {
+	        value = value.replace(/(\d{3})(\d+)/, '$1-$2');
+	    } else if(value.length < 11) {
+	        value = value.replace(/(\d{3})(\d{3})(\d+)/, '$1-$2-$3');
+	    } else {
+	        value = value.replace(/(\d{3})(\d{4})(\d+)/, '$1-$2-$3');
+	    }
+	    e.target.value = value;
+	});
+	</script>
 
 </body>
 </html>

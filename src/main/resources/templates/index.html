@@ -115,10 +115,10 @@
             });
         }
 		
-		<!-- 회원가입 후 안내메시지 -->
-		let msg = /*[[${alertMsg}]]*/ null; <!-- 주석아님. th문법 -->
+		// 회원가입, 회원탈퇴 후 안내메시지
+		let msg = /*[[${enrollMsg}]]*/ null || /*[[${deleteMsg}]]*/ null; <!-- 주석아님. th문법 -->
 
-	    if(msg != null){
+	    if(msg){
 	        alert(msg);
 	    }
     </script>
