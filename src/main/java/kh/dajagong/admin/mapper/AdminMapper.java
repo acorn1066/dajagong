@@ -37,4 +37,8 @@ public interface AdminMapper {
 
 	ArrayList<Answer> selectAnswerList(HashMap<String, Object> map, RowBounds rowBounds);
 
+	int blockAnswer(HashMap<String, Object> map);
+
+	Answer selectAnswer(int aIndex);
+
 }

@@ -1,25 +1,35 @@
 <!DOCTYPE html>
-<html>
-<head th:replace="~{views/common/head :: head}"></head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{views/common/head :: head}">
+<style>
+.title{
+	max-width: 300px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}	
+</style>
+</head>
 <body>
 	<div th:replace="~{views/common/navbar-admin :: navbar-admin}"></div>
 	<div class="container-fluid">
-		<div class="row mt-1 g-2">
-		    <div class="col-auto">
-		    </div>
-		    <div class="col-auto">
-		        <select class="form-select" id="searchType">
-		            <option selected="">닉네임</option>
-		            <option value="publisher">아이디</option>
-		        </select>
-		    </div>
-		    <div class="col">
-		        <div class="input-group">
-		            <input type="search" class="form-control" placeholder="검색하기">
-		            <button class="btn btn-outline-primary" type="button">검색하기</button>
-		        </div>
-		    </div>
-		</div>
+		<form th:action="@{/admin/log}" method="get">
+			<div class="row mt-1 g-2">
+			    <div class="col-auto">
+			        <select class="form-select" id="searchType" name="searchType">
+			            <option value="userId" th:selected="${searchType=='userId'}">아이디</option>
+			            <option value="nickname" th:selected="${searchType=='nickname'}">닉네임</option>
+			        </select>
+			    </div>
+			    <div class="col">
+			        <div class="input-group">
+			            <input type="search" class="form-control" placeholder="검색하기" name="searchText" th:value="${searchText}">
+			            <button class="btn btn-outline-primary" type="submit">검색하기</button>
+			        </div>
+			    </div>
+			    <input type="hidden" name="tab" th:value="${tab}">
+			</div>
+		</form>
 		<div class="row mt-1 g-2">
 	        <table class="table table-hover text-center align-middle">
 	            <thead>
@@ -28,28 +38,43 @@
 	                    <th>조치</th>
 	                    <th>아이디</th>
 	                    <th>닉네임</th>
+	                    <th th:if="${tab != 'member'}">내용</th>
 	                    <th>사유</th>
 	                    <th>처리일</th>
 	                </tr>
 	            </thead>
 	            <tbody>
-	                <tr>
-	                    <th>1</th>
-	                    <td><span class="badge rounded-pill bg-danger text-white">차단</span></td>
-	                    <td>테스트</td>
-	                    <td>테스트</td>
-	                    <td><span>뭔가길게있겄지</span></td>
-	                    <td>2026-01-01</td>
+	                <tr th:each="l, stat : ${list}">
+	                    <th>[[${stat.count}]]</th>
+	                    <td>
+	                    	<span th:if="${l.subType=='U'}" class="badge rounded-pill bg-success text-white">차단해제</span>
+			            	<span th:if="${l.subType=='B'}" class="badge rounded-pill bg-danger text-white">차단</span>
+			            </td>
+	                     <td>[[${l.userId}]]</td>
+		                 <td>[[${l.nickname}]]</td>
+		                 <td th:if="${tab != 'member'}"><span class="title">[[${l.title}]]</span></td>
+	                    <td><span class="title">[[${l.comment}]]</span></td>
+	                    <td>[[${l.updateDate}]]</td>
 	                </tr>
 	            </tbody>
 	        </table>
-	        <nav><ul class="pagination justify-content-center">
-	            <li class="page-item"><a class="page-link" href="#">«</a></li>
-	            <li class="page-item"><a class="page-link" href="#">1</a></li>
-	            <li class="page-item"><a class="page-link" href="#">2</a></li>
-	            <li class="page-item"><a class="page-link" href="#">3</a></li>
-	            <li class="page-item"><a class="page-link" href="#">»</a></li>
-	        </ul></nav>
+	        <nav>
+	       	  <ul class="pagination justify-content-center">
+	            <li class="page-item" th:classappend="${pi.currentPage == 1} ? 'disabled' : ''">
+	              <a class="page-link" th:href="@{/admin/member-activity(page=${pi.currentPage - 1}, searchType=${searchType}, searchText=${searchText}, tab=${tab})}" aria-label="Previous">
+	                <span aria-hidden="true">«</span>
+	              </a>
+	            </li>
+	            <li class="page-item" th:classappend="${p == pi.currentPage} ? 'active' : ''" th:each="p:${#numbers.sequence(pi.startPage,pi.endPage)}">
+	            	<a class="page-link" th:href="@{/admin/member-activity(page=${p}, searchType=${searchType}, searchText=${searchText}, tab=${tab})}">[[${p}]]</a>
+	            </li>
+	            <li class="page-item" th:classappend="${pi.currentPage == pi.maxPage} ? 'disabled' : ''"> 
+	              <a class="page-link" th:href="@{/admin/member-activity(page=${pi.currentPage + 1}, searchType=${searchType}, searchText=${searchText}, tab=${tab})}" aria-label="Next">
+	                <span aria-hidden="true">»</span>
+	              </a>
+	            </li>
+	          </ul>
+	        </nav>
 	    </div>
 	</div>
 	

@@ -21,4 +21,7 @@ public class ManagementHistory {
 	private String comment;
 	private int subIndex;
 	private String userId;
+	
+	private String nickname;
+	private String title;
 }

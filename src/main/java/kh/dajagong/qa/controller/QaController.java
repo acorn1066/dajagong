@@ -51,7 +51,8 @@ public class QaController {
     @GetMapping("/Awriter")
     public String qaDetail(@RequestParam("qIndex") int qIndex, Model model) {
         Question q = qService.selectQuestion(qIndex); 
-        
+        System.out.println(q);
+        System.out.println(qIndex);
         if(q != null) {
             ArrayList<Answer> aList = qService.selectAnswerList(qIndex);
             model.addAttribute("q", q);

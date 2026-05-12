@@ -59,16 +59,19 @@
 		                </tr>
 		            </thead>
 		            <tbody>
-		                <tr>
-		                    <th>1</th>
-		                    <td>테스트</td>
-		                    <td>테스트</td>
-		                    <td>테스트</td>
-		                    <td><span class="answer">뭔가길게있겄지</span></td>
-		                    <td>2026-01-01</td>
-		                    <td><span class="badge rounded-pill bg-success text-white">정상</span></td>
-		                    <td><button type="button" class="btn btn-outline-danger blockBtn">차단관리</button></td>
-		                    <td><button type="button" class="btn btn-outline-primary">바로가기</button></td>
+		                <tr th:each="a, stat : ${list}">
+		                    <th>[[${stat.count}]]</th>
+		                    <td>[[${a.userId}]]</td>
+		                    <td>[[${a.nickname}]]</td>
+		                    <td class="">[[${a.title}]]</td>
+		                    <td><span class="answer">[[${a.content}]]</span></td>
+		                    <td>[[${a.createDate}]]</td>
+		                    <td>
+		                    	<span th:if="${a.status=='Y'}" class="badge rounded-pill bg-success text-white">정상</span>
+				            	<span th:unless="${a.status=='Y'}" class="badge rounded-pill bg-danger text-white">차단</span>
+				            </td>
+		                    <td><button type="button" class="btn btn-outline-danger" th:data-status="${a.status}" th:data-index="${a.aIndex}" onclick="showBlockModal(this);">차단관리</button></td>
+		                    <td><button type="button" class="btn btn-outline-primary" th:data-qindex="${a.qIndex}" onclick="goPage(this);">바로가기</button></td>
 		                </tr>
 		            </tbody>
 		        </table>
@@ -139,7 +142,7 @@ const currentPage = /*[[${pi.currentPage}]]*/ 1;
    	    const status = obj.dataset.status;
    	 	const index = obj.dataset.index;
    	 	subIndex = index;
-   	 	const answerTitle = obj.closest('tr').querySelector('.answerTitle').innerText;
+   	 	const answerTitle = obj.closest('tr').querySelector('.answer').innerText;
    	 	document.querySelector('#modalBlock .fw-bold').innerText = answerTitle;
    		
    		
@@ -215,6 +218,10 @@ const currentPage = /*[[${pi.currentPage}]]*/ 1;
 			},
 			error :data=> console.log(data)
 		});
+    }
+    
+    const goPage=(obj)=>{
+    	window.open('/qa/Awriter?qIndex=' + obj.dataset.qindex);
     }
 </script>
 </body>

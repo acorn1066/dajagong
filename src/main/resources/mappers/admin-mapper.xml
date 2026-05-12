@@ -174,7 +174,7 @@
 	</select>
 	
 	<select id="selectAnswerList" resultType="Answer">
-	   select a.a_index, a.content, a.create_date, a.status, a.q_index, a.user_id, u.nickname
+	   select a.a_index, a.content, a.create_date, a.status, a.q_index, a.user_id, u.nickname, q.title
 	    from answer a
 	    	left outer join "USER" u on u.user_id = a.user_id and u.is_admin='N'
 	    	left outer join question q on q.q_index = a.q_index and q.status!='N'
@@ -192,4 +192,16 @@
 	    </if>
 		order by q.create_date DESC
 	</select>
+	
+	<select id="selectAnswer" resultType="Answer">
+		SELECT *
+		FROM answer
+		WHERE a_index = #{aIndex}
+	</select>
+	
+	<update id="blockAnswer">
+		update answer
+		set status=#{status}
+		where a_index=#{aIndex}
+	</update>
 </mapper>

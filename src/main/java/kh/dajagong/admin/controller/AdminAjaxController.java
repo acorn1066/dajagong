@@ -15,6 +15,7 @@ import kh.dajagong.admin.service.ManagementHistoryService;
 import kh.dajagong.book.review.model.vo.Review;
 import kh.dajagong.book.review.service.BookReviewService;
 import kh.dajagong.common.exception.AuthorityException;
+import kh.dajagong.qa.model.vo.Answer;
 import kh.dajagong.qa.model.vo.Question;
 import kh.dajagong.user.model.vo.User;
 import lombok.RequiredArgsConstructor;
@@ -108,6 +109,37 @@ public class AdminAjaxController {
 		int result = aService.blockQuestion(map);
 		
 		Question block = aService.selectQuestion(mh.getSubIndex());
+		mh.setUserId(block.getUserId());
+		
+		int manageResult = mhService.insertManagementHistory(mh);
+		return manageResult;
+	}
+	
+	@GetMapping("/admin/answer")
+	public ManagementHistory selectAnswer(@RequestParam("index") String index, HttpSession session) {
+		User u = (User)session.getAttribute("loginUser");
+		if(u==null || !u.getStatus().equals("Y")) throw new AuthorityException("권한이 부족합니다");
+		
+		HashMap<String,Object> map = new HashMap<>();
+		map.put("subIndex", index);
+		map.put("type", "A");
+		ManagementHistory user = mhService.selectSubIndex(map);
+		
+		return user;
+	}
+	
+	@PutMapping("/admin/answer")
+	public int blockAnswer(@ModelAttribute ManagementHistory mh, HttpSession session) {
+		User u = (User)session.getAttribute("loginUser");
+		if(u==null || !u.getStatus().equals("Y")) throw new AuthorityException("권한이 부족합니다");
+		
+		
+		HashMap<String,Object> map = new HashMap<>();
+		map.put("aIndex", mh.getSubIndex());
+		map.put("status", mh.getSubType().equals("B")?"B":"Y");
+		int result = aService.blockAnswer(map);
+		
+		Answer block = aService.selectAnswer(mh.getSubIndex());
 		mh.setUserId(block.getUserId());
 		
 		int manageResult = mhService.insertManagementHistory(mh);
