@@ -69,6 +69,17 @@
     <insert id="insertAnswer">
         INSERT INTO ANSWER VALUES (SEQ_ANO.NEXTVAL, #{content}, SYSDATE, 'Y', #{qIndex}, #{userId})
     </insert>
+
+    <update id="updateAnswer">
+        UPDATE ANSWER 
+        SET CONTENT = #{content}
+        WHERE A_INDEX = #{aIndex}
+    </update>
+
+    <delete id="deleteAnswer">
+        DELETE FROM ANSWER
+        WHERE A_INDEX = #{aIndex}
+    </delete>
     
     <insert id="insertQuestion">
         INSERT INTO QUESTION (

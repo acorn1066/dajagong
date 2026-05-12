@@ -23,4 +23,6 @@ public interface QaMapper {
     int insertAnswer(Answer a);
 	int updateQuestion(Question q);
 	Question selectAdminQuestion(int qIndex);
+	int updateAnswer(Answer a);
+	int deleteAnswer(int aIndex);
 }
