@@ -1,114 +1,196 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{views/common/head :: head}">
+    <meta charset="UTF-8">
     <style>
+        .qa-layout { margin-left: 350px; margin-right: 350px; min-width: 600px; }
         .qa-table th { background-color: #f8f9fa !important; text-align: center; width: 15%; border: 1px solid #dee2e6; }
         .qa-table td { padding: 12px 20px !important; border: 1px solid #dee2e6; }
-        .content-box { min-height: 350px; padding: 25px; vertical-align: top; text-align: left; }
         .reply-header { background-color: #f8f9fa; border: 1px solid #dee2e6; padding: 10px 15px; }
+        /* 수정/삭제 버튼 간격 조정 */
+        .reply-btn-group .btn { margin-left: 5px; }
     </style>
 </head>
 <body class="bg-light">
     <div th:replace="~{views/common/navbar :: navbar}"></div>
 	
-    <div class="container py-4">      
-        <nav aria-label="breadcrumb"> 
-            <ol class="breadcrumb p-3 bg-f3faff rounded-3"> 
-                <li class="breadcrumb-item"> 
-                    <a class="link-body-emphasis text-decoration-none" href="/qa/list"> 
-                        <i class="bi bi-house-door-fill"></i> 돌아가기
-                    </a> 
-                </li> 
-            </ol> 
-        </nav>
-		
-        <div class="container py-4 bg-white " style="max-width: 1000px;">
-            <h2 class="do-hyeon-regular text-center mb-5">질의응답 상세보기</h2>
+    <div class="container py-5">      
+        <div class="qa-layout bg-white p-5 rounded shadow-sm">
+            <h2 class="do-hyeon-regular text-center mb-5">QA DETAIL</h2>
 
             <form id="detailForm" method="POST">
                 <input type="hidden" th:value="${q.qIndex}" name="qIndex"/>
                 <input type="hidden" th:value="${page}" name="page"/>
                 
-                <table class="table table_hover qa-table mb-0">
+                <table class="table qa-table mb-0">
                     <tr>
                         <th>제목</th>
-                        <td colspan="3" class="fw-bold" th:text="${q.title}">DB 제목 데이터</td>
+                        <td colspan="3" class="fw-bold fs-5" th:text="${q.title}">제목</td>
                     </tr>
                     <tr>
                         <th>작성자</th>
-                        <td style="width: 35%;" th:text="${q.userId}">DB 작성자ID</td>
+                        <td style="width: 35%;" th:text="${q.userId}">작성자</td>
                         <th style="width: 15%;">작성일</th>
-                        <td style="width: 35%;" th:text="${q.createDate}">DB 작성일</td>
+                        <td style="width: 35%;" th:text="${q.createDate}">작성일</td>
                     </tr>
                     <tr>
                         <th>자격증</th>
-                        <td th:text="${q.licenseName}">DB 자격증명</td>
+                        <td th:text="${q.licenseName}">자격증</td>
                         <th>조회수</th>
                         <td th:text="${q.count}">0</td>
                     </tr>
                     <tr>
-                        <td colspan="4" class="content-box">
-                            <div style="white-space: pre-wrap;" th:text="${q.content}">DB 본문 내용</div>
+                        <td colspan="4" style="padding: 0 !important; border: none;">
+                            <div class="input-group">
+                                <span class="input-group-text justify-content-center" 
+                                      style="width: 15%; background-color: #e9ecef; color: #495057; font-weight: bold;">
+                                    게시글
+                                </span>
+                                <textarea class="form-control" rows="15" 
+                                          style="min-height: 500px; padding: 30px; resize: none; background-color: white; border-radius: 0 4px 4px 0;" 
+                                          readonly>[[${q.content}]]</textarea>
+                            </div>
                         </td>
                     </tr>
                 </table>
             </form>
 
-            <div class="text-center mt-4">
-                <th:block th:if="${session.loginUser != null and session.loginUser.userId == q.userId}">
-                    <button class="btn btn-success me-2 px-4" id="updateViewBtn">수정하기</button>
-                    <button class="btn btn-danger px-4" id="deletePostBtn">삭제하기</button>
+            <div class="text-center mt-5 d-grid gap-2 d-md-block">
+                <th:block th:if="${session.loginUser != null and (session.loginUser.userId == q.userId or session.loginUser.isAdmin == 'Y')}">
+                    <button class="btn btn-success px-5 py-2 me-2" id="updateViewBtn">수정하기</button>
+                    <button class="btn btn-danger px-5 py-2 me-2" id="deletePostBtn">삭제하기</button>
                 </th:block>
+                <button class="btn btn-dark px-5 py-2" onclick="location.href='/qa/list'">목록으로</button>
             </div>
 
             <hr class="my-5">
 
             <div class="reply-section">
-                <h5 class="do-hyeon-regular mb-4">답변 목록 <span class="text-primary" th:text="${#lists.size(aList)}">0</span></h5>
+                <h5 class="do-hyeon-regular mb-4">답변 목록 <span class="text-primary" th:text="${#lists.size(aList)}">0</span></h5> 
+                
+                <div class="input-group mb-4">
+                    <textarea class="form-control" rows="3" id="replyContent" placeholder="답변을 작성해 주세요." style="resize: none;"></textarea>
+                    <button class="btn btn-outline-success px-4" id="submitReplyBtn" th:disabled="${session.loginUser == null}">등록</button>
+                </div>
+
                 <div id="answerListContainer">
-                    <div th:each="a : ${aList}" class="mb-4 border rounded shadow-sm">
-                        <div class="reply-header d-flex justify-content-between">
-                            <strong th:text="${a.userId}">답변자ID</strong>
-                            <small class="text-muted" th:text="${a.createDate}">2026-05-11</small>
+                    <div th:each="a : ${aList}" class="mb-3 border rounded shadow-sm answer-item">
+                        <div class="reply-header d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong th:text="${a.userId}">아이디</strong>
+                                <small class="text-muted ms-3" th:text="${a.createDate}">날짜</small>
+                            </div>
+                            
+                            <div class="reply-btn-group" th:if="${session.loginUser != null and session.loginUser.userId == a.userId}">
+                                <input type="hidden" th:value="${a.aIndex}" class="answer-index"/>
+                                <button type="button" class="btn btn-sm btn-outline-primary edit-reply-btn">수정</button>
+                                <button type="button" class="btn btn-sm btn-outline-danger delete-reply-btn">삭제</button>
+                                <input type="hidden" th:value="${a.content}" class="origin-content"/>
+                            </div>
                         </div>
-                        <div class="p-4 bg-white" th:text="${a.content}">답변 내용 데이터</div>
+                        <div class="p-3 bg-white content-area" th:text="${a.content}">내용</div>
                     </div>
                 </div>
-                </div>
+            </div>
         </div>
+    </div>
 
-        <footer th:replace="~{views/common/footer :: footer}"></footer>
-        
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script th:inline="javascript">
-            $(document).ready(function() {
-                const qIndex = /*[[${q.qIndex}]]*/ 0;
-                const form = $('#detailForm');
+    <footer th:replace="~{views/common/footer :: footer}"></footer>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script th:inline="javascript">
+        $(document).ready(function() {
+            const qIndex = /*[[${q.qIndex}]]*/ 0;
+            const form = $('#detailForm');
+            
+            $('#updateViewBtn').click(function() {
+                form.attr("action", "/qa/editView").submit();
+            });
 
-                $('#updateViewBtn').click(function() {
-                    form.attr("action", "/qa/editView");
-                    form.submit();
-                });
+            $('#deletePostBtn').click(function() {
+                if(confirm("정말로 이 질문을 삭제하시겠습니까?")) {
+                    form.attr("action", "/qa/changeStatus").submit();
+                }
+            });
 
-                $('#submitReplyBtn').click(function() {
-                    const content = $('#replyContent').val().trim();
-                    if(!content) { alert("내용을 입력해주세요."); return; }
-                    $.ajax({
-                        url: '/qa/insertAnswer',
-                        type: 'POST',
-                        data: { content: content, qIndex: qIndex },
-                        success: function(res) { if(res === 'success') { location.reload(); } else { alert("실패"); } }
-                    });
-                });
-
-                $('#deletePostBtn').click(function() {
-                    if(confirm("정말로 이 질문을 삭제하시겠습니까?")) {
-                        form.attr("action", "/qa/changeStatus");
-                        form.submit();
+            $('#submitReplyBtn').click(function() {
+                const content = $('#replyContent').val().trim();
+                if(!content) { alert("내용을 입력해주세요."); return; }
+                $.ajax({
+                    url: '/qa/insertAnswer',
+                    type: 'POST',
+                    data: { content: content, qIndex: qIndex },
+                    success: function(res) {
+                        if(res === 'success') { location.reload(); } 
+                        else { alert("등록 실패"); }
                     }
                 });
             });
-        </script>
-    </div>
+
+            $(document).on('click', '.delete-reply-btn', function() {
+                const $btn = $(this);
+                if($btn.hasClass('cancel-mode')) {
+                    const $item = $btn.closest('.answer-item');
+                    const originContent = $item.find('.origin-content').val();
+                    $item.find('.content-area').text(originContent);
+                    resetButtons($btn.prev());
+                } else {
+                    if(confirm("이 답변을 삭제하시겠습니까?")) {
+                        const aIndex = $btn.siblings('.answer-index').val();
+                        const $targetItem = $btn.closest('.answer-item');
+
+                        $.ajax({
+                            url: '/qa/deleteAnswer',
+                            type: 'POST',
+                            data: { aIndex: aIndex },
+                            success: function(res) {
+                                if(res === 'success') { $targetItem.remove(); } 
+                                else { alert("삭제 실패"); }
+                            }
+                        });
+                    }
+                }
+            });
+
+            $(document).on('click', '.edit-reply-btn', function() {
+                const $btn = $(this);
+                const $item = $btn.closest('.answer-item');
+                const $contentArea = $item.find('.content-area');
+                
+                if($btn.text() === '수정') {
+                    const currentContent = $contentArea.text();
+                    $contentArea.html(`<textarea class="form-control" rows="3" style="resize:none;">${currentContent}</textarea>`);
+                    
+                    $btn.text('완료').removeClass('btn-outline-primary').addClass('btn-primary');
+                    $btn.next().text('취소').removeClass('btn-outline-danger').addClass('btn-secondary').addClass('cancel-mode');
+                } else {
+                    const aIndex = $btn.siblings('.answer-index').val();
+                    const newContent = $contentArea.find('textarea').val();
+
+                    if(!newContent.trim()) { alert("내용을 입력해주세요."); return; }
+
+                    $.ajax({
+                        url: '/qa/updateAnswer',
+                        type: 'POST',
+                        data: { aIndex: aIndex, content: newContent },
+                        success: function(res) {
+                            if(res === 'success') {
+                                $contentArea.text(newContent);
+                                $item.find('.origin-content').val(newContent);
+                                resetButtons($btn);
+                            } else {
+                                alert("수정 실패");
+                            }
+                        }
+                    });
+                }
+            });
+
+            function resetButtons($editBtn) {
+                $editBtn.text('수정').removeClass('btn-primary').addClass('btn-outline-primary');
+                $editBtn.next().text('삭제').removeClass('btn-secondary').removeClass('cancel-mode').addClass('btn-outline-danger');
+            }
+        });
+    </script>
 </body>
 </html>

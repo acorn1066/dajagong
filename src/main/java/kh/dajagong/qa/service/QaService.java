@@ -87,4 +87,12 @@ public class QaService {
         }
         return q;
 	}
+	public int updateAnswer(Answer a) {
+		return qMapper.updateAnswer(a);		
+	}
+
+	public int deleteAnswer(int aIndex) {
+		return qMapper.deleteAnswer(aIndex);
+	}
+	
 }
