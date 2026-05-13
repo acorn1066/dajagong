@@ -84,6 +84,9 @@
 		              </div>
 		            </div>
 		            <div class="mt-auto text-end">
+		            	<div class="card-text">
+		                <small class="text-body-secondary review-num">8 후기</small>
+		              </div>
 		              <a href="/book-review/detail" class="text-decoration-none text-dark noto-sans-kr-200">후기보기 &gt;&gt;</a>
 		            </div>
 		          </div>
@@ -133,6 +136,7 @@
 					dummy.querySelector('.card-text').innerText=b.bookWriter + " :: "+b.publisher;
 					dummy.querySelector('.text-body-secondary').innerText="출간일 : "+b.publicationDate.split('T')[0];
 					dummy.querySelector('a').setAttribute('href',"/book-review/detail?num="+b.bookNum);
+					dummy.querySelector('.review-num').innerText = b.reviewCount + " 후기";
 					dummy.querySelector('.card div').children[0].setAttribute('onclick',"location.href='/book-review/detail?num="+b.bookNum+"'");
 							
 					document.querySelector('.bookListBody').append(dummy);
