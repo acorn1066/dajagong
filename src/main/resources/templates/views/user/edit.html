@@ -170,7 +170,7 @@ body {
 	
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script>
-	let isNicknameValid = false;
+	let isNicknameValid = true;
 	let nicknameTimer;
 
 	window.addEventListener('load', () => {
@@ -189,7 +189,7 @@ body {
 
 	        // 상태 제거
 	        nicknameInput.classList.remove("is-invalid", "is-valid");
-	        isNicknameValid = true;
+	        isNicknameValid = false;
 
 	        // 빈값
 	        if(nickname === ''){
@@ -218,6 +218,7 @@ body {
 	                    if(result === "exist"){
 	                        nicknameInput.classList.add("is-invalid");
 	                        invalidFeedback.innerText = "이미 사용중인 닉네임입니다.";
+	                        isNicknameValid = false;
 	                    }else{
 	                        nicknameInput.classList.add("is-valid");
 	                        validFeedback.innerText = "사용 가능한 닉네임입니다.";
