@@ -104,12 +104,15 @@
 
                         let row = '<td>' + q.qIndex + '</td>';
                         row += '<td class="text-start ps-4"><span class="questionTitle" title="' + q.title + '">' + q.title + '</span></td>';
-                        row += '<td>' + q.userId + '</td>';
+                        
+                        row += '<td>' + (q.nickname || q.userId) + '</td>'; 
+                        
                         row += '<td>' + q.createDate.split('T')[0] + '</td>';
                         row += '<td>' + q.count + '</td>';
 
                         tr.innerHTML = row; 
-                        tbody.append(tr);                    }
+                        tbody.append(tr);
+                    }
                 },
                 error: e => console.log("메인 리스트 로딩 실패", e)
             });
