@@ -27,7 +27,7 @@ public class UserService {
 		return mapper.deleteUser(userId);
 	}
 
-	public User checkId(String userId) {
+	public int checkId(String userId) {
 		return mapper.checkId(userId);
 	}
 

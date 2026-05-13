@@ -24,8 +24,8 @@
 		where user_id=#{userId}
 	</update>
 	
-	<select id="checkId" resultType="user">
-		select * from "USER"
+	<select id="checkId" resultType="_int">
+		select count(*) from "USER"
 		where user_id = #{userId}
 	</select>
 </mapper>

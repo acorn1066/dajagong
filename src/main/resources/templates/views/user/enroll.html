@@ -88,7 +88,7 @@ body {
 		</div>
 	</div>
 	<script>
-		<!-- 폼 유효성 검사 -->
+	// 폼 유효성 검사
 		window.addEventListener('load', () => {
 
 		    const forms = document.getElementsByClassName('validation-form');
@@ -130,7 +130,7 @@ body {
 		                let idInput = document.getElementById("id");
 		                
 		                idInput.classList.add("is-invalid");
-		                idInput.nextElementSibling.innerText = "아이디 중복 확인이 필요합니다.";
+		                idInput.nextElementSibling.innerText = "아이디가 올바르지 않습니다.";
 		                idInput.focus();
 		                return;
 		            }
@@ -149,8 +149,8 @@ body {
 		}, false);
 	</script>
 
-	<!-- 전화번호 형식 제한 -->
 	<script>
+	// 전화번호 형식 제한
 	document.getElementById('phone').addEventListener('input', function(e) {
 
 	    // 숫자만 남기기
@@ -170,61 +170,62 @@ body {
 	});
 	</script>
 	
-	<!-- id 중복 검사 -->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script>
-	$(function(){
-	    let timer;
-	    let isIdValid = false;
-	
-	    $("#id").on("input", function(){
-	
+	// id 중복 검사
+    let isIdValid = false;
+	let timer;
+	    
+	window.onload = () => {
+		document.getElementById('id').addEventListener('input', e => {
 	        clearTimeout(timer);
-	
-	        const idInput = $(this);
-	        const userId = idInput.val().trim();
-	        const invalidFeedback = idInput[0].nextElementSibling;
-	        const validFeedback = invalidFeedback.nextElementSibling;
-	
+	        const idInput = e.target;
+	        const userId = idInput.value.trim();
+	        const invalidFeedback = idInput.nextElementSibling;
+	        const validFeedback = idInput.nextElementSibling.nextElementSibling;
+		
 	        // 기존 상태 제거
-	        idInput.removeClass("is-invalid is-valid");
+	        idInput.classList.remove("is-invalid", "is-valid");
 	        isIdValid = false;
-	
-	        // 빈값이면 종료
-	        if(userId.length === 0){
-	            return;
-	        }
-	
+	        
+	        // 빈값
+	        if(userId == ''){
+				idInput.classList.add('is-invalid');
+				invalidFeedback.innerText = "아이디를 입력해주세요.";
+				return;
+			}	       
+	        
 	        // 형식 검사
 	        const regExp = /^[a-zA-Z0-9]{4,12}$/;
-	
 	        if(!regExp.test(userId)){
-	            idInput.addClass("is-invalid");
+	            idInput.classList.add("is-invalid");
 	            invalidFeedback.innerText = "아이디는 영문/숫자 4~12자로 입력하세요.";
 	            return;
 	        }
-	
+	        
 	        // debounce : 호출을 지연시켜 연속 검사하지 않고 한번만 검사하게 하여 서버 부담을 줄이는 기법
-	        timer = setTimeout(function(){
+	        timer = setTimeout(() => {
 	
 	            $.ajax({
 	                url : "/checkId",
 	                data : {userId : userId},
 	                success : function(result){
 	                    if(result === "exist"){
-	                        idInput.addClass("is-invalid");
+	                        idInput.classList.add("is-invalid");
 	                        invalidFeedback.innerText = "이미 사용중인 아이디입니다.";
 	                    }else{
-	                        idInput.addClass("is-valid");
+	                        idInput.classList.add("is-valid");
 	                        validFeedback.innerText = "사용 가능한 아이디입니다.";
 	                        isIdValid = true;
 	                    }
 	                },
-	                error : console.log("중복 검사 실패")
+	                error : function(){
+	                	console.log("중복 검사 실패");
+	                }
 	            });
 	        }, 500);
-	    });
-	
-	});
+		});
+	}
 	
 	</script>
 
