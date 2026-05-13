@@ -1,6 +1,7 @@
 package kh.dajagong.user.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import kh.dajagong.user.model.vo.User;
 
@@ -17,8 +18,6 @@ public interface UserMapper {
 
 	int checkId(String userId);
 
-	int checkNickname(String userId, String nickname);
+	int checkNickname(@Param("userId") String userId, @Param("nickname") String nickname);
 
-	int editCheckNick(String userId, String nickname);
-	
 }
