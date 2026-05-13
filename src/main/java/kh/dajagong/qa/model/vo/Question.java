@@ -22,8 +22,8 @@ public class Question {
 	private String status;     
 	private int licenseCode;  
 	private String userId;	
-	 private String licenseName; 
-
+	private String licenseName; 
+	
 	
 	//관리자페이지
 	private String nickname;
