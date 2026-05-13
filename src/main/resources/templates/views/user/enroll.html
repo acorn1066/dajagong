@@ -56,12 +56,13 @@ body {
 						<div class="invalid-feedback">아이디를 입력해주세요.</div>
 						<div class="valid-feedback"></div>
 					</div>
+					
 					<div class="col-md-6 mb-3">
-						<label for="nickname">별명</label> <input type="text" class="form-control" id="nickname" name="nickname" required>
-						<div class="invalid-feedback">별명을 입력해주세요.</div>
+						<label for="nickname">닉네임</label> <input type="text" class="form-control" id="nickname" name="nickname" required>
+						<div class="invalid-feedback">닉네임을 입력해주세요.</div>
+						<div class="valid-feedback"></div>
 					</div>
 				</div>
-
 
 				<div class="mb-3">
 					<label for="pwd">비밀번호</label> <input type="password" class="form-control" id="pwd" name="pwd" autocomplete="new-password" required>
@@ -88,7 +89,7 @@ body {
 		</div>
 	</div>
 	<script>
-	// 폼 유효성 검사
+		// 폼 유효성 검사
 		window.addEventListener('load', () => {
 
 		    const forms = document.getElementsByClassName('validation-form');
@@ -124,14 +125,26 @@ body {
 		                return;
 		            }
 
-					// id 중복 검사를 위해 submit 막기
-		            if(!isIdValid){
+		            if(!isIdValid || !isNicknameValid){
 		                event.preventDefault();
-		                let idInput = document.getElementById("id");
 		                
-		                idInput.classList.add("is-invalid");
-		                idInput.nextElementSibling.innerText = "아이디가 올바르지 않습니다.";
-		                idInput.focus();
+						// id 중복 검사를 위해 submit 막기
+			            if(!isIdValid){
+			                let idInput = document.getElementById("id");
+			                
+			                idInput.classList.add("is-invalid");
+			                idInput.nextElementSibling.innerText = "아이디를 다시 확인하세요.";
+			                idInput.focus();
+			            }
+						
+			         	// nickname 중복 검사
+			            if(!isNicknameValid){
+			                let nicknameInput = document.getElementById("nickname");
+	
+			                nicknameInput.classList.add("is-invalid");
+			                nicknameInput.nextElementSibling.innerText = "닉네임을 다시 확인하세요.";
+			                nicknameInput.focus();
+			            }
 		                return;
 		            }
 		         
@@ -139,7 +152,7 @@ body {
 		            if (!/^\d{10,11}$/.test(phone)) {
 		                event.preventDefault();
 		                phoneInput.classList.add('is-invalid');
-		                phoneInput.nextElementSibling.innerText = '올바르지 않은 전화번호입니다.';
+		                phoneInput.nextElementSibling.innerText = "전화번호를 다시 확인하세요.";
 		                phoneInput.focus();
 		                return;
 		            }
@@ -172,17 +185,23 @@ body {
 	
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script>
-	// id 중복 검사
     let isIdValid = false;
 	let timer;
-	    
-	window.onload = () => {
+	let isNicknameValid = false;
+	let nicknameTimer;
+
+	window.addEventListener('load', () => {
+
+		// id 중복 검사
 		document.getElementById('id').addEventListener('input', e => {
+			
 	        clearTimeout(timer);
+	        
 	        const idInput = e.target;
 	        const userId = idInput.value.trim();
-	        const invalidFeedback = idInput.nextElementSibling;
-	        const validFeedback = idInput.nextElementSibling.nextElementSibling;
+
+	        const invalidFeedback = idInput.parentElement.querySelector(".invalid-feedback");
+	        const validFeedback = idInput.parentElement.querySelector(".valid-feedback");
 		
 	        // 기존 상태 제거
 	        idInput.classList.remove("is-invalid", "is-valid");
@@ -225,9 +244,62 @@ body {
 	            });
 	        }, 500);
 		});
-	}
-	
-	</script>
+		
+		// nickname 중복 검사
+	    document.getElementById('nickname').addEventListener('input', e => {
 
+	        clearTimeout(nicknameTimer);
+
+	        const nicknameInput = e.target;
+	        const nickname = nicknameInput.value.trim();
+
+	        const invalidFeedback = nicknameInput.parentElement.querySelector(".invalid-feedback");
+	        const validFeedback = nicknameInput.parentElement.querySelector(".valid-feedback");
+
+	        // 상태 제거
+	        nicknameInput.classList.remove("is-invalid", "is-valid");
+	        isNicknameValid = false;
+
+	        // 빈값
+	        if(nickname === ''){
+	            nicknameInput.classList.add("is-invalid");
+	            invalidFeedback.innerText = "닉네임을 입력해주세요.";
+	            return;
+	        }
+
+	        // 형식 검사
+	        // 한글/영문/숫자 2~10자
+	        const regExp = /^[가-힣a-zA-Z0-9]{2,10}$/;
+
+	        if(!regExp.test(nickname)){
+	            nicknameInput.classList.add("is-invalid");
+	            invalidFeedback.innerText = "닉네임은 2~10자의 한글, 영문, 숫자만 가능합니다.";
+	            return;
+	        }
+
+	        // debounce
+	        nicknameTimer = setTimeout(() => {
+
+	            $.ajax({
+	                url : "/checkNickname",
+	                data : {nickname : nickname},
+	                success : function(result){
+	                    if(result === "exist"){
+	                        nicknameInput.classList.add("is-invalid");
+	                        invalidFeedback.innerText = "이미 사용중인 닉네임입니다.";
+	                    }else{
+	                        nicknameInput.classList.add("is-valid");
+	                        validFeedback.innerText = "사용 가능한 닉네임입니다.";
+	                        isNicknameValid = true;
+	                    }
+	                },
+	                error : function(){
+	                    console.log("닉네임 중복 검사 실패");
+	                }
+	            });
+	        }, 500);
+	    });
+	});
+	</script>
 </body>
 </html>

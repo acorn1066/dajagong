@@ -1,5 +1,6 @@
 package kh.dajagong.user.controller;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -75,13 +76,23 @@ public class UserController {
 	public String checkId(@RequestParam("userId") String userId) {
 
 	    int count = uService.checkId(userId);
-	    System.out.println(count);
 	    if(count > 0){
 	        return "exist";
 	    }
 	    return "available";
 	}
 	
+	// nickname 중복 검사
+	@ResponseBody
+	@GetMapping("/checkNickname")
+	public String checkNickname(@RequestParam("nickname") String nickname){
+
+	    int count = uService.checkNickname(nickname);
+	    if(count > 0){
+	        return "exist";
+	    }
+	    return "available";
+	}
 	
 	// 로그아웃 후 메인으로
 	@GetMapping("log-out")
@@ -128,7 +139,7 @@ public class UserController {
 		int result = uService.deleteUser(((User)session.getAttribute("loginUser")).getUserId());
 		if(result > 0) {
 			session.invalidate();
-			
+			SecurityContextHolder.clearContext();
 			ra.addFlashAttribute("deleteMsg", "회원 탈퇴가 완료되었습니다.\n그동안 이용해 주셔서 감사합니다.");
 			return "redirect:/";
 		} else {

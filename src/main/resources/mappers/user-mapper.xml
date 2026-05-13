@@ -28,4 +28,11 @@
 		select count(*) from "USER"
 		where user_id = #{userId}
 	</select>
+	
+	<select id="checkNickname" resultType="_int">
+		select count(*) from "USER"
+		where nickname = #{nickname}
+	</select>
+	
+	
 </mapper>
