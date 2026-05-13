@@ -19,9 +19,13 @@
     </select>
 
     <select id="selectQaList" resultType="kh.dajagong.qa.model.vo.Question">
-      SELECT Q.*, L.LICENSE_NAME as licenseName
+        SELECT 
+            Q.*, 
+            L.LICENSE_NAME as licenseName,
+            U.NICKNAME as nickname
         FROM QUESTION Q
         JOIN LICENSE L ON (Q.LICENSE_CODE = L.LICENSE_CODE)
+        LEFT JOIN "USER" U ON (Q.USER_ID = U.USER_ID)
         WHERE Q.STATUS = 'Y'
         
         <if test="licenseCode != 0"> AND Q.LICENSE_CODE = #{licenseCode} </if>
@@ -33,20 +37,25 @@
             </choose>
         </if>
         
-        ORDER BY Q_INDEX DESC
+        ORDER BY Q.Q_INDEX DESC
     </select>
 
     <select id="selectQuestion" resultType="kh.dajagong.qa.model.vo.Question">
-        SELECT Q.*, L.LICENSE_NAME as licenseName
+        SELECT 
+            Q.*, 
+            L.LICENSE_NAME AS licenseName,
+            U.NICKNAME AS nickname
         FROM QUESTION Q
-        JOIN LICENSE L ON (Q.LICENSE_CODE = L.LICENSE_CODE)
+        LEFT JOIN "USER" U ON (Q.USER_ID = U.USER_ID)
+        LEFT JOIN LICENSE L ON (Q.LICENSE_CODE = L.LICENSE_CODE)
         WHERE Q.Q_INDEX = #{qIndex} AND Q.STATUS = 'Y'
     </select>
     
-     <select id="selectAdminQuestion" resultType="kh.dajagong.qa.model.vo.Question">
-        SELECT Q.*, L.LICENSE_NAME as licenseName
+    <select id="selectAdminQuestion" resultType="kh.dajagong.qa.model.vo.Question">
+        SELECT Q.*, L.LICENSE_NAME as licenseName, U.NICKNAME as nickname
         FROM QUESTION Q
         JOIN LICENSE L ON (Q.LICENSE_CODE = L.LICENSE_CODE)
+        LEFT JOIN "USER" U ON (Q.USER_ID = U.USER_ID)
         WHERE Q.Q_INDEX = #{qIndex} AND Q.STATUS != 'N'
     </select>
 
@@ -58,12 +67,19 @@
         UPDATE QUESTION SET STATUS = 'N' WHERE Q_INDEX = #{qIndex}
     </update>
 
-    <select id="selectAnswerList" resultType="kh.dajagong.qa.model.vo.Answer">
-        SELECT A_INDEX as aIndex, CONTENT, CREATE_DATE as createDate, 
-               STATUS, Q_INDEX as qIndex, USER_ID as userId
-        FROM ANSWER
-        WHERE Q_INDEX = #{qIndex} AND STATUS = 'Y'
-        ORDER BY A_INDEX DESC
+   <select id="selectAnswerList" resultType="kh.dajagong.qa.model.vo.Answer">
+        SELECT 
+            A.A_INDEX as aIndex, 
+            A.CONTENT, 
+            A.CREATE_DATE as createDate, 
+            A.STATUS, 
+            A.Q_INDEX as qIndex, 
+            A.USER_ID as userId,
+            U.NICKNAME as nickname
+        FROM ANSWER A
+        LEFT JOIN "USER" U ON (A.USER_ID = U.USER_ID)
+        WHERE A.Q_INDEX = #{qIndex} AND A.STATUS = 'Y'
+        ORDER BY A.A_INDEX DESC
     </select>
 
     <insert id="insertAnswer">
@@ -71,34 +87,18 @@
     </insert>
 
     <update id="updateAnswer">
-        UPDATE ANSWER 
-        SET CONTENT = #{content}
-        WHERE A_INDEX = #{aIndex}
+        UPDATE ANSWER SET CONTENT = #{content} WHERE A_INDEX = #{aIndex}
     </update>
 
     <delete id="deleteAnswer">
-        DELETE FROM ANSWER
-        WHERE A_INDEX = #{aIndex}
+        DELETE FROM ANSWER WHERE A_INDEX = #{aIndex}
     </delete>
     
     <insert id="insertQuestion">
         INSERT INTO QUESTION (
-            Q_INDEX, 
-            TITLE, 
-            CONTENT, 
-            CREATE_DATE, 
-            STATUS, 
-            LICENSE_CODE, 
-            USER_ID, 
-            COUNT
+            Q_INDEX, TITLE, CONTENT, CREATE_DATE, STATUS, LICENSE_CODE, USER_ID, COUNT
         ) VALUES (
-            SEQ_QNO.NEXTVAL, #{title},
-            #{content},
-            SYSDATE,
-            'Y',
-            #{licenseCode},
-            #{userId},
-            0
+            SEQ_QNO.NEXTVAL, #{title}, #{content}, SYSDATE, 'Y', #{licenseCode}, #{userId}, 0
         )
     </insert>
 
@@ -111,14 +111,17 @@
     </update>
     
     <select id="selectTopList" resultType="kh.dajagong.qa.model.vo.Question">
-    SELECT *
-    FROM (
         SELECT *
-        FROM QUESTION
-        WHERE STATUS = 'Y'
-        ORDER BY Q_INDEX DESC
-    )
-    WHERE ROWNUM <![CDATA[<=]]> 5
-	</select>
+        FROM (
+            SELECT 
+                Q.*,
+                U.NICKNAME as nickname
+            FROM QUESTION Q
+            LEFT JOIN "USER" U ON (Q.USER_ID = U.USER_ID)
+            WHERE Q.STATUS = 'Y'
+            ORDER BY Q.Q_INDEX DESC
+        )
+        WHERE ROWNUM <![CDATA[<=]]> 5
+    </select>
 
 </mapper>

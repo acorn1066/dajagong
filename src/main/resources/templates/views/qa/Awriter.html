@@ -39,7 +39,7 @@
                     </tr>
                     <tr>
                         <th>작성자</th>
-                        <td style="width: 35%;" th:text="${q.userId}">작성자</td>
+						<td style="width: 35%;" th:text="${q.nickname}">닉네임</td>
                         <th style="width: 15%;">작성일</th>
                         <td style="width: 35%;" th:text="${q.createDate}">작성일</td>
                     </tr>
@@ -86,7 +86,7 @@
                     <div th:each="a : ${aList}" class="mb-3 border rounded shadow-sm answer-item">
                         <div class="reply-header d-flex justify-content-between align-items-center">
                             <div>                            	
-                                <strong class="ms-3" th:text="${a.userId}">아이디</strong>
+                                <strong class="ms-3" th:text="${a.nickname}">닉네임</strong>
                                 <small class="text-muted ms-3" th:text="${a.createDate}">날짜</small>
                             </div>
                             
