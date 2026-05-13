@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -85,9 +86,9 @@ public class UserController {
 	// nickname 중복 검사
 	@ResponseBody
 	@GetMapping("/checkNickname")
-	public String checkNickname(@RequestParam("nickname") String nickname){
+	public String checkNickname(@RequestParam("userId") String userId, @RequestParam("nickname") String nickname){
 
-	    int count = uService.checkNickname(nickname);
+	    int count = uService.checkNickname(userId, nickname);
 	    if(count > 0){
 	        return "exist";
 	    }
@@ -134,12 +135,12 @@ public class UserController {
 	
 	// 회원 탈퇴 후 메인으로
 	@GetMapping("delete")
-	public String deleteUser(HttpSession session, RedirectAttributes ra) {
+	public String deleteUser(SessionStatus status, RedirectAttributes ra,
+							@SessionAttribute("loginUser") User loginUser) {
 		
-		int result = uService.deleteUser(((User)session.getAttribute("loginUser")).getUserId());
+		int result = uService.deleteUser(loginUser.getUserId());
 		if(result > 0) {
-			session.invalidate();
-			SecurityContextHolder.clearContext();
+			status.setComplete();
 			ra.addFlashAttribute("deleteMsg", "회원 탈퇴가 완료되었습니다.\n그동안 이용해 주셔서 감사합니다.");
 			return "redirect:/";
 		} else {

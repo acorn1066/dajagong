@@ -182,13 +182,14 @@ body {
 
 	        const nicknameInput = e.target;
 	        const nickname = nicknameInput.value.trim();
-
+	        const userId = document.getElementById("id").value;
+	        
 	        const invalidFeedback = nicknameInput.parentElement.querySelector(".invalid-feedback");
 	        const validFeedback = nicknameInput.parentElement.querySelector(".valid-feedback");
 
 	        // 상태 제거
 	        nicknameInput.classList.remove("is-invalid", "is-valid");
-	        isNicknameValid = false;
+	        isNicknameValid = true;
 
 	        // 빈값
 	        if(nickname === ''){
@@ -212,7 +213,7 @@ body {
 
 	            $.ajax({
 	                url : "/checkNickname",
-	                data : {nickname : nickname},
+	                data : {userId:userId, nickname:nickname},
 	                success : function(result){
 	                    if(result === "exist"){
 	                        nicknameInput.classList.add("is-invalid");
