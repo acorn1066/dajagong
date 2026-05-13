@@ -26,6 +26,10 @@ public class UserService {
 	public int deleteUser(String userId) {
 		return mapper.deleteUser(userId);
 	}
-	
+
+	public User checkId(String userId) {
+		return mapper.checkId(userId);
+	}
+
 	
 }
