@@ -85,8 +85,8 @@
                 <div id="answerListContainer">
                     <div th:each="a : ${aList}" class="mb-3 border rounded shadow-sm answer-item">
                         <div class="reply-header d-flex justify-content-between align-items-center">
-                            <div>
-                                <strong th:text="${a.userId}">아이디</strong>
+                            <div>                            	
+                                <strong class="ms-3" th:text="${a.userId}">아이디</strong>
                                 <small class="text-muted ms-3" th:text="${a.createDate}">날짜</small>
                             </div>
                             
