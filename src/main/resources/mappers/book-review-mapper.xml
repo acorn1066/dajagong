@@ -76,7 +76,7 @@
 				    </if>
 				  </trim>
                 group by b.book_num, b.book_name, b.publisher,b.publication_date, b.license_code, b.book_writer
-                order by book_num
+                order by review_count desc
 	</select>
 	<select id="selectBook" resultMap="bookResultSet" parameterType="_int">
 			select b.*, l.license_name
