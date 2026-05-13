@@ -36,11 +36,11 @@
                 
                <table class="table qa-table mb-4">
 				    <tr>
-				        <th>제목</th>
-				        <td colspan="3">
-				            <input type="text" name="title" class="edit-input fw-bold fs-5" 
-				                   th:value="${q.title}" placeholder="제목을 입력하세요" required>
-				        </td>
+				       <th style="width: 15%; vertical-align: middle;">제목</th>
+        		   		<td colspan="3">
+            				<input type="text" class="form-control" id="boardTitle" name="boardTitle" th:value="${q.title}" placeholder="제목을 입력하세요" required/>
+       			 	   	</td>
+
 				    </tr>
 				    <tr>
 				        <th>작성자</th>
