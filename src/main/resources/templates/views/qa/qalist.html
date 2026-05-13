@@ -64,11 +64,12 @@
             <tbody>
                 <tr class="qa-row" th:each="q : ${list}">
                     <td class="q-idx">[[${q.qIndex}]]</td>
-                    <td>[[${q.licenseName}]]</td>
+                    <td>[[${q.licenseName}]] </td>
                     <td style="max-width: 300px;"> 
                     	<span class="questionTitle" th:title="${q.title}" style="display: block;">
 					        [[${q.title}]]
 					    </span>
+					    
 					</td>
                     <td>[[${q.nickname}]]</td>
                     <td>[[${q.createDate}]]</td>

@@ -54,8 +54,9 @@ public class QaController {
         if(loginUser == null) throw new AuthorityException("로그인이 필요한 서비스입니다.");
 
         String loginId = loginUser.getUserId();
+        qService.updateCount(qIndex); 
         Question q = ("Y".equals(loginUser.getIsAdmin())) ? 
-                      qService.selectAdminQuestion(qIndex, loginId) : qService.selectQuestion(qIndex, loginId); 
+                      qService.selectAdminQuestion(qIndex, null) : qService.selectQuestion(qIndex, null); 
         
         if(q == null) throw new QaException("해당 질의응답 게시글을 찾을 수 없습니다.");
 
