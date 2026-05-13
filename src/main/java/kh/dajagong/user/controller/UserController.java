@@ -69,18 +69,20 @@ public class UserController {
 		}
 	}
 	
+	// id 중복 검사
 	@ResponseBody
 	@GetMapping("/checkId")
-	public String checkId(String userId) {
+	public String checkId(@RequestParam("userId") String userId) {
 
-	    User user = uService.checkId(userId);
-
-	    if(user != null){
+	    int count = uService.checkId(userId);
+	    System.out.println(count);
+	    if(count > 0){
 	        return "exist";
 	    }
-
 	    return "available";
 	}
+	
+	
 	// 로그아웃 후 메인으로
 	@GetMapping("log-out")
 	public String logout(SessionStatus status,HttpSession session) {
@@ -101,6 +103,7 @@ public class UserController {
 		return "/views/user/edit";
 	}
 	
+	// 회원정보 수정 후 myPage 페이지로
 	@PostMapping("edit")
 	public String editMyPage(@ModelAttribute User u, Model model) {
 	    
@@ -118,6 +121,7 @@ public class UserController {
 	    }
 	}
 	
+	// 회원 탈퇴 후 메인으로
 	@GetMapping("delete")
 	public String deleteUser(HttpSession session, RedirectAttributes ra) {
 		
