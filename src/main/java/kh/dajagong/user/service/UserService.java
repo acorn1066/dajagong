@@ -31,8 +31,12 @@ public class UserService {
 		return mapper.checkId(userId);
 	}
 
-	public int checkNickname(String nickname) {
-		return mapper.checkNickname(nickname);
+	public int checkNickname(String userId, String nickname) {
+		return mapper.checkNickname(userId, nickname);
+	}
+
+	public int editCheckNick(String userId, String nickname) {
+		return mapper.editCheckNick(userId, nickname);
 	}
 
 	

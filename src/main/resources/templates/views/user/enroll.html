@@ -252,7 +252,8 @@ body {
 
 	        const nicknameInput = e.target;
 	        const nickname = nicknameInput.value.trim();
-
+	        const userId = document.getElementById("id").value;
+	        
 	        const invalidFeedback = nicknameInput.parentElement.querySelector(".invalid-feedback");
 	        const validFeedback = nicknameInput.parentElement.querySelector(".valid-feedback");
 
@@ -282,7 +283,7 @@ body {
 
 	            $.ajax({
 	                url : "/checkNickname",
-	                data : {nickname : nickname},
+	                data : {userId:userId, nickname : nickname},
 	                success : function(result){
 	                    if(result === "exist"){
 	                        nicknameInput.classList.add("is-invalid");

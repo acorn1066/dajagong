@@ -17,6 +17,8 @@ public interface UserMapper {
 
 	int checkId(String userId);
 
-	int checkNickname(String nickname);
+	int checkNickname(String userId, String nickname);
+
+	int editCheckNick(String userId, String nickname);
 	
 }
