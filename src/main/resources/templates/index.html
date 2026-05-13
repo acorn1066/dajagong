@@ -119,7 +119,12 @@
         }
 		
 		// 회원가입, 회원탈퇴 후 안내메시지
-		let msg = /*[[${enrollMsg}]]*/ null || /*[[${deleteMsg}]]*/ null; // 주석아님. th문법
+		
+		
+		let enrollMsg = /*[[${enrollMsg}]]*/ null;
+		let deleteMsg = /*[[${deleteMsg}]]*/ null;
+		
+		let msg = enrollMsg || deleteMsg;
 
 	    if(msg){
 	        alert(msg);
