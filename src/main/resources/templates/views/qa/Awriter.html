@@ -71,7 +71,7 @@
                     <button class="btn btn-danger px-5 py-2 me-2" id="deletePostBtn">삭제하기</button>
                 </th:block>                
                  <th:block th:if="${session.loginUser != null and session.loginUser.isAdmin == 'Y'}">
-                    <button class="btn btn-danger px-5 py-2 me-2">차단하기</button>
+                    <button class="btn btn-danger px-5 py-2 me-2" th:onclick="'showBlockModal(' + ${q.qIndex} + ', \'Q\');'">차단하기</button>
                  </th:block>
             </div>
 
@@ -103,7 +103,7 @@
 							    </th:block>
 							
 							    <th:block th:if="${session.loginUser != null and session.loginUser.isAdmin == 'Y'}">
-							        <button type="button" class="btn btn-sm btn-outline-danger block-reply-btn">차단하기</button>
+							        <button type="button" class="btn btn-sm btn-outline-danger block-reply-btn" th:onclick="'showBlockModal(' + ${a.aIndex} + ', \'A\');'">차단하기</button>
 							    </th:block>
 							    
 							</div>
@@ -115,12 +115,32 @@
             </div>
         </div>
     </div>
-
+	<div class="modal fade noto-sans-kr" tabindex="-1" role="dialog" id="modalBlock">
+	    <div class="modal-dialog">
+	        <div class="modal-content rounded-3 shadow overflow-hidden">
+	            <div class="modal-body p-4 text-center">
+	                <i class="bi bi-exclamation-triangle-fill text-danger mb-3" style="font-size:2.5rem;"></i>
+	                <h5 class="mb-3">정말로 이 리뷰를 차단하시겠습니까?</h5>
+	                <div class="form-floating">
+					  <textarea class="form-control" placeholder="" id="blockText" style="resize:none;"></textarea>
+					  <label for="floatingTextarea">차단사유</label>
+					</div>
+	            </div>
+	            <div class="modal-footer flex-nowrap p-0"> 
+				    <button type="button" class="btn btn-lg fs-6 col-6 py-3 m-0 rounded-0 rounded-bottom-start btn-danger text-white" onclick="blockQnA();"><strong>네</strong></button>
+				    <button type="button" class="btn btn-lg fs-6 col-6 py-3 m-0 rounded-0 rounded-bottom-end" data-bs-dismiss="modal">아니요</button> 
+				</div>
+	        </div>
+	    </div>
+	</div>
     <footer th:replace="~{views/common/footer :: footer}"></footer>
     
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script th:inline="javascript">
-        $(document).ready(function() {
+	    let blockSubIndex;
+	    let blockType;
+    
+    	$(document).ready(function() {
             const qIndex = /*[[${q.qIndex}]]*/ 0;
             const form = $('#detailForm');
             
@@ -212,6 +232,38 @@
                 $editBtn.next().text('삭제').removeClass('btn-secondary').removeClass('cancel-mode').addClass('btn-outline-danger');
             }
         });
+        
+        
+        const showBlockModal = (index,type) =>{
+        	blockSubIndex=index;
+        	blockType=type;
+        	document.querySelector('#modalBlock h5').innerText = '정말로 이 ' + (blockType === 'Q' ? '질문을' : '답변을') + ' 차단하시겠습니까?';
+        	$('#modalBlock').modal('show');
+        }
+        
+        const blockQnA = () => {
+    		const blockText = document.querySelector('#blockText').value.trim();
+    		
+        	$.ajax({
+    			url: '/admin/QnA',
+    			type: 'put',
+    			data: {
+    				type : blockType,
+    				subType : "B",
+    				subIndex : blockSubIndex,
+    				comment : blockText
+    			},
+    			success:data=>{
+    				if(data>0) {
+						alert("처리되었습니다.")
+						if(blockType=='A') location.reload();
+						else location.href='/qa/list';
+    				}
+    				else alert("차단에 실패했습니다.");
+    			},
+    			error :data=> console.log(data)
+    		});
+        }
     </script>
 </body>
 </html>

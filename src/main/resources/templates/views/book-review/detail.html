@@ -50,7 +50,7 @@
 		          <button class="btn btn-outline-danger btn-sm deleteBtn" style="width:60px;" th:onclick="@{showDeleteModal(}+${r.reviewNum}+@{);}">삭제</button>
 	        	 </th:block>
 		         <th:block th:if="${session.loginUser!=null && session.loginUser.userId=='admin' && r.status ne 'B'}">
-	        	  <button class="btn btn-danger btn-sm blockBtn" style="width:100px;" th:onclick="@{showBlockModal(}+${r.reviewNum}+@{);}" >글차단</button>
+	        	  <button class="btn btn-danger btn-sm blockBtn" style="width:100px;" th:onclick="@{showBlockModal(}+${r.reviewNum}+@{);}" >차단하기</button>
 	        	 </th:block>
 		        </div>
 		      </div>

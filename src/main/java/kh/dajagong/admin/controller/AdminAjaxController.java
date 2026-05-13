@@ -145,4 +145,34 @@ public class AdminAjaxController {
 		int manageResult = mhService.insertManagementHistory(mh);
 		return manageResult;
 	}
+	
+	@PutMapping("/admin/QnA")
+	public int blockQnA(@ModelAttribute ManagementHistory mh, HttpSession session) {
+		User u = (User)session.getAttribute("loginUser");
+		if(u==null || !u.getIsAdmin().equals("Y")) throw new AuthorityException("권한이 부족합니다");
+		
+		if(mh.getType().equals("Q")) {
+			HashMap<String,Object> map = new HashMap<>();
+			map.put("qIndex", mh.getSubIndex());
+			map.put("status", "B");
+			int result = aService.blockQuestion(map);
+			
+			Question block = aService.selectQuestion(mh.getSubIndex());
+			mh.setUserId(block.getUserId());
+			
+			int manageResult = mhService.insertManagementHistory(mh);
+			return manageResult;
+		}else {
+			HashMap<String,Object> map = new HashMap<>();
+			map.put("aIndex", mh.getSubIndex());
+			map.put("status", "B");
+			int result = aService.blockAnswer(map);
+			
+			Answer block = aService.selectAnswer(mh.getSubIndex());
+			mh.setUserId(block.getUserId());
+			
+			int manageResult = mhService.insertManagementHistory(mh);
+			return manageResult;
+		}
+	}
 }
