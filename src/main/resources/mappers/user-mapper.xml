@@ -23,4 +23,9 @@
 		set status='N'
 		where user_id=#{userId}
 	</update>
+	
+	<select id="checkId" resultType="user">
+		select * from "USER"
+		where user_id = #{userId}
+	</select>
 </mapper>

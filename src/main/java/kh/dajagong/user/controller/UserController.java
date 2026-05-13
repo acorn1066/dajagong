@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -68,6 +69,18 @@ public class UserController {
 		}
 	}
 	
+	@ResponseBody
+	@GetMapping("/checkId")
+	public String checkId(String userId) {
+
+	    User user = uService.checkId(userId);
+
+	    if(user != null){
+	        return "exist";
+	    }
+
+	    return "available";
+	}
 	// 로그아웃 후 메인으로
 	@GetMapping("log-out")
 	public String logout(SessionStatus status,HttpSession session) {

@@ -54,6 +54,7 @@ body {
 					<div class="col-md-6 mb-3">
 						<label for="id">아이디</label> <input type="text" class="form-control" id="id" name="userId" autocomplete="username" required>
 						<div class="invalid-feedback">아이디를 입력해주세요.</div>
+						<div class="valid-feedback"></div>
 					</div>
 					<div class="col-md-6 mb-3">
 						<label for="nickname">별명</label> <input type="text" class="form-control" id="nickname" name="nickname" required>
@@ -123,6 +124,17 @@ body {
 		                return;
 		            }
 
+					// id 중복 검사를 위해 submit 막기
+		            if(!isIdValid){
+		                event.preventDefault();
+		                let idInput = document.getElementById("id");
+		                
+		                idInput.classList.add("is-invalid");
+		                idInput.nextElementSibling.innerText = "아이디 중복 확인이 필요합니다.";
+		                idInput.focus();
+		                return;
+		            }
+		         
 		            // 전화번호 검사
 		            if (!/^\d{10,11}$/.test(phone)) {
 		                event.preventDefault();
@@ -156,6 +168,64 @@ body {
 	    }
 	    e.target.value = value;
 	});
+	</script>
+	
+	<!-- id 중복 검사 -->
+	<script>
+	$(function(){
+	    let timer;
+	    let isIdValid = false;
+	
+	    $("#id").on("input", function(){
+	
+	        clearTimeout(timer);
+	
+	        const idInput = $(this);
+	        const userId = idInput.val().trim();
+	        const invalidFeedback = idInput[0].nextElementSibling;
+	        const validFeedback = invalidFeedback.nextElementSibling;
+	
+	        // 기존 상태 제거
+	        idInput.removeClass("is-invalid is-valid");
+	        isIdValid = false;
+	
+	        // 빈값이면 종료
+	        if(userId.length === 0){
+	            return;
+	        }
+	
+	        // 형식 검사
+	        const regExp = /^[a-zA-Z0-9]{4,12}$/;
+	
+	        if(!regExp.test(userId)){
+	            idInput.addClass("is-invalid");
+	            invalidFeedback.innerText = "아이디는 영문/숫자 4~12자로 입력하세요.";
+	            return;
+	        }
+	
+	        // debounce : 호출을 지연시켜 연속 검사하지 않고 한번만 검사하게 하여 서버 부담을 줄이는 기법
+	        timer = setTimeout(function(){
+	
+	            $.ajax({
+	                url : "/checkId",
+	                data : {userId : userId},
+	                success : function(result){
+	                    if(result === "exist"){
+	                        idInput.addClass("is-invalid");
+	                        invalidFeedback.innerText = "이미 사용중인 아이디입니다.";
+	                    }else{
+	                        idInput.addClass("is-valid");
+	                        validFeedback.innerText = "사용 가능한 아이디입니다.";
+	                        isIdValid = true;
+	                    }
+	                },
+	                error : console.log("중복 검사 실패")
+	            });
+	        }, 500);
+	    });
+	
+	});
+	
 	</script>
 
 </body>
