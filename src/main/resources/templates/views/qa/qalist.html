@@ -21,7 +21,7 @@
             <h1 class="display-5 fw-bold mb-2 noto-sans-kr-900 py-5">질의 응답 (Q&A)</h1>
         </div>
 
-        <form action="/qa/list" method="get">
+        <form id="searchTitle" action="/qa/list" method="get">
             <div class="row mb-3 g-2 justify-content-center">
                 <div class="col-auto">
                     <select class="form-select" name="licenseCode">
@@ -62,7 +62,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="qa-row" th:each="q : ${list}">
+                <tr class="qa-row" th:each="q : ${list}" style =' vertical-align : middle '>
                     <td class="q-idx">[[${q.qIndex}]]</td>
                     <td>[[${q.licenseName}]] </td>
                     <td style="max-width: 300px;"> 
@@ -123,30 +123,43 @@
     </div>
 
     <script th:inline="javascript">
-        window.onload = () => {
-            const tbody = document.querySelector('tbody');
-            if(tbody) {
-                tbody.onclick = (e) => {
-                    const tr = e.target.closest('tr');
-                    if (tr && tr.querySelector('.q-idx')) {
-                        
-                        const loginUser = /*[[${session.loginUser}]]*/ null;
+    window.onload = () => {
+        const tbody = document.querySelector('tbody');
+        if(tbody) {
+            tbody.onclick = (e) => {
+                const tr = e.target.closest('tr');
+                if (tr && tr.querySelector('.q-idx')) {
+                    
+                    const loginUser = /*[[${session.loginUser}]]*/  null;
 
-                        if(loginUser == null) {
-                            const loginModal = new bootstrap.Modal(document.getElementById('loginCheckModal'));
-                            loginModal.show();
-                            return;
-                        }
-
-                        const qIndex = tr.querySelector('.q-idx').innerText;
-                        const page = document.getElementById('hiddenCurrentPage').value;
-                        location.href = "/qa/Awriter?qIndex=" + qIndex + "&page=" + page;
+                    if(loginUser == null) {
+                        const loginModal = new bootstrap.Modal(document.getElementById('loginCheckModal'));
+                        loginModal.show();
+                        return;
                     }
-                };
-            }
+
+                    const qIndex = tr.querySelector('.q-idx').innerText;
+                    const page = document.getElementById('hiddenCurrentPage').value;
+                    location.href = "/qa/Awriter?qIndex=" + qIndex + "&page=" + page;
+                }
+            };
         }
-    </script>
+
+        const searchForm = document.getElementById('searchTitle');
+        if(searchForm) {
+            searchForm.onsubmit = function() {
+                const keywordInput = this.querySelector('input[name="keyword"]');
+
+                if(keywordInput.value.trim().length === 0) {
+                    alert("검색어를 입력해주세요.");
+                    keywordInput.focus();
+                    return false; 
+                }
+                return true; 
+            };
+        }
+    };
+</script>
     
-    <footer th:replace="~{views/common/footer :: footer}"></footer>
 </body>
 </html>
