@@ -17,7 +17,7 @@
 
         <h3 class="text-center mb-2 noto-sans-kr-900 py-5">질문 상세 보기</h3>
 			
-        <form class="needs-validation" action="/qa/insert" method="POST">
+        <form id="insertForm" class="needs-validation" action="/qa/insert" method="POST">
             <div class="row g-3">
                 
                 <div class="col-12">
@@ -29,14 +29,14 @@
                                     th:text="${l.licenseName}">자격증명</option>
                         </select>
                         <span class="input-group-text noto-sans-kr-500">제목</span>
-                        <input type="text" class="form-control noto-sans-kr-500" name="title" 
+                        <input type="text" id="title" class="form-control noto-sans-kr-500" name="title"
                                placeholder="질문 제목을 입력하세요." required>
                     </div>
                 </div>
 
                 <div class="col-12">
                     <div class="mb-4">                       
-                        <textarea class="form-control noto-sans-kr-500" rows="15" name="content" 
+                        <textarea id="content" class="form-control noto-sans-kr-500" rows="15" name="content" 
                                   style="resize: none;" placeholder="질문 내용을 작성하시오." required></textarea>
                     </div>
                 </div>
@@ -51,5 +51,33 @@
     </div>
 
     <footer th:replace="~{views/common/footer :: footer}"></footer>
+    
+    <script>
+      
+        window.onload = () => {
+            const insertForm = document.getElementById('insertForm');
+            
+            if(insertForm) {
+                insertForm.onsubmit = function() {
+                    const title = document.getElementById('title');
+                    const content = document.getElementById('content');
+
+                    if(title.value.trim().length === 0) {
+                        alert("제목을 입력해주세요.");
+                        title.focus();
+                        return false; 
+                    }
+
+                    if(content.value.trim().length === 0) {
+                        alert("내용을 입력해주세요.");
+                        content.focus();
+                        return false; 
+                    }
+
+                    return true; 
+                };
+            }
+        };
+    </script>
 </body>
 </html>
