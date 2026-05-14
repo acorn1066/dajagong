@@ -130,7 +130,7 @@
                     const tr = e.target.closest('tr');
                     if (tr && tr.querySelector('.q-idx')) {
                         
-                        const loginUser = [[${session.loginUser}]];
+                        const loginUser = /*[[${session.loginUser}]]*/ null;
 
                         if(loginUser == null) {
                             const loginModal = new bootstrap.Modal(document.getElementById('loginCheckModal'));
