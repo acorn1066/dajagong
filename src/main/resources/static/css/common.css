@@ -67,6 +67,16 @@ hr.hr-2 {
   background: #999;
 }
 
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+footer {
+    margin-top: auto;
+}
+
 .star-rating {
         direction: rtl;
         display: inline-block;
