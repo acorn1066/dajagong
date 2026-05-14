@@ -51,13 +51,13 @@ body {
 			<form class="validation-form" action="/signIn" method="post">
 				<div class="row">
 					<div class="col-md-12 mb-3">
-						<label for="id">아이디</label> <input type="text" class="form-control" id="id" name="userId" autocomplete="username" required>
+						<label for="id">아이디</label> <input type="text" class="form-control" id="id" name="userId" autocomplete="username" maxlength="15" required>
 						<div class="invalid-feedback">아이디를 입력해주세요.</div>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-md-12 mb-3">
-						<label for="password">비밀번호</label> <input type="password" class="form-control" id="password" name="pwd" required>
+						<label for="password">비밀번호</label> <input type="password" class="form-control" id="pwd" name="pwd" maxlength="20" required>
 						<div class="invalid-feedback">비밀번호를 입력해주세요.</div>
 					</div>
 				</div>
@@ -91,6 +91,13 @@ body {
 		    }, false);
 		  });
 		}, false);
+		
+		// 비밀번호 공백 입력 시 자동제거
+		const pwd = document.getElementById("pwd");
+
+		pwd.addEventListener("input", () => {
+		    pwd.value = pwd.value.replace(/\s/g, '');
+		});
 	</script>
 
 	<script th:if="${errorMsg}"> <!-- 로그인 실패 에러메시지를 5초간만 띄우게 하는 스크립트 -->

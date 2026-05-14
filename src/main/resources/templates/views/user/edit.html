@@ -4,40 +4,35 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>회원수정 화면</title>
+<title>회원정보 수정</title>
 
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
 <style>
 html, body {
-    height: 100%;
+	height: 100%;
 }
 
 body {
-    min-height: 100vh;
-    margin: 0;
-    background: linear-gradient(
-        to top,
-        #b7f0c2 0%,
-        #e3f9e7 40%,
-        #ffffff 80%,
-        #ffffff 100%
-    );
+	min-height: 100vh;
+	margin: 0;
+	background: linear-gradient(to top, #b7f0c2 0%, #e3f9e7 40%, #ffffff 80%, #ffffff
+		100%);
 }
 
 .input-form {
-    max-width: 680px;
-    margin: 80px auto 0;
-    padding: 32px;
-    background: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+	max-width: 680px;
+	margin: 80px auto 0;
+	padding: 32px;
+	background: #ffffff;
+	border-radius: 10px;
+	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 .form-control:focus {
-    border-color: #9be7a8;
-    box-shadow: 0 0 0 0.2rem rgba(155, 231, 168, 0.25);
+	border-color: #9be7a8;
+	box-shadow: 0 0 0 0.2rem rgba(155, 231, 168, 0.25);
 }
 </style>
 </head>
@@ -48,14 +43,14 @@ body {
 			<img class="w-50" style="margin-bottom: -10%; margin-top: -3%; cursor: pointer;" src="/img/dajagong-logo.svg" onclick="location.href='/'">
 		</div>
 		<div class="input-form mx-auto">
-			<h4 class="mb-3">회원가입</h4>
+			<h4 class="mb-3">회원정보 수정</h4>
 			<form class="validation-form" action="/edit" method="post" id="editForm">
 				<div class="row">
 					<div class="col-md-6 mb-3">
 						<label for="id">아이디</label> <input type="text" class="form-control" id="id" name="userId" autocomplete="username" style="background: lightgray" th:value="${session.loginUser.userId}" readonly>
 					</div>
 					<div class="col-md-6 mb-3">
-						<label for="nickname">닉네임</label> <input type="text" class="form-control" id="nickname" name="nickname" th:value="${session.loginUser.nickname}" required>
+						<label for="nickname">닉네임</label> <input type="text" class="form-control" id="nickname" name="nickname" maxlength="10" placeholder="한글, 영문, 숫자 2~10자" th:value="${session.loginUser.nickname}" required>
 						<div class="invalid-feedback">닉네임을 입력해주세요.</div>
 						<div class="valid-feedback"></div>
 					</div>
@@ -63,12 +58,12 @@ body {
 
 
 				<div class="mb-3">
-					<label for="pwd">비밀번호</label> <input type="password" class="form-control" id="pwd" name="pwd" autocomplete="new-password" required>
+					<label for="pwd">비밀번호</label> <input type="password" class="form-control" id="pwd" name="pwd" autocomplete="new-password" maxlength="20" placeholder="새 비밀번호 입력" required> <small class="form-text text-muted">공백 없이 최대 20자까지 입력 가능합니다.</small>
 					<div class="invalid-feedback">비밀번호를 입력해주세요.</div>
 				</div>
 
 				<div class="mb-3">
-					<label for="pwdConfirm">비밀번호 확인<span class="text-muted">&nbsp;</span></label> <input type="password" class="form-control" id="pwdConfirm" name="pwdConfirm" required>
+					<label for="pwdConfirm">비밀번호 확인<span class="text-muted">&nbsp;</span></label> <input type="password" class="form-control" id="pwdConfirm" name="pwdConfirm" maxlength="20" placeholder="비밀번호 다시 입력" required>
 					<div class="invalid-feedback">비밀번호 확인을 입력해주세요.</div>
 				</div>
 
@@ -77,7 +72,7 @@ body {
 					<div class="invalid-feedback">이메일을 입력해주세요.</div>
 				</div>
 				<div class="mb-3">
-					<label for="phone">전화번호</label> <input type="tel" class="form-control" id="phone" name="phone" autocomplete="tel" placeholder="010-1234-1234" th:value="${session.loginUser.phone}" required>
+					<label for="phone">전화번호</label> <input type="tel" class="form-control" id="phone" name="phone" autocomplete="tel" placeholder="010-1234-1234" th:value="${session.loginUser.phone}" maxlength="13" required>
 					<div class="invalid-feedback">전화번호를 입력해주세요.</div>
 				</div>
 				<div class="d-flex justify-content-center">
@@ -96,22 +91,29 @@ body {
 
 		        form.addEventListener('submit', function (event) {
 
-		            let pwdInput = document.getElementById("pwd");
-		            let pwdConfirmInput = document.getElementById("pwdConfirm");
-		            let phoneInput = document.getElementById("phone");
+		        	let pwdInput = document.getElementById("pwd");
+		        	let pwdConfirmInput = document.getElementById("pwdConfirm");
+		        	let phoneInput = document.getElementById("phone");
 
-		            let phone = phoneInput.value.replace(/[^0-9]/g, '');
+		        	// trim : 복붙 앞뒤 공백 제거
+		        	pwdInput.value = pwdInput.value.trim();
+		        	pwdConfirmInput.value = pwdConfirmInput.value.trim();
+		        	phoneInput.value = phoneInput.value.trim();
 
+		        	let phone = phoneInput.value.replace(/[^0-9]/g, '');
+		        	
 		            // 기존 invalid 제거
 		            pwdConfirmInput.classList.remove('is-invalid');
 		            phoneInput.classList.remove('is-invalid');
 
 		            // Bootstrap 기본 검사
 		            if (form.checkValidity() === false) {
-		                event.preventDefault();
-		                event.stopPropagation();
-		            }
-
+					    event.preventDefault();
+					    event.stopPropagation();
+					    form.classList.add('was-validated');
+					    return;
+					}
+		            
 		            // 비밀번호 일치 검사
 		            if (pwdInput.value !== pwdConfirmInput.value) {
 		                event.preventDefault();
@@ -167,7 +169,7 @@ body {
 	    e.target.value = value;
 	});
 	</script>
-	
+
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script>
 	let isNicknameValid = true;
@@ -181,10 +183,17 @@ body {
 	        clearTimeout(nicknameTimer);
 
 	        const nicknameInput = e.target;
-	        const nickname = nicknameInput.value.trim();
-	        const userId = document.getElementById("id").value;
+
+		     // trim : 복붙 앞뒤 공백 제거
+		     nicknameInput.value = nicknameInput.value.trim();
+	
+		     // maxlength 보조 제한
+		     nicknameInput.value = nicknameInput.value.slice(0, 10);
+	
+		     const nickname = nicknameInput.value;
+	       	 const userId = document.getElementById("id").value;
 	        
-	        const invalidFeedback = nicknameInput.parentElement.querySelector(".invalid-feedback");
+	      	const invalidFeedback = nicknameInput.parentElement.querySelector(".invalid-feedback");
 	        const validFeedback = nicknameInput.parentElement.querySelector(".valid-feedback");
 
 	        // 상태 제거
@@ -192,7 +201,7 @@ body {
 	        isNicknameValid = false;
 
 	        // 빈값
-	        if(nickname === ''){
+	        if(nickname === ""){
 	            nicknameInput.classList.add("is-invalid");
 	            invalidFeedback.innerText = "닉네임을 입력해주세요.";
 	            return;
@@ -230,6 +239,29 @@ body {
 	                }
 	            });
 	        }, 500);
+	    });
+		
+	 // 비밀번호 공백 입력 시 자동 제거
+	    const pwd = document.getElementById("pwd");
+	    const pwdConfirm = document.getElementById("pwdConfirm");
+
+	    pwd.addEventListener("input", () => {
+
+	        // trim : 복붙 앞뒤 공백 제거
+	        pwd.value = pwd.value.trim();
+
+	        // 모든 공백 제거
+	        pwd.value = pwd.value.replace(/\s/g, '');
+
+	        // 최대 20자 제한
+	        pwd.value = pwd.value.slice(0, 20);
+	    });
+
+	    pwdConfirm.addEventListener("input", () => {
+
+	        pwdConfirm.value = pwdConfirm.value.trim();
+	        pwdConfirm.value = pwdConfirm.value.replace(/\s/g, '');
+	        pwdConfirm.value = pwdConfirm.value.slice(0, 20);
 	    });
 	});
 	</script>
