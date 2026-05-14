@@ -52,13 +52,13 @@ body {
 			<form class="validation-form" action="/enroll" method="post" id="enrollForm">
 				<div class="row">
 					<div class="col-md-6 mb-3">
-						<label for="id">아이디</label> <input type="text" class="form-control" id="id" name="userId" autocomplete="username" required>
+						<label for="id">아이디</label> <input type="text" class="form-control" id="id" name="userId" autocomplete="username" placeholder="영문, 숫자 4~15자" required>
 						<div class="invalid-feedback">아이디를 입력해주세요.</div>
 						<div class="valid-feedback"></div>
 					</div>
 					
 					<div class="col-md-6 mb-3">
-						<label for="nickname">닉네임</label> <input type="text" class="form-control" id="nickname" name="nickname" required>
+						<label for="nickname">닉네임</label> <input type="text" class="form-control" id="nickname" name="nickname" placeholder="한글, 영문, 숫자 2~10자" required>
 						<div class="invalid-feedback">닉네임을 입력해주세요.</div>
 						<div class="valid-feedback"></div>
 					</div>
@@ -66,6 +66,7 @@ body {
 
 				<div class="mb-3">
 					<label for="pwd">비밀번호</label> <input type="password" class="form-control" id="pwd" name="pwd" autocomplete="new-password" required>
+					<small class="form-text text-muted">공백 없이 최대 20자까지 입력 가능합니다.</small>
 					<div class="invalid-feedback">비밀번호를 입력해주세요.</div>
 				</div>
 
@@ -88,6 +89,8 @@ body {
 			</form>
 		</div>
 	</div>
+	
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script>
 		// 폼 유효성 검사
 		window.addEventListener('load', () => {
@@ -160,9 +163,7 @@ body {
 		        }, false);
 		    });
 		}, false);
-	</script>
-
-	<script>
+	
 	// 전화번호 형식 제한
 	document.getElementById('phone').addEventListener('input', function(e) {
 
@@ -181,11 +182,9 @@ body {
 	    }
 	    e.target.value = value;
 	});
-	</script>
-	
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script>
-    let isIdValid = false;
+
+	// id, nickname 중복검사
+	let isIdValid = false;
 	let timer;
 	let isNicknameValid = false;
 	let nicknameTimer;
@@ -194,112 +193,169 @@ body {
 
 		// id 중복 검사
 		document.getElementById('id').addEventListener('input', e => {
-			
-	        clearTimeout(timer);
-	        
-	        const idInput = e.target;
-	        const userId = idInput.value.trim();
 
-	        const invalidFeedback = idInput.parentElement.querySelector(".invalid-feedback");
-	        const validFeedback = idInput.parentElement.querySelector(".valid-feedback");
-		
-	        // 기존 상태 제거
-	        idInput.classList.remove("is-invalid", "is-valid");
-	        isIdValid = false;
-	        
-	        // 빈값
-	        if(userId == ''){
-				idInput.classList.add('is-invalid');
-				invalidFeedback.innerText = "아이디를 입력해주세요.";
-				return;
-			}	       
-	        
-	        // 형식 검사
-	        const regExp = /^[a-zA-Z0-9]{4,12}$/;
-	        if(!regExp.test(userId)){
-	            idInput.classList.add("is-invalid");
-	            invalidFeedback.innerText = "아이디는 영문/숫자 4~12자로 입력하세요.";
-	            return;
-	        }
-	        
-	        // debounce : 호출을 지연시켜 연속 검사하지 않고 한번만 검사하게 하여 서버 부담을 줄이는 기법
-	        timer = setTimeout(() => {
-	
-	            $.ajax({
-	                url : "/checkId",
-	                data : {userId : userId},
-	                success : function(result){
-	                    if(result === "exist"){
-	                        idInput.classList.add("is-invalid");
-	                        invalidFeedback.innerText = "이미 사용중인 아이디입니다.";
-	                    }else{
-	                        idInput.classList.add("is-valid");
-	                        validFeedback.innerText = "사용 가능한 아이디입니다.";
-	                        isIdValid = true;
-	                    }
-	                },
-	                error : function(){
-	                	console.log("중복 검사 실패");
-	                }
-	            });
-	        }, 500);
+		    clearTimeout(timer);
+
+		    const idInput = e.target;
+
+		    // =========================
+		    // 입력 단계 제한 처리
+		    // =========================
+
+		    // trim : 복붙 앞뒤 공백 제거
+		    idInput.value = idInput.value.trim();
+
+		    // 영문/숫자 외 제거 // 이 부분을 넣으면 한글입력시 기존입력값 삭제됨
+// 		    idInput.value = idInput.value.replace(/[^a-zA-Z0-9]/g, '');
+
+		    // 최대 15자 제한
+		    idInput.value = idInput.value.slice(0, 15);
+
+		    const userId = idInput.value;
+
+		    const invalidFeedback = idInput.parentElement.querySelector(".invalid-feedback");
+		    const validFeedback = idInput.parentElement.querySelector(".valid-feedback");
+
+		    // 기존 상태 제거
+		    idInput.classList.remove("is-invalid", "is-valid");
+		    isIdValid = false;
+
+		    // 빈값
+		    if(userId === ''){
+		        idInput.classList.add('is-invalid');
+		        invalidFeedback.innerText = "아이디를 입력해주세요.";
+		        return;
+		    }
+
+		    // 형식 검사
+		    // 영문/숫자 4~15자
+		    const regExp = /^[a-zA-Z0-9]{4,15}$/;
+
+		    if(!regExp.test(userId)){
+		        idInput.classList.add("is-invalid");
+		        invalidFeedback.innerText = "아이디는 영문/숫자 4~15자로 입력하세요.";
+		        return;
+		    }
+
+		    // debounce
+		    timer = setTimeout(() => {
+
+		        $.ajax({
+		            url : "/checkId",
+		            data : {userId : userId},
+		            success : function(result){
+
+		                if(result === "exist"){
+		                    idInput.classList.add("is-invalid");
+		                    invalidFeedback.innerText = "이미 사용중인 아이디입니다.";
+		                }else{
+		                    idInput.classList.add("is-valid");
+		                    validFeedback.innerText = "사용 가능한 아이디입니다.";
+		                    isIdValid = true;
+		                }
+		            },
+		            error : function(){
+		                console.log("중복 검사 실패");
+		            }
+		        });
+		    }, 500);
 		});
 		
 		// nickname 중복 검사
-	    document.getElementById('nickname').addEventListener('input', e => {
+		document.getElementById('nickname').addEventListener('input', e => {
 
-	        clearTimeout(nicknameTimer);
+		    clearTimeout(nicknameTimer);
 
-	        const nicknameInput = e.target;
-	        const nickname = nicknameInput.value.trim();
-	        const userId = document.getElementById("id").value;
-	        
-	        const invalidFeedback = nicknameInput.parentElement.querySelector(".invalid-feedback");
-	        const validFeedback = nicknameInput.parentElement.querySelector(".valid-feedback");
+		    const nicknameInput = e.target;
 
-	        // 상태 제거
-	        nicknameInput.classList.remove("is-invalid", "is-valid");
-	        isNicknameValid = false;
+		    // =========================
+		    // 입력 단계 제한 처리
+		    // =========================
 
-	        // 빈값
-	        if(nickname === ''){
-	            nicknameInput.classList.add("is-invalid");
-	            invalidFeedback.innerText = "닉네임을 입력해주세요.";
-	            return;
-	        }
+		    // trim : 복붙 앞뒤 공백 제거
+		    nicknameInput.value = nicknameInput.value.trim();
 
-	        // 형식 검사
-	        // 한글/영문/숫자 2~10자
-	        const regExp = /^[가-힣a-zA-Z0-9]{2,10}$/;
+		    // 한글/영문/숫자 외 제거 // 이 부분 작성 시 한글 입력 시 현재입력값 제거됨
+// 		    nicknameInput.value = nicknameInput.value.replace(/[^가-힣a-zA-Z0-9]/g, '');
 
-	        if(!regExp.test(nickname)){
-	            nicknameInput.classList.add("is-invalid");
-	            invalidFeedback.innerText = "닉네임은 2~10자의 한글, 영문, 숫자만 가능합니다.";
-	            return;
-	        }
+		    // 최대 10자 제한
+		    nicknameInput.value = nicknameInput.value.slice(0, 10);
 
-	        // debounce
-	        nicknameTimer = setTimeout(() => {
+		    const nickname = nicknameInput.value;
+		    const userId = document.getElementById("id").value;
 
-	            $.ajax({
-	                url : "/checkNickname",
-	                data : {userId:userId, nickname : nickname},
-	                success : function(result){
-	                    if(result === "exist"){
-	                        nicknameInput.classList.add("is-invalid");
-	                        invalidFeedback.innerText = "이미 사용중인 닉네임입니다.";
-	                    }else{
-	                        nicknameInput.classList.add("is-valid");
-	                        validFeedback.innerText = "사용 가능한 닉네임입니다.";
-	                        isNicknameValid = true;
-	                    }
-	                },
-	                error : function(){
-	                    console.log("닉네임 중복 검사 실패");
-	                }
-	            });
-	        }, 500);
-	    });
+		    const invalidFeedback = nicknameInput.parentElement.querySelector(".invalid-feedback");
+		    const validFeedback = nicknameInput.parentElement.querySelector(".valid-feedback");
+
+		    // 기존 상태 제거
+		    nicknameInput.classList.remove("is-invalid", "is-valid");
+		    isNicknameValid = false;
+
+		    // 빈값
+		    if(nickname === ''){
+		        nicknameInput.classList.add("is-invalid");
+		        invalidFeedback.innerText = "닉네임을 입력해주세요.";
+		        return;
+		    }
+
+		    // 형식 검사
+		    // 한글/영문/숫자 2~10자
+		    const regExp = /^[가-힣a-zA-Z0-9]{2,10}$/;
+
+		    if(!regExp.test(nickname)){
+		        nicknameInput.classList.add("is-invalid");
+		        invalidFeedback.innerText = "닉네임은 2~10자의 한글, 영문, 숫자만 가능합니다.";
+		        return;
+		    }
+
+		    // debounce
+		    nicknameTimer = setTimeout(() => {
+
+		        $.ajax({
+		            url : "/checkNickname",
+		            data : {userId:userId, nickname : nickname},
+
+		            success : function(result){
+
+		                if(result === "exist"){
+		                    nicknameInput.classList.add("is-invalid");
+		                    invalidFeedback.innerText = "이미 사용중인 닉네임입니다.";
+		                }else{
+		                    nicknameInput.classList.add("is-valid");
+		                    validFeedback.innerText = "사용 가능한 닉네임입니다.";
+		                    isNicknameValid = true;
+		                }
+		            },
+
+		            error : function(){
+		                console.log("닉네임 중복 검사 실패");
+		            }
+		        });
+		    }, 500);
+		});
+	
+		// 비밀번호 공백 입력 시 자동 제거
+		const pwd = document.getElementById("pwd");
+		const pwdConfirm = document.getElementById("pwdConfirm");
+
+		pwd.addEventListener("input", () => {
+
+		    // trim : 복붙 앞뒤 공백 제거
+		    pwd.value = pwd.value.trim();
+
+		    // 모든 공백 제거
+		    pwd.value = pwd.value.replace(/\s/g, '');
+
+		    // 최대 20자 제한
+		    pwd.value = pwd.value.slice(0, 20);
+		});
+
+		pwdConfirm.addEventListener("input", () => {
+
+		    pwdConfirm.value = pwdConfirm.value.trim();
+		    pwdConfirm.value = pwdConfirm.value.replace(/\s/g, '');
+		    pwdConfirm.value = pwdConfirm.value.slice(0, 20);
+		});
 	});
 	</script>
 </body>
