@@ -20,7 +20,7 @@ public class GlobalExceptionHandler {
 	
 	@ExceptionHandler({QaException.class}) // 특정 예외가 발생했을 때 처리할 메소드 지정
 	public String handlerQaException(RuntimeException e,HttpSession session) {
-		 session.setAttribute("message", e.getMessage());
+		session.setAttribute("message", e.getMessage());
 		return "redirect:/qa/list";
 	}
 	
