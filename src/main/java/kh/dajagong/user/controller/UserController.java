@@ -37,13 +37,17 @@ public class UserController {
 	// 로그인 완료 후 메인으로
 	@PostMapping("/signIn")
 	public String login(User u, HttpSession session) {
-		User loginUser = uService.login(u);
-		if(loginUser != null && bcrypt.matches(u.getPwd(), loginUser.getPwd())) {
-			session.setAttribute("loginUser", loginUser);
-			return "redirect:/";
-		}else {
-			throw new UserException("아이디 또는 비밀번호를 잘못입력하셨습니다.");
-		}
+
+	    User loginUser = uService.login(u);
+
+	    if(loginUser == null || !bcrypt.matches(u.getPwd(), loginUser.getPwd())) {
+	        throw new UserException("아이디 또는 비밀번호를 잘못입력하셨습니다.");
+	    }
+	    if(loginUser.getStatus().equals("B")) {
+	        throw new UserException("차단된 사용자입니다.");
+	    }
+	    session.setAttribute("loginUser", loginUser);
+	    return "redirect:/";
 	}
 	
 	// 회원가입 페이지로 이동

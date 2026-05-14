@@ -4,7 +4,7 @@
 <mapper namespace="kh.dajagong.user.mapper.UserMapper">
 	<select id="login" resultType="User">
 	    SELECT * FROM "USER"
-	    WHERE user_id=#{userId} <!-- AND  pwd=#{pwd} --> AND status='Y'
+	    WHERE user_id=#{userId}
 	</select>
 
 	<insert id="insertUser">
