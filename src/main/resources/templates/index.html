@@ -60,7 +60,7 @@
 	
 	<footer th:replace="~{views/common/footer :: footer}"></footer>
 	<th:block th:if="${message != null}">
-		<div class="modal fade noto-sans-kr-500" tabindex="-1" role="dialog" id="exceptionMoal">
+		<div class="modal fade noto-sans-kr-500" tabindex="-1" role="dialog" id="exceptionModal">
 		    <div class="modal-dialog modal-dialog-centered">
 		        <div class="modal-content rounded-3 shadow overflow-hidden">
 		            <div class="modal-header bg-danger text-white">
@@ -79,9 +79,9 @@
 	<script th:inline="javascript">
         window.onload = () => {
            
-            const modal = document.getElementById('exceptionMoal');
+            const modal = document.getElementById('exceptionModal');
             if(modal) {
-                $('#exceptionMoal').modal('show');
+                $('#exceptionModal').modal('show');
             }
 
             getQaTopList();

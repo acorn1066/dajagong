@@ -12,10 +12,16 @@ import kh.dajagong.common.exception.UserException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-	@ExceptionHandler({AuthorityException.class, QaException.class}) // 특정 예외가 발생했을 때 처리할 메소드 지정
-	public String handlerException(RuntimeException e, Model model,HttpSession session) {
+	@ExceptionHandler({AuthorityException.class}) // 특정 예외가 발생했을 때 처리할 메소드 지정
+	public String handlerAuthorityException(RuntimeException e, Model model,HttpSession session) {
 		 session.setAttribute("message", e.getMessage());
 		return "redirect:/";
+	}
+	
+	@ExceptionHandler({QaException.class}) // 특정 예외가 발생했을 때 처리할 메소드 지정
+	public String handlerQaException(RuntimeException e,HttpSession session) {
+		 session.setAttribute("message", e.getMessage());
+		return "redirect:/qa/list";
 	}
 	
 	// login 실패시 에러메시지 반환
