@@ -36,6 +36,7 @@
         <choose>
             <when test="searchType == 'title'"> AND Q.TITLE LIKE '%' || #{keyword} || '%' </when>
             <when test="searchType == 'nickname'"> AND U.NICKNAME LIKE '%' || #{keyword} || '%' </when>
+            <when test="searchType == 'content'"> AND Q.CONTENT LIKE '%' || #{keyword} || '%' </when>
         </choose>
     </if>
     
