@@ -36,7 +36,7 @@ public class UserController {
 	
 	// 로그인 완료 후 메인으로
 	@PostMapping("/signIn")
-	public String login(User u, HttpSession session) {
+	public String login(User u, HttpSession session, RedirectAttributes ra) {
 
 	    User loginUser = uService.login(u);
 
@@ -47,6 +47,7 @@ public class UserController {
 	        throw new UserException("차단된 사용자입니다.");
 	    }
 	    session.setAttribute("loginUser", loginUser);
+	    ra.addFlashAttribute("welcomeMsg", "환영합니다. " + loginUser.getNickname() + "님!\n자격증 공부는 여기서부터!\n다자공에 어서오세요.");
 	    return "redirect:/";
 	}
 	

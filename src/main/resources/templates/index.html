@@ -155,7 +155,8 @@
         
         let enrollMsg = /*[[${enrollMsg}]]*/ null;
         let deleteMsg = /*[[${deleteMsg}]]*/ null;
-        let msg = enrollMsg || deleteMsg;
+        let welcomeMsg = /*[[${welcomeMsg}]]*/ null;
+        let msg = enrollMsg || deleteMsg || welcomeMsg;
 
         if(msg){
             alert(msg);
