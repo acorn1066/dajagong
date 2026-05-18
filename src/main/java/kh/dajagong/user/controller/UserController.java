@@ -46,6 +46,9 @@ public class UserController {
 	    if(loginUser.getStatus().equals("B")) {
 	        throw new UserException("차단된 사용자입니다.");
 	    }
+	    if(loginUser.getStatus().equals("N")) {
+	    	throw new UserException("탈퇴한 사용자입니다.");
+	    }
 	    session.setAttribute("loginUser", loginUser);
 	    ra.addFlashAttribute("welcomeMsg", "환영합니다. " + loginUser.getNickname() + "님!\n자격증 공부는 여기서부터!\n다자공에 어서오세요.");
 	    return "redirect:/";
