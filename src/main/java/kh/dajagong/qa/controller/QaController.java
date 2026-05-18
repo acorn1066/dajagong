@@ -114,4 +114,10 @@ public class QaController {
         model.addAttribute("q", q).addAttribute("page", page);
         return "views/qa/edit"; 
     }
+    
+    @PostMapping("/clearMessage")
+    @ResponseBody
+    public void clearMessage(HttpSession session) {
+        session.removeAttribute("message");
+    }
 }

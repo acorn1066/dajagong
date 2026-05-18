@@ -163,7 +163,7 @@
                     data: { content: content, qIndex: qIndex },
                     success: function(res) {
                         if(res === 'success') { location.reload(); } 
-                        else { alert("등록 실패"); }
+                        else { alert(res); }
                     }
                 });
             });
@@ -186,7 +186,7 @@
                             data: { aIndex: aIndex },
                             success: function(res) {
                                 if(res === 'success') { $targetItem.remove(); } 
-                                else { alert("삭제 실패"); }
+                                else { alert(res); }
                             }
                         });
                     }
@@ -220,7 +220,7 @@
                                 $item.find('.origin-content').val(newContent);
                                 resetButtons($btn);
                             } else {
-                                alert("수정 실패");
+                                alert(res);
                             }
                         }
                     });
