@@ -107,7 +107,8 @@
 
     <input type="hidden" id="hiddenCurrentPage" th:value="${pi.currentPage}">
 
-    <div class="modal fade noto-sans-kr-500" tabindex="-1" role="dialog" id="loginCheckModal">
+    <th:block th:if="${session.message != null}">
+    <div class="modal fade noto-sans-kr-500" tabindex="-1" role="dialog" id="exceptionModal">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content rounded-3 shadow overflow-hidden">
                 <div class="modal-header bg-danger text-white">
@@ -115,9 +116,22 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-4 text-center">
-                    <div class="mb-3">
-                        <h5>로그인이 필요한 서비스입니다.</h5>
-                    </div>                   
+                    <h5>[[${session.message}]]</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+	</th:block>
+	
+	   <div class="modal fade noto-sans-kr-500" tabindex="-1" role="dialog" id="loginCheckModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-3 shadow overflow-hidden">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">경고</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4 text-center">
+                    <h5>로그인이 필요한 서비스입니다.</h5>
                 </div>
             </div>
         </div>
@@ -125,20 +139,28 @@
 
     <script th:inline="javascript">
     window.onload = () => {
+        const exModalEl = document.getElementById('exceptionModal');
+        if (exModalEl) {
+            const exModal = new bootstrap.Modal(exModalEl);  
+            exModal.show();                                   
+            exModalEl.addEventListener('hidden.bs.modal', () => {
+                fetch('/qa/clearMessage', { method: 'POST' });
+            });
+        }
+
+        const loginModalEl = document.getElementById('loginCheckModal');
+        const loginModal = loginModalEl ? new bootstrap.Modal(loginModalEl) : null;
+
         const tbody = document.querySelector('tbody');
         if(tbody) {
             tbody.onclick = (e) => {
                 const tr = e.target.closest('tr');
                 if (tr && tr.querySelector('.q-idx')) {
-                    
-                    const loginUser = /*[[${session.loginUser}]]*/  null;
-
+                    const loginUser = /*[[${session.loginUser}]]*/ null;
                     if(loginUser == null) {
-                        const loginModal = new bootstrap.Modal(document.getElementById('loginCheckModal'));
                         loginModal.show();
                         return;
                     }
-
                     const qIndex = tr.querySelector('.q-idx').innerText;
                     const page = document.getElementById('hiddenCurrentPage').value;
                     location.href = "/qa/Awriter?qIndex=" + qIndex + "&page=" + page;
