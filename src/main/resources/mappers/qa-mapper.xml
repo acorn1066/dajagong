@@ -10,7 +10,7 @@
    <select id="getListCount" resultType="_int">
 	    SELECT COUNT(*) 
 	    FROM QUESTION Q
-	    LEFT JOIN "USER" U ON (Q.USER_ID = U.USER_ID) WHERE Q.STATUS = 'Y'
+	    JOIN "USER" U ON (Q.USER_ID = U.USER_ID) WHERE Q.STATUS = 'Y'
 	    <if test="licenseCode != 0"> AND Q.LICENSE_CODE = #{licenseCode} </if>
 	    <if test="keyword != null and keyword != ''">
 	        <choose>
@@ -28,7 +28,7 @@
 	        U.NICKNAME as nickname
 	    FROM QUESTION Q
 	    JOIN LICENSE L ON (Q.LICENSE_CODE = L.LICENSE_CODE)
-	    LEFT JOIN "USER" U ON (Q.USER_ID = U.USER_ID)
+	    JOIN "USER" U ON (Q.USER_ID = U.USER_ID)
 	    WHERE Q.STATUS = 'Y'
 	    
 	    <if test="licenseCode != 0"> AND Q.LICENSE_CODE = #{licenseCode} </if>
