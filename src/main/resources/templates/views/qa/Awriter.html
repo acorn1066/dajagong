@@ -3,7 +3,7 @@
 <head th:replace="~{views/common/head :: head}">
     <meta charset="UTF-8">
     <style>
-        .qa-layout { margin-left: 350px; margin-right: 350px; min-width: 600px; }
+        .qa-layout { margin-left: auto; margin-right: auto; width: 90%; min-width: 600px; }
         .qa-table th { background-color: #f8f9fa !important; text-align: center; width: 15%; border: 1px solid #dee2e6; }
         .qa-table td { padding: 12px 20px !important; border: 1px solid #dee2e6; }
         .reply-header { background-color: #f8f9fa; border: 1px solid #dee2e6; padding: 10px 15px; }
@@ -26,7 +26,7 @@
             </ol> 
     </nav>
         <div class="qa-layout bg-white p-5 rounded shadow-sm">
-            <h2 class="do-hyeon-regular text-center mb-5">QA DETAIL</h2>
+            <h2 class="do-hyeon-regular text-center mb-5"  style="font-size: 4.0rem;">질문 게시판</h2>
 
             <form id="detailForm" method="POST">
                 <input type="hidden" th:value="${q.qIndex}" name="qIndex"/>
