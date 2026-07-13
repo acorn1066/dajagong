@@ -37,7 +37,6 @@
 		from "USER" u
 		left outer join (
             select * from(SELECT user_id, update_date, "COMMENT", 
-            <!-- ROW_NUMBER() OVER(PARTITION BY [그룹핑할 컬럼] ORDER BY [정렬할 컬럼]) -->
             ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY update_date DESC) AS rn
             FROM management_history
             order by update_date desc)
