@@ -49,10 +49,10 @@
 	        <if test="tab == 'answer'">and mh.type = 'A'</if>
 	        <if test="searchType != null and searchText != null">
 	            <if test="searchType == 'userId'">
-	            	and mh.user_id like '%${searchText}%'
+	            	and mh.user_id like '%' || #{searchText} || '%'
 	            </if>
 	            <if test="searchType == 'nickname'">
-	            	and u.nickname like '%${searchText}%'
+	            	and u.nickname like '%' || #{searchText} || '%'
 	            </if>
 	        </if>
 	    </trim>
@@ -82,10 +82,10 @@
 	        <if test="tab == 'answer'">and mh.type = 'A'</if>
 	        <if test="searchType != null and searchText != null">
 	            <if test="searchType == 'userId'">
-	            	and mh.user_id like '%${searchText}%'
+	            	and mh.user_id like '%' || #{searchText} || '%'
 	            </if>
 	            <if test="searchType == 'nickname'">
-	            	and u.nickname like '%${searchText}%'
+	            	and u.nickname like '%' || #{searchText} || '%'
 	            </if>
 	        </if>
 	    </trim>

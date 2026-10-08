@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.servlet.http.HttpSession;
 import kh.dajagong.book.review.model.vo.Book;
 import kh.dajagong.book.review.model.vo.Review;
 import kh.dajagong.book.review.service.BookReviewService;
 import kh.dajagong.common.PageInfo;
 import kh.dajagong.common.Pagination;
+import kh.dajagong.user.model.vo.User;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -50,22 +52,28 @@ public class BookReviewAjaxController {
 	}
 	
 	@PostMapping("/book/review")
-	public int insertReview(@ModelAttribute Review review) {
-		//System.out.println(review);
+	public int insertReview(@ModelAttribute Review review, HttpSession session) {
+		User loginUser = (User)session.getAttribute("loginUser");
+		if(loginUser == null) return 0;
+		review.setUserId(loginUser.getUserId());
 		int insertResult = bService.insertReview(review);
 		return insertResult;
 	}
 	
 	@PutMapping("/book/review")
-	public int updateReview(@ModelAttribute Review review) {
-		//System.out.println(review);
+	public int updateReview(@ModelAttribute Review review, HttpSession session) {
+		User loginUser = (User)session.getAttribute("loginUser");
+		if(loginUser == null) return 0;
+		review.setUserId(loginUser.getUserId());
 		int result = bService.updateReview(review);
 		return result;
 	}
 	
 	@DeleteMapping("/book/review")
-	public int deleteReview(@ModelAttribute Review review) {
-		//System.out.println(review);
+	public int deleteReview(@ModelAttribute Review review, HttpSession session) {
+		User loginUser = (User)session.getAttribute("loginUser");
+		if(loginUser == null) return 0;
+		review.setUserId(loginUser.getUserId());
 		int result = bService.deleteReview(review);
 		return result;
 	}

@@ -41,13 +41,13 @@
 		    </if>
 		    <if test="searchText != null">
 			    <if test="searchType == 'bookName'">
-			        and book_name like '%${searchText}%'
+			        and book_name like '%' || #{searchText} || '%'
 			    </if>
 			    <if test="searchType == 'bookWriter'">
-			        and book_writer like '%${searchText}%'
+			        and book_writer like '%' || #{searchText} || '%'
 			    </if>
 			    <if test="searchType == 'publisher'">
-			        and publisher like '%${searchText}%'
+			        and publisher like '%' || #{searchText} || '%'
 			    </if>
 		    </if>
 		  </trim>
@@ -65,13 +65,13 @@
 				    </if>
 				    <if test="searchText != null">
 					    <if test="searchType == 'bookName'">
-					        and book_name like '%${searchText}%'
+					        and book_name like '%' || #{searchText} || '%'
 					    </if>
 					    <if test="searchType == 'bookWriter'">
-					        and book_writer like '%${searchText}%'
+					        and book_writer like '%' || #{searchText} || '%'
 					    </if>
 					    <if test="searchType == 'publisher'">
-					        and publisher like '%${searchText}%'
+					        and publisher like '%' || #{searchText} || '%'
 					    </if>
 				    </if>
 				  </trim>
@@ -111,13 +111,13 @@
 		update review
 		set review = #{review}
 		   ,score = #{score}
-		where review_num = #{reviewNum}
+		where review_num = #{reviewNum} and user_id = #{userId}
 	</update>
 	
 	<update id="deleteReview">
 		update review
 		set status='N'
-		where review_num = #{reviewNum}
+		where review_num = #{reviewNum} and user_id = #{userId}
 	</update>
 
 	<update id="blockReview">

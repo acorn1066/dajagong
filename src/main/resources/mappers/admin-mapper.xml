@@ -19,16 +19,16 @@
 	    where status != 'N' and is_admin='N'
 	    <if test="searchText != null">
 		    <if test="searchType == 'userId'">
-		        and user_id like '%${searchText}%'
+		        and user_id like '%' || #{searchText} || '%'
 		    </if>
 		    <if test="searchType == 'nickname'">
-		        and nickname like '%${searchText}%'
+		        and nickname like '%' || #{searchText} || '%'
 		    </if>
 		    <if test="searchType == 'email'">
-		        and email like '%${searchText}%'
+		        and email like '%' || #{searchText} || '%'
 		    </if>
 		    <if test="searchType == 'phone'">
-		        and phone like '%${searchText}%'
+		        and phone like '%' || #{searchText} || '%'
 		    </if>
 	    </if>
 	</select>
@@ -44,16 +44,16 @@
 		where u.status != 'N' and u.is_admin='N'
 		 <if test="searchText != null">
 		    <if test="searchType == 'userId'">
-		        and u.user_id like '%${searchText}%'
+		        and u.user_id like '%' || #{searchText} || '%'
 		    </if>
 		    <if test="searchType == 'nickname'">
-		        and u.nickname like '%${searchText}%'
+		        and u.nickname like '%' || #{searchText} || '%'
 		    </if>
 		    <if test="searchType == 'email'">
-		        and u.email like '%${searchText}%'
+		        and u.email like '%' || #{searchText} || '%'
 		    </if>
 		    <if test="searchType == 'phone'">
-		        and u.phone like '%${searchText}%'
+		        and u.phone like '%' || #{searchText} || '%'
 		    </if>
 	    </if>
 		order by u.create_date DESC
@@ -72,13 +72,13 @@
 	    where r.status != 'N' and u.status != 'N'
 	    <if test="searchText != null">
 		    <if test="searchType == 'userId'">
-		        and u.user_id like '%${searchText}%'
+		        and u.user_id like '%' || #{searchText} || '%'
 		    </if>
 		    <if test="searchType == 'nickname'">
-		        and u.nickname like '%${searchText}%'
+		        and u.nickname like '%' || #{searchText} || '%'
 		    </if>
 		    <if test="searchType == 'bookName'">
-		        and b.book_name like '%${searchText}%'
+		        and b.book_name like '%' || #{searchText} || '%'
 		    </if>
 	    </if>
 	</select>
@@ -91,13 +91,13 @@
 	    where r.status != 'N' and u.status != 'N'
 	    <if test="searchText != null">
 		    <if test="searchType == 'userId'">
-		        and u.user_id like '%${searchText}%'
+		        and u.user_id like '%' || #{searchText} || '%'
 		    </if>
 		    <if test="searchType == 'nickname'">
-		        and u.nickname like '%${searchText}%'
+		        and u.nickname like '%' || #{searchText} || '%'
 		    </if>
 		    <if test="searchType == 'bookName'">
-		        and b.book_name like '%${searchText}%'
+		        and b.book_name like '%' || #{searchText} || '%'
 		    </if>
 	    </if>
 		order by r.create_date DESC
@@ -110,13 +110,13 @@
 	    where q.status != 'N' and u.status != 'N'
 	    <if test="searchText != null">
 		    <if test="searchType == 'userId'">
-		        and u.user_id like '%${searchText}%'
+		        and u.user_id like '%' || #{searchText} || '%'
 		    </if>
 		    <if test="searchType == 'nickname'">
-		        and u.nickname like '%${searchText}%'
+		        and u.nickname like '%' || #{searchText} || '%'
 		    </if>
 		    <if test="searchType == 'title'">
-		        and q.title like '%${searchText}%'
+		        and q.title like '%' || #{searchText} || '%'
 		    </if>
 	    </if>
 	</select>
@@ -128,13 +128,13 @@
 	    where q.status != 'N' and u.status != 'N'
 	    <if test="searchText != null">
 		    <if test="searchType == 'userId'">
-		        and u.user_id like '%${searchText}%'
+		        and u.user_id like '%' || #{searchText} || '%'
 		    </if>
 		    <if test="searchType == 'nickname'">
-		        and u.nickname like '%${searchText}%'
+		        and u.nickname like '%' || #{searchText} || '%'
 		    </if>
 		    <if test="searchType == 'title'">
-		        and q.title like '%${searchText}%'
+		        and q.title like '%' || #{searchText} || '%'
 		    </if>
 	    </if>
 		order by q.create_date DESC
@@ -161,13 +161,13 @@
 	    where a.status != 'N' and u.status != 'N' and q.status!='N'
 	    <if test="searchText != null">
 		    <if test="searchType == 'userId'">
-		        and u.user_id like '%${searchText}%'
+		        and u.user_id like '%' || #{searchText} || '%'
 		    </if>
 		    <if test="searchType == 'nickname'">
-		        and u.nickname like '%${searchText}%'
+		        and u.nickname like '%' || #{searchText} || '%'
 		    </if>
 		    <if test="searchType == 'title'">
-		        and q.title like '%${searchText}%'
+		        and q.title like '%' || #{searchText} || '%'
 		    </if>
 	    </if>
 	</select>
@@ -180,13 +180,13 @@
 	    where a.status != 'N' and u.status != 'N' and q.status!='N'
 	    <if test="searchText != null">
 		    <if test="searchType == 'userId'">
-		        and u.user_id like '%${searchText}%'
+		        and u.user_id like '%' || #{searchText} || '%'
 		    </if>
 		    <if test="searchType == 'nickname'">
-		        and u.nickname like '%${searchText}%'
+		        and u.nickname like '%' || #{searchText} || '%'
 		    </if>
 		    <if test="searchType == 'title'">
-		        and q.title like '%${searchText}%'
+		        and q.title like '%' || #{searchText} || '%'
 		    </if>
 	    </if>
 		order by q.create_date DESC
