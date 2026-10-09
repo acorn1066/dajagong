@@ -39,6 +39,7 @@ out/
 ### Java / Packaging ###
 *.class
 *.jar
+!gradle/wrapper/gradle-wrapper.jar
 *.war
 *.ear
 
